@@ -1,10 +1,13 @@
 export type Lang = "fr" | "en";
 
 export type DocEntry = {
+  id: string;
   type: "diplome" | "certification" | "lettre";
   title: { fr: string; en: string };
   issuer: string;
   date: string; // ex: "2025"
+  detail?: { fr: string; en: string }; // affiché quand on clique dessus
+  fileUrl?: string; // lien vers le PDF/scan du document, si disponible
 };
 
 export type Category = {
@@ -15,9 +18,12 @@ export type Category = {
   documents?: DocEntry[];
 };
 
-// Seulement les deux compartiments "spéciaux", en dehors des domaines.
-// Les domaines (Swarm, ML, etc.) vivent dans domains.ts, séparément,
-// pour pouvoir en ajouter autant qu'on veut sans toucher à ce fichier.
+// Seulement les compartiments "spéciaux", en dehors des domaines.
+// Les domaines (Swarm, ML, etc.) vivent dans domains.ts, séparément.
+
+// Lien vers ton CV complet en PDF. Laisse `null` tant que tu n'as pas de fichier —
+// le bouton s'affichera alors désactivé avec une note "à ajouter".
+export const cvUrl: string | null = null;
 
 export const bio: Category = {
   id: "bio",
@@ -28,9 +34,39 @@ export const bio: Category = {
     en: "Introduction, background, diplomas, certifications, recommendation letters.",
   },
   documents: [
-    { type: "diplome", title: { fr: "Diplôme à renseigner", en: "Diploma to add" }, issuer: "Établissement", date: "20XX" },
-    { type: "certification", title: { fr: "Certification à renseigner", en: "Certification to add" }, issuer: "Organisme", date: "20XX" },
-    { type: "lettre", title: { fr: "Lettre de recommandation à renseigner", en: "Recommendation letter to add" }, issuer: "Auteur", date: "20XX" },
+    {
+      id: "diplome-1",
+      type: "diplome",
+      title: { fr: "Diplôme à renseigner", en: "Diploma to add" },
+      issuer: "École à renseigner",
+      date: "20XX",
+      detail: {
+        fr: "Clique pour voir le détail — description de la formation, mention, etc. À compléter.",
+        en: "Click to see detail — programme description, honors, etc. To be completed.",
+      },
+    },
+    {
+      id: "certification-1",
+      type: "certification",
+      title: { fr: "Certification à renseigner", en: "Certification to add" },
+      issuer: "Organisme à renseigner",
+      date: "20XX",
+      detail: {
+        fr: "Clique pour voir le détail de cette certification. À compléter.",
+        en: "Click to see this certification's detail. To be completed.",
+      },
+    },
+    {
+      id: "lettre-1",
+      type: "lettre",
+      title: { fr: "Lettre de recommandation à renseigner", en: "Recommendation letter to add" },
+      issuer: "Auteur à renseigner",
+      date: "20XX",
+      detail: {
+        fr: "Clique pour voir un extrait ou le contexte de cette lettre. À compléter.",
+        en: "Click to see an excerpt or context for this letter. To be completed.",
+      },
+    },
   ],
 };
 

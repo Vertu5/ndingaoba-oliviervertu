@@ -22,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NDINGA OBA Olivier-Vertu",
+  title: "NDINGA OBA Olivier Vertu",
   description: "Écosystème numérique — parcours, projets, recherche.",
 };
 

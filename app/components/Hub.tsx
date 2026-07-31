@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { bio, interests, contact, type Category } from "@/app/lib/categories";
+import { bio, interests, contact, cvUrl, type Category } from "@/app/lib/categories";
 import { domains } from "@/app/lib/domains";
 import { content, type ContentType } from "@/app/lib/content";
-import { interestsIntro, domainInterests } from "@/app/lib/interests";
+import { interestsIntro, interestsList } from "@/app/lib/interests";
 import Pattern from "@/app/components/Pattern";
 import SectionChat from "@/app/components/SectionChat";
 import { useLang } from "@/app/lib/i18n";
@@ -33,6 +33,7 @@ export default function Hub() {
   const { lang, toggle, t } = useLang();
   const [openId, setOpenId] = useState<string | null>(null);
   const [tab, setTab] = useState<ContentType>("projet");
+  const [openDocId, setOpenDocId] = useState<string | null>(null);
   const open = tiles.find((c) => c.id === openId) ?? null;
   const isDomain = !!open && domains.some((d) => d.id === open.id);
 
@@ -48,7 +49,7 @@ export default function Hub() {
             {t.tagline}
           </p>
           <h1 className="font-display mt-3 text-4xl font-medium tracking-tight md:text-6xl">
-            NDINGA OBA Olivier-Vertu
+            NDINGA OBA Olivier Vertu
           </h1>
         </div>
         <button
@@ -114,29 +115,72 @@ export default function Hub() {
                   {open.description[lang]}
                 </p>
 
-                {/* Bio : liste de documents */}
+                {/* Bio : lien CV + liste de documents cliquables */}
                 {open.id === "bio" && open.documents && (
-                  <div className="mt-10 space-y-6">
-                    {(["diplome", "certification", "lettre"] as const).map((type) => {
-                      const docs = open.documents!.filter((d) => d.type === type);
-                      if (docs.length === 0) return null;
-                      return (
-                        <div key={type}>
-                          <p className="font-mono text-[11px] tracking-[0.15em] text-[var(--text-muted)]">
-                            {t[docTypeKey[type]]}
-                          </p>
-                          <ul className="mt-2 space-y-2">
-                            {docs.map((doc, i) => (
-                              <li key={i} className="rounded-md border border-dashed border-[var(--border)] px-4 py-3 text-sm">
-                                <span className="text-[var(--text)]">{doc.title[lang]}</span>
-                                <span className="text-[var(--text-muted)]"> — {doc.issuer} · {doc.date} </span>
-                                <span className="font-mono text-[10px] text-[var(--text-muted)]">({t.docTodo})</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      );
-                    })}
+                  <div className="mt-10 space-y-8">
+                    {cvUrl ? (
+                      <a
+                        href={cvUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-mono inline-block rounded border border-[var(--accent)]/40 px-4 py-2 text-xs tracking-[0.1em] text-[var(--accent)] transition-colors hover:bg-[var(--accent-dim)]"
+                      >
+                        {t.cvView}
+                      </a>
+                    ) : (
+                      <span className="font-mono inline-block rounded border border-dashed border-[var(--border)] px-4 py-2 text-xs tracking-[0.1em] text-[var(--text-muted)]">
+                        {t.cvView} — {t.cvMissing}
+                      </span>
+                    )}
+
+                    <div className="space-y-6">
+                      {(["diplome", "certification", "lettre"] as const).map((type) => {
+                        const docs = open.documents!.filter((d) => d.type === type);
+                        if (docs.length === 0) return null;
+                        return (
+                          <div key={type}>
+                            <p className="font-mono text-[11px] tracking-[0.15em] text-[var(--text-muted)]">
+                              {t[docTypeKey[type]]}
+                            </p>
+                            <ul className="mt-2 space-y-2">
+                              {docs.map((doc) => {
+                                const isOpen = openDocId === doc.id;
+                                return (
+                                  <li key={doc.id} className="rounded-md border border-[var(--border)] overflow-hidden">
+                                    <button
+                                      onClick={() => setOpenDocId(isOpen ? null : doc.id)}
+                                      className="flex w-full items-center justify-between px-4 py-3 text-left text-sm transition-colors hover:bg-[var(--bg)]/40"
+                                    >
+                                      <span>
+                                        <span className="text-[var(--text)]">{doc.title[lang]}</span>
+                                        <span className="text-[var(--text-muted)]"> — {doc.issuer} · {doc.date} </span>
+                                        <span className="font-mono text-[10px] text-[var(--text-muted)]">({t.docTodo})</span>
+                                      </span>
+                                      <span className="font-mono text-[var(--text-muted)]">{isOpen ? "−" : "+"}</span>
+                                    </button>
+                                    {isOpen && (
+                                      <div className="border-t border-dashed border-[var(--border)] px-4 py-3 text-sm text-[var(--text-muted)]">
+                                        {doc.detail?.[lang]}
+                                        {doc.fileUrl && (
+                                          <a
+                                            href={doc.fileUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="font-mono mt-2 block text-xs text-[var(--accent)] hover:underline"
+                                          >
+                                            {t.cvView}
+                                          </a>
+                                        )}
+                                      </div>
+                                    )}
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
 
@@ -147,25 +191,19 @@ export default function Hub() {
                   </div>
                 )}
 
-                {/* Intérêts : intro générale + un aperçu par domaine */}
+                {/* Intérêts : liste générale, pas seulement technique */}
                 {open.id === "interets" && (
                   <div className="mt-10 space-y-6">
                     <p className="rounded-md border border-dashed border-[var(--border)] p-6 text-sm text-[var(--text-muted)]">
                       {interestsIntro[lang]}
                     </p>
                     <div className="space-y-3">
-                      {domainInterests.map((di) => {
-                        const d = domains.find((dd) => dd.id === di.domainId);
-                        if (!d) return null;
-                        return (
-                          <div key={di.domainId} className="rounded-md border border-[var(--border)] p-4">
-                            <p className="font-mono text-[11px] tracking-[0.15em] text-[var(--accent)]">
-                              {d.label[lang]}
-                            </p>
-                            <p className="mt-1 text-sm text-[var(--text)]">{di.text[lang]}</p>
-                          </div>
-                        );
-                      })}
+                      {interestsList.map((it) => (
+                        <div key={it.id} className="rounded-md border border-[var(--border)] p-4">
+                          <p className="font-display text-base font-medium">{it.title[lang]}</p>
+                          <p className="mt-1 text-sm text-[var(--text-muted)]">{it.text[lang]}</p>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}

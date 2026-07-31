@@ -36,8 +36,8 @@ export async function POST(req: NextRequest) {
   const ctx = sectionContext[sectionId]?.[lang] ?? "";
   const systemPrompt =
     lang === "fr"
-      ? `Tu es l'assistant du site personnel de NDINGA OBA Olivier-Vertu, section "${ctx}". Réponds de façon précise, concise et pédagogique aux questions du visiteur sur ce domaine. Si tu ne sais pas quelque chose de spécifique à ses projets réels (non fourni ici), dis-le clairement plutôt que d'inventer.`
-      : `You are the assistant for NDINGA OBA Olivier-Vertu's personal site, section "${ctx}". Answer visitor questions about this domain precisely, concisely and pedagogically. If you don't know something specific to his actual projects (not provided here), say so clearly rather than inventing it.`;
+      ? `Tu es l'assistant du site personnel de NDINGA OBA Olivier Vertu, section "${ctx}". Réponds de façon précise, concise et pédagogique aux questions du visiteur sur ce domaine. Si tu ne sais pas quelque chose de spécifique à ses projets réels (non fourni ici), dis-le clairement plutôt que d'inventer.`
+      : `You are the assistant for NDINGA OBA Olivier Vertu's personal site, section "${ctx}". Answer visitor questions about this domain precisely, concisely and pedagogically. If you don't know something specific to his actual projects (not provided here), say so clearly rather than inventing it.`;
 
   try {
     const res = await fetch(

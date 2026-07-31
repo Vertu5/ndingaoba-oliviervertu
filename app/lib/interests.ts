@@ -1,20 +1,41 @@
+// Intérêts personnels, en général — pas uniquement techniques.
+// Exemples à remplacer par tes vraies passions (informatique, photographie,
+// sport, musique, lecture... ce que tu veux).
+
 export const interestsIntro = {
-  fr: "Présentation à venir — ce que tu veux transmettre au-delà de ton parcours formel.",
-  en: "Introduction coming soon — what you want to convey beyond your formal background.",
+  fr: "Présentation à venir — au-delà de l'informatique, ce qui t'anime au quotidien.",
+  en: "Introduction coming soon — beyond computer science, what drives you day to day.",
 };
 
-export type DomainInterest = {
-  domainId: string;
+export type Interest = {
+  id: string;
+  title: { fr: string; en: string };
   text: { fr: string; en: string };
 };
 
-// Un petit mot par domaine — pourquoi il te passionne, ce qui t'y a mené, etc.
-// Exemples à remplacer par tes propres réflexions.
-export const domainInterests: DomainInterest[] = [
-  { domainId: "swarm", text: { fr: "À compléter — pourquoi l'intelligence en essaim te fascine.", en: "To be completed — why swarm intelligence fascinates you." } },
-  { domainId: "robotics", text: { fr: "À compléter — ton rapport à la robotique.", en: "To be completed — your relationship to robotics." } },
-  { domainId: "heuristics", text: { fr: "À compléter — ce qui t'attire dans la recherche de solutions.", en: "To be completed — what draws you to problem-solving." } },
-  { domainId: "physics", text: { fr: "À compléter — ton lien avec la physique.", en: "To be completed — your connection to physics." } },
-  { domainId: "algo", text: { fr: "À compléter — ce que les algorithmes représentent pour toi.", en: "To be completed — what algorithms mean to you." } },
-  { domainId: "ml", text: { fr: "À compléter — ta motivation pour le Machine Learning.", en: "To be completed — your motivation for Machine Learning." } },
+export const interestsList: Interest[] = [
+  {
+    id: "informatique",
+    title: { fr: "Informatique", en: "Computer science" },
+    text: {
+      fr: "À compléter — ce qui t'attire dans l'informatique, au-delà du travail.",
+      en: "To be completed — what draws you to computer science, beyond work.",
+    },
+  },
+  {
+    id: "photographie",
+    title: { fr: "Photographie", en: "Photography" },
+    text: {
+      fr: "À compléter — ton rapport à la photographie.",
+      en: "To be completed — your relationship to photography.",
+    },
+  },
+  {
+    id: "sport",
+    title: { fr: "Sport", en: "Sport" },
+    text: {
+      fr: "À compléter — le(s) sport(s) que tu pratiques ou suis.",
+      en: "To be completed — the sport(s) you practice or follow.",
+    },
+  },
 ];
