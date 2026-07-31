@@ -21,13 +21,39 @@ const tabs: { type: ContentType; key: "tabProjets" | "tabPapiers" | "tabDemos" }
   { type: "demo", key: "tabDemos" },
 ];
 
-// Grille du hub : Bio, puis tous les domaines (extensibles), puis Contact.
-const tiles: Category[] = [
-  bio,
-  interests,
-  ...domains.map((d) => ({ id: d.id, index: "LAB", label: d.label, description: d.description })),
-  contact,
-];
+// Deux groupes distincts : les compartiments personnels, puis les domaines.
+const personalTiles: Category[] = [bio, interests, contact];
+const domainTiles: Category[] = domains.map((d) => ({ id: d.id, index: "LAB", label: d.label, description: d.description }));
+const tiles: Category[] = [...personalTiles, ...domainTiles];
+
+function TileButton({
+  cat,
+  lang,
+  onOpen,
+}: {
+  cat: Category;
+  lang: "fr" | "en";
+  onOpen: (id: string) => void;
+}) {
+  return (
+    <button
+      onClick={() => onOpen(cat.id)}
+      className="group relative flex h-44 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40"
+    >
+      <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
+        <Pattern id={cat.id} />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-elevated)] via-[var(--bg-elevated)]/40 to-transparent" />
+      <div className="relative p-5">
+        <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--text-muted)]">
+          {cat.index}
+        </span>
+        <h2 className="font-display text-xl font-medium">{cat.label[lang]}</h2>
+        <p className="mt-1 text-sm text-[var(--text-muted)]">{cat.description[lang]}</p>
+      </div>
+    </button>
+  );
+}
 
 export default function Hub() {
   const { lang, toggle, t } = useLang();
@@ -37,6 +63,11 @@ export default function Hub() {
   const open = tiles.find((c) => c.id === openId) ?? null;
   const isDomain = !!open && domains.some((d) => d.id === open.id);
 
+  function openTile(id: string) {
+    setOpenId(id);
+    setTab("projet");
+  }
+
   const items = isDomain
     ? content.filter((c) => c.type === tab && c.domains.includes(open!.id))
     : [];
@@ -44,14 +75,9 @@ export default function Hub() {
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-16 md:py-24">
       <header className="mb-14 flex items-start justify-between md:mb-20">
-        <div>
-          <p className="font-mono text-xs tracking-[0.2em] text-[var(--text-muted)]">
-            {t.tagline}
-          </p>
-          <h1 className="font-display mt-3 text-4xl font-medium tracking-tight md:text-6xl">
-            NDINGA OBA Olivier Vertu
-          </h1>
-        </div>
+        <h1 className="font-display text-4xl font-medium tracking-tight md:text-6xl">
+          NDINGA OBA Olivier Vertu
+        </h1>
         <button
           onClick={toggle}
           className="font-mono mt-1 rounded border border-[var(--border)] px-3 py-1.5 text-xs tracking-[0.1em] text-[var(--text-muted)] transition-colors hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
@@ -65,31 +91,28 @@ export default function Hub() {
         className="grid overflow-hidden transition-[grid-template-rows,opacity] duration-500"
         style={{ gridTemplateRows: open ? "0fr" : "1fr", opacity: open ? 0 : 1 }}
       >
-        <div className="grid min-h-0 grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {tiles.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => {
-                setOpenId(cat.id);
-                setTab("projet");
-              }}
-              className="group relative flex h-44 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40"
-            >
-              <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
-                <Pattern id={cat.id} />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-elevated)] via-[var(--bg-elevated)]/40 to-transparent" />
-              <div className="relative p-5">
-                <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--text-muted)]">
-                  {cat.index}
-                </span>
-                <h2 className="font-display text-xl font-medium">{cat.label[lang]}</h2>
-                <p className="mt-1 text-sm text-[var(--text-muted)]">
-                  {cat.description[lang]}
-                </p>
-              </div>
-            </button>
-          ))}
+        <div className="min-h-0 space-y-10">
+          <section>
+            <p className="font-mono mb-3 text-xs tracking-[0.2em] text-[var(--text-muted)]">
+              {t.sectionAbout}
+            </p>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {personalTiles.map((cat) => (
+                <TileButton key={cat.id} cat={cat} lang={lang} onOpen={openTile} />
+              ))}
+            </div>
+          </section>
+
+          <section>
+            <p className="font-mono mb-3 text-xs tracking-[0.2em] text-[var(--text-muted)]">
+              {t.sectionDomains}
+            </p>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {domainTiles.map((cat) => (
+                <TileButton key={cat.id} cat={cat} lang={lang} onOpen={openTile} />
+              ))}
+            </div>
+          </section>
         </div>
       </div>
 
@@ -115,23 +138,27 @@ export default function Hub() {
                   {open.description[lang]}
                 </p>
 
-                {/* Bio : lien CV + liste de documents cliquables */}
+                {/* Bio : paragraphe de présentation (avec le CV en lien inline) + documents cliquables */}
                 {open.id === "bio" && open.documents && (
                   <div className="mt-10 space-y-8">
-                    {cvUrl ? (
-                      <a
-                        href={cvUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-mono inline-block rounded border border-[var(--accent)]/40 px-4 py-2 text-xs tracking-[0.1em] text-[var(--accent)] transition-colors hover:bg-[var(--accent-dim)]"
-                      >
-                        {t.cvView}
-                      </a>
-                    ) : (
-                      <span className="font-mono inline-block rounded border border-dashed border-[var(--border)] px-4 py-2 text-xs tracking-[0.1em] text-[var(--text-muted)]">
-                        {t.cvView} — {t.cvMissing}
-                      </span>
-                    )}
+                    <p className="max-w-lg text-sm text-[var(--text)]">
+                      {t.bioIntroBefore}
+                      {cvUrl ? (
+                        <a
+                          href={cvUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[var(--accent)] underline underline-offset-2 hover:no-underline"
+                        >
+                          {t.bioIntroLink}
+                        </a>
+                      ) : (
+                        <span className="text-[var(--text-muted)]">
+                          {t.bioIntroLink} ({t.cvMissing})
+                        </span>
+                      )}
+                      {t.bioIntroAfter}
+                    </p>
 
                     <div className="space-y-6">
                       {(["diplome", "certification", "lettre"] as const).map((type) => {

@@ -5,7 +5,11 @@ import type { Lang } from "@/app/lib/categories";
 
 const dict = {
   fr: {
-    tagline: "ÉCOSYSTÈME NUMÉRIQUE",
+    sectionAbout: "MOI",
+    sectionDomains: "DOMAINES",
+    bioIntroBefore: "Présentation à venir — qui tu es, ton parcours, ta démarche. Pour le détail complet, tu peux ",
+    bioIntroLink: "cliquer ici pour voir mon CV",
+    bioIntroAfter: ".",
     back: "RETOUR",
     contentContact: "tes coordonnées et liens.",
     docDiplome: "Diplômes",
@@ -29,7 +33,11 @@ const dict = {
     langToggle: "EN",
   },
   en: {
-    tagline: "DIGITAL ECOSYSTEM",
+    sectionAbout: "ABOUT",
+    sectionDomains: "DOMAINS",
+    bioIntroBefore: "Introduction coming soon — who you are, your path, your approach. For the full detail, you can ",
+    bioIntroLink: "click here to view my résumé",
+    bioIntroAfter: ".",
     back: "BACK",
     contentContact: "your contact details and links.",
     docDiplome: "Diplomas",
