@@ -1,21 +1,44 @@
 "use client";
 
 import { useState } from "react";
-import { categories } from "@/app/lib/categories";
+import { bio, interests, contact, type Category } from "@/app/lib/categories";
+import { domains } from "@/app/lib/domains";
+import { content, type ContentType } from "@/app/lib/content";
+import { interestsIntro, domainInterests } from "@/app/lib/interests";
 import Pattern from "@/app/components/Pattern";
 import SectionChat from "@/app/components/SectionChat";
 import { useLang } from "@/app/lib/i18n";
 
-const docTypeLabel = {
-  diplome: (t: ReturnType<typeof useLang>["t"]) => t.docDiplome,
-  certification: (t: ReturnType<typeof useLang>["t"]) => t.docCertification,
-  lettre: (t: ReturnType<typeof useLang>["t"]) => t.docLettre,
-};
+const docTypeKey = {
+  diplome: "docDiplome",
+  certification: "docCertification",
+  lettre: "docLettre",
+} as const;
+
+const tabs: { type: ContentType; key: "tabProjets" | "tabPapiers" | "tabDemos" }[] = [
+  { type: "projet", key: "tabProjets" },
+  { type: "papier", key: "tabPapiers" },
+  { type: "demo", key: "tabDemos" },
+];
+
+// Grille du hub : Bio, puis tous les domaines (extensibles), puis Contact.
+const tiles: Category[] = [
+  bio,
+  interests,
+  ...domains.map((d) => ({ id: d.id, index: "LAB", label: d.label, description: d.description })),
+  contact,
+];
 
 export default function Hub() {
   const { lang, toggle, t } = useLang();
   const [openId, setOpenId] = useState<string | null>(null);
-  const open = categories.find((c) => c.id === openId) ?? null;
+  const [tab, setTab] = useState<ContentType>("projet");
+  const open = tiles.find((c) => c.id === openId) ?? null;
+  const isDomain = !!open && domains.some((d) => d.id === open.id);
+
+  const items = isDomain
+    ? content.filter((c) => c.type === tab && c.domains.includes(open!.id))
+    : [];
 
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-16 md:py-24">
@@ -42,10 +65,13 @@ export default function Hub() {
         style={{ gridTemplateRows: open ? "0fr" : "1fr", opacity: open ? 0 : 1 }}
       >
         <div className="grid min-h-0 grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {categories.map((cat) => (
+          {tiles.map((cat) => (
             <button
               key={cat.id}
-              onClick={() => setOpenId(cat.id)}
+              onClick={() => {
+                setOpenId(cat.id);
+                setTab("projet");
+              }}
               className="group relative flex h-44 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40"
             >
               <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
@@ -88,27 +114,23 @@ export default function Hub() {
                   {open.description[lang]}
                 </p>
 
-                {open.documents ? (
+                {/* Bio : liste de documents */}
+                {open.id === "bio" && open.documents && (
                   <div className="mt-10 space-y-6">
                     {(["diplome", "certification", "lettre"] as const).map((type) => {
-                      const items = open.documents!.filter((d) => d.type === type);
-                      if (items.length === 0) return null;
+                      const docs = open.documents!.filter((d) => d.type === type);
+                      if (docs.length === 0) return null;
                       return (
                         <div key={type}>
                           <p className="font-mono text-[11px] tracking-[0.15em] text-[var(--text-muted)]">
-                            {docTypeLabel[type](t)}
+                            {t[docTypeKey[type]]}
                           </p>
                           <ul className="mt-2 space-y-2">
-                            {items.map((doc, i) => (
-                              <li
-                                key={i}
-                                className="rounded-md border border-dashed border-[var(--border)] px-4 py-3 text-sm"
-                              >
+                            {docs.map((doc, i) => (
+                              <li key={i} className="rounded-md border border-dashed border-[var(--border)] px-4 py-3 text-sm">
                                 <span className="text-[var(--text)]">{doc.title[lang]}</span>
                                 <span className="text-[var(--text-muted)]"> — {doc.issuer} · {doc.date} </span>
-                                <span className="font-mono text-[10px] text-[var(--text-muted)]">
-                                  ({t.docTodo})
-                                </span>
+                                <span className="font-mono text-[10px] text-[var(--text-muted)]">({t.docTodo})</span>
                               </li>
                             ))}
                           </ul>
@@ -116,14 +138,102 @@ export default function Hub() {
                       );
                     })}
                   </div>
-                ) : (
+                )}
+
+                {/* Contact */}
+                {open.id === "contact" && (
                   <div className="mt-10 rounded-md border border-dashed border-[var(--border)] p-6 text-sm text-[var(--text-muted)]">
-                    {t.contentSoon}{" "}
-                    {open.id === "projets" && t.contentProjets}
-                    {open.id === "papiers" && t.contentPapiers}
-                    {["swarm", "robotics", "heuristics", "physics", "algo", "ml"].includes(open.id) &&
-                      t.contentLabs}
-                    {open.id === "contact" && t.contentContact}
+                    {t.contentContact}
+                  </div>
+                )}
+
+                {/* Intérêts : intro générale + un aperçu par domaine */}
+                {open.id === "interets" && (
+                  <div className="mt-10 space-y-6">
+                    <p className="rounded-md border border-dashed border-[var(--border)] p-6 text-sm text-[var(--text-muted)]">
+                      {interestsIntro[lang]}
+                    </p>
+                    <div className="space-y-3">
+                      {domainInterests.map((di) => {
+                        const d = domains.find((dd) => dd.id === di.domainId);
+                        if (!d) return null;
+                        return (
+                          <div key={di.domainId} className="rounded-md border border-[var(--border)] p-4">
+                            <p className="font-mono text-[11px] tracking-[0.15em] text-[var(--accent)]">
+                              {d.label[lang]}
+                            </p>
+                            <p className="mt-1 text-sm text-[var(--text)]">{di.text[lang]}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Domaine : sous-onglets Projets / Papiers / Démos */}
+                {isDomain && (
+                  <div className="mt-10">
+                    <div className="flex gap-1 border-b border-[var(--border)]">
+                      {tabs.map((tb) => (
+                        <button
+                          key={tb.type}
+                          onClick={() => setTab(tb.type)}
+                          className={`font-mono px-3 py-2 text-xs tracking-[0.1em] transition-colors ${
+                            tab === tb.type
+                              ? "border-b border-[var(--accent)] text-[var(--accent)]"
+                              : "text-[var(--text-muted)] hover:text-[var(--text)]"
+                          }`}
+                        >
+                          {t[tb.key]}
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="mt-6 space-y-4">
+                      {items.length === 0 && (
+                        <p className="text-sm text-[var(--text-muted)]">{t.emptyTab}</p>
+                      )}
+                      {items.map((item) => (
+                        <div key={item.id} className="rounded-md border border-[var(--border)] p-5">
+                          <h3 className="font-display text-lg font-medium">{item.title[lang]}</h3>
+                          <p className="mt-1 text-sm text-[var(--text-muted)]">{item.summary[lang]}</p>
+
+                          {/* Projet : emplacement vidéo unique */}
+                          {item.type === "projet" && (
+                            <div className="mt-4 flex h-28 items-center justify-center rounded border border-dashed border-[var(--border)] text-xs text-[var(--text-muted)]">
+                              {t.videoPlaceholder}
+                            </div>
+                          )}
+
+                          {/* Démo : emplacement embed Hugging Face */}
+                          {item.type === "demo" && (
+                            <div className="mt-4 flex h-28 items-center justify-center rounded border border-dashed border-[var(--border)] text-xs text-[var(--text-muted)]">
+                              {t.demoPlaceholder}
+                            </div>
+                          )}
+
+                          {/* Papier : blocs texte + vidéo librement intercalés */}
+                          {item.type === "papier" && item.blocks && (
+                            <div className="mt-4 space-y-3">
+                              {item.blocks.map((block, i) =>
+                                block.kind === "text" ? (
+                                  <p key={i} className="text-sm text-[var(--text)]">
+                                    {block.text[lang]}
+                                  </p>
+                                ) : (
+                                  <div key={i}>
+                                    <div className="flex h-28 items-center justify-center rounded border border-dashed border-[var(--border)] text-xs text-[var(--text-muted)]">
+                                      {t.videoPlaceholder}
+                                    </div>
+                                    <p className="mt-1 text-xs text-[var(--text-muted)]">{block.caption[lang]}</p>
+                                  </div>
+                                )
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
 

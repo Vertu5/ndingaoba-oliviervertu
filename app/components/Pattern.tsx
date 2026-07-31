@@ -187,12 +187,37 @@ function DataCurve() {
   );
 }
 
+function Spark() {
+  const rays = 8;
+  const lines = Array.from({ length: rays }, (_, i) => {
+    const a = (i / rays) * Math.PI * 2;
+    const inner = 6;
+    const outer = 15 + (i % 2 === 0 ? 8 : 3);
+    return {
+      x1: 50 + Math.cos(a) * inner,
+      y1: 35 + Math.sin(a) * inner * 0.7,
+      x2: 50 + Math.cos(a) * outer,
+      y2: 35 + Math.sin(a) * outer * 0.7,
+    };
+  });
+  return (
+    <svg viewBox="0 0 100 70" className="h-full w-full" preserveAspectRatio="xMidYMid slice">
+      {lines.map((l, i) => (
+        <line key={i} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2}
+          stroke="var(--accent)" strokeWidth="0.8" strokeLinecap="round" strokeOpacity="0.55" />
+      ))}
+      <circle cx="50" cy="35" r="3.5" fill="var(--accent)" fillOpacity="0.7" />
+    </svg>
+  );
+}
+
 const patterns: Record<string, () => React.JSX.Element> = {
   swarm: Swarm,
   ml: Waveform,
   projets: PlayGrid,
   papiers: DataCurve,
   parcours: DocumentSeal,
+  interets: Spark,
   contact: RadiatingDots,
   robotics: Gears,
   heuristics: PathGraph,

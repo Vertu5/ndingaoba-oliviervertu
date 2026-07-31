@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { categories } from "@/app/lib/categories";
+import { bio, interests, contact } from "@/app/lib/categories";
+import { domains } from "@/app/lib/domains";
 
 export const runtime = "nodejs";
 
 type IncomingMsg = { role: "user" | "assistant"; content: string };
 
+const allSections = [bio, interests, ...domains.map((d) => ({ id: d.id, label: d.label, description: d.description })), contact];
+
 const sectionContext: Record<string, { fr: string; en: string }> = Object.fromEntries(
-  categories.map((c) => [
+  allSections.map((c) => [
     c.id,
     {
       fr: `${c.label.fr} — ${c.description.fr}`,
