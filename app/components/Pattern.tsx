@@ -211,6 +211,38 @@ function Spark() {
   );
 }
 
+function Chip() {
+  const pins = [16, 34, 52, 68, 84];
+  return (
+    <svg viewBox="0 0 100 70" className="h-full w-full" preserveAspectRatio="xMidYMid slice">
+      <rect x="30" y="15" width="40" height="40" rx="4" fill="none" stroke="var(--accent)" strokeWidth="0.7" strokeOpacity="0.55" />
+      {[0, 1, 2].map((r) => (
+        <rect key={r} x="38" y={23 + r * 10} width="24" height="4" rx="1" fill="var(--accent)" fillOpacity="0.3" />
+      ))}
+      {pins.map((y, i) => (
+        <g key={i}>
+          <line x1="10" y1={y} x2="30" y2={y} stroke="var(--accent)" strokeWidth="0.6" strokeOpacity="0.4" />
+          <line x1="70" y1={y} x2="90" y2={y} stroke="var(--accent)" strokeWidth="0.6" strokeOpacity="0.4" />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function Stars() {
+  const stars = [
+    [12, 14, 1.6], [30, 30, 1], [50, 10, 1.3], [68, 26, 1.8], [86, 16, 1],
+    [20, 48, 1.2], [42, 54, 1.6], [62, 46, 1], [80, 54, 1.4], [8, 34, 0.8],
+  ];
+  return (
+    <svg viewBox="0 0 100 70" className="h-full w-full" preserveAspectRatio="xMidYMid slice">
+      {stars.map(([x, y, r], i) => (
+        <circle key={i} cx={x} cy={y} r={r} fill="var(--accent)" fillOpacity="0.6" />
+      ))}
+    </svg>
+  );
+}
+
 const patterns: Record<string, () => React.JSX.Element> = {
   swarm: Swarm,
   ml: Waveform,
@@ -223,6 +255,8 @@ const patterns: Record<string, () => React.JSX.Element> = {
   heuristics: PathGraph,
   physics: Orbit,
   algo: CodeBrackets,
+  informatique: Chip,
+  sciences: Stars,
 };
 
 export default function Pattern({ id }: { id: string }) {

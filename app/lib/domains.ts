@@ -2,16 +2,17 @@ import type { Lang } from "@/app/lib/categories";
 
 export type Domain = {
   id: string;
+  superId: string; // rattache ce sous-domaine à un grand domaine (superdomains.ts)
   label: { fr: string; en: string };
   description: { fr: string; en: string };
 };
 
-// Liste extensible — ajouter un domaine, c'est ajouter une ligne ici.
-// Pense aussi à ajouter un motif visuel correspondant dans Pattern.tsx
-// (sinon un motif par défaut neutre sera utilisé).
+// Sous-domaines — visibles seulement quand on ouvre leur grand domaine parent.
+// Pour ajouter un sous-domaine : une ligne ici + un motif dans Pattern.tsx (optionnel).
 export const domains: Domain[] = [
   {
     id: "swarm",
+    superId: "informatique",
     label: { fr: "Intelligence en essaim", en: "Swarm intelligence" },
     description: {
       fr: "Modèles d'intelligence collective, démos en direct.",
@@ -20,6 +21,7 @@ export const domains: Domain[] = [
   },
   {
     id: "robotics",
+    superId: "informatique",
     label: { fr: "Robotique", en: "Robotics" },
     description: {
       fr: "Systèmes robotiques, contrôle et perception.",
@@ -28,6 +30,7 @@ export const domains: Domain[] = [
   },
   {
     id: "heuristics",
+    superId: "informatique",
     label: { fr: "Heuristique & optimisation", en: "Heuristics & optimization" },
     description: {
       fr: "Méthodes de recherche, métaheuristiques, optimisation combinatoire.",
@@ -35,15 +38,8 @@ export const domains: Domain[] = [
     },
   },
   {
-    id: "physics",
-    label: { fr: "Physique", en: "Physics" },
-    description: {
-      fr: "Modélisation physique et simulations.",
-      en: "Physical modeling and simulations.",
-    },
-  },
-  {
     id: "algo",
+    superId: "informatique",
     label: { fr: "Algorithmes & programmation", en: "Algorithms & programming" },
     description: {
       fr: "Structures de données, complexité, implémentations.",
@@ -52,10 +48,20 @@ export const domains: Domain[] = [
   },
   {
     id: "ml",
+    superId: "informatique",
     label: { fr: "Machine Learning", en: "Machine Learning" },
     description: {
       fr: "Expérimentations et modèles hébergés.",
       en: "Experiments and hosted models.",
+    },
+  },
+  {
+    id: "physics",
+    superId: "sciences",
+    label: { fr: "Physique", en: "Physics" },
+    description: {
+      fr: "Modélisation physique et simulations.",
+      en: "Physical modeling and simulations.",
     },
   },
 ];

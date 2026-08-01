@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { bio, interests, contact, cvUrl, type Category } from "@/app/lib/categories";
+import { superDomains } from "@/app/lib/superdomains";
 import { domains } from "@/app/lib/domains";
 import { content, type ContentType } from "@/app/lib/content";
 import { interestsIntro, interestsList } from "@/app/lib/interests";
@@ -21,10 +22,10 @@ const tabs: { type: ContentType; key: "tabProjets" | "tabPapiers" | "tabDemos" }
   { type: "demo", key: "tabDemos" },
 ];
 
-// Deux groupes distincts : les compartiments personnels, puis les domaines.
+// Niveau 1 (grille principale) : compartiments personnels + grands domaines.
 const personalTiles: Category[] = [bio, interests, contact];
-const domainTiles: Category[] = domains.map((d) => ({ id: d.id, index: "LAB", label: d.label, description: d.description }));
-const tiles: Category[] = [...personalTiles, ...domainTiles];
+const superTiles: Category[] = superDomains.map((s) => ({ id: s.id, index: "LAB", label: s.label, description: s.description }));
+const tiles: Category[] = [...personalTiles, ...superTiles];
 
 function TileButton({
   cat,
@@ -58,18 +59,22 @@ function TileButton({
 export default function Hub() {
   const { lang, toggle, t } = useLang();
   const [openId, setOpenId] = useState<string | null>(null);
+  const [openSubId, setOpenSubId] = useState<string | null>(null);
   const [tab, setTab] = useState<ContentType>("projet");
   const [openDocId, setOpenDocId] = useState<string | null>(null);
   const open = tiles.find((c) => c.id === openId) ?? null;
-  const isDomain = !!open && domains.some((d) => d.id === open.id);
+  const isSuperDomain = !!open && superDomains.some((s) => s.id === open.id);
+  const subOptions = isSuperDomain ? domains.filter((d) => d.superId === open!.id) : [];
+  const subOpen = domains.find((d) => d.id === openSubId) ?? null;
 
   function openTile(id: string) {
     setOpenId(id);
+    setOpenSubId(null);
     setTab("projet");
   }
 
-  const items = isDomain
-    ? content.filter((c) => c.type === tab && c.domains.includes(open!.id))
+  const items = subOpen
+    ? content.filter((c) => c.type === tab && c.domains.includes(subOpen.id))
     : [];
 
   return (
@@ -108,7 +113,7 @@ export default function Hub() {
               {t.sectionDomains}
             </p>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {domainTiles.map((cat) => (
+              {superTiles.map((cat) => (
                 <TileButton key={cat.id} cat={cat} lang={lang} onOpen={openTile} />
               ))}
             </div>
@@ -125,17 +130,17 @@ export default function Hub() {
           {open && (
             <div className="relative overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)]">
               <div className="absolute inset-0 opacity-25">
-                <Pattern id={open.id} />
+                <Pattern id={subOpen ? subOpen.id : open.id} />
               </div>
               <div className="relative p-6 md:p-10">
                 <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--accent)]">
-                  {open.index}
+                  {subOpen ? "LAB" : open.index}
                 </span>
                 <h2 className="font-display mt-2 text-3xl font-medium md:text-5xl">
-                  {open.label[lang]}
+                  {subOpen ? subOpen.label[lang] : open.label[lang]}
                 </h2>
                 <p className="mt-4 max-w-lg text-[var(--text-muted)]">
-                  {open.description[lang]}
+                  {subOpen ? subOpen.description[lang] : open.description[lang]}
                 </p>
 
                 {/* Bio : paragraphe de présentation (avec le CV en lien inline) + documents cliquables */}
@@ -195,7 +200,7 @@ export default function Hub() {
                                             rel="noopener noreferrer"
                                             className="font-mono mt-2 block text-xs text-[var(--accent)] hover:underline"
                                           >
-                                            {t.cvView}
+                                            {t.docView}
                                           </a>
                                         )}
                                       </div>
@@ -235,9 +240,37 @@ export default function Hub() {
                   </div>
                 )}
 
-                {/* Domaine : sous-onglets Projets / Papiers / Démos */}
-                {isDomain && (
+                {/* Grand domaine : sous-grille de ses sous-domaines */}
+                {isSuperDomain && !subOpen && (
+                  <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    {subOptions.map((d) => (
+                      <button
+                        key={d.id}
+                        onClick={() => setOpenSubId(d.id)}
+                        className="group relative flex h-32 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg)]/40 text-left transition-colors hover:border-[var(--accent)]/40"
+                      >
+                        <div className="absolute inset-0 opacity-60 transition-transform duration-500 group-hover:scale-105">
+                          <Pattern id={d.id} />
+                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-[var(--bg)]/50 to-transparent" />
+                        <div className="relative p-4">
+                          <h3 className="font-display text-base font-medium">{d.label[lang]}</h3>
+                          <p className="mt-0.5 text-xs text-[var(--text-muted)]">{d.description[lang]}</p>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* Sous-domaine ouvert : sous-onglets Projets / Papiers / Démos */}
+                {subOpen && (
                   <div className="mt-10">
+                    <button
+                      onClick={() => setOpenSubId(null)}
+                      className="font-mono mb-6 flex items-center gap-2 text-xs tracking-[0.15em] text-[var(--text-muted)] transition-colors hover:text-[var(--accent)]"
+                    >
+                      ← {t.backToDomains}
+                    </button>
                     <div className="flex gap-1 border-b border-[var(--border)]">
                       {tabs.map((tb) => (
                         <button
@@ -302,7 +335,7 @@ export default function Hub() {
                   </div>
                 )}
 
-                <SectionChat sectionId={open.id} />
+                <SectionChat sectionId={subOpen ? subOpen.id : open.id} />
 
                 <button
                   onClick={() => setOpenId(null)}
