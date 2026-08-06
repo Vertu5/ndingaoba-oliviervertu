@@ -9,6 +9,7 @@ import { interestsIntro, interestsList } from "@/app/lib/interests";
 import Pattern from "@/app/components/Pattern";
 import SectionChat from "@/app/components/SectionChat";
 import BioView from "@/app/components/BioView";
+import ContactView from "@/app/components/ContactView";
 import { useLang } from "@/app/lib/i18n";
 
 const docTypeKey = {
@@ -151,9 +152,7 @@ export default function Hub() {
 
                 {/* Contact */}
                 {open.id === "contact" && (
-                  <div className="mt-10 rounded-md border border-dashed border-[var(--border)] p-6 text-sm text-[var(--text-muted)]">
-                    {t.contentContact}
-                  </div>
+                  <ContactView lang={lang} />
                 )}
 
                 {/* Intérêts : liste générale, pas seulement technique */}
