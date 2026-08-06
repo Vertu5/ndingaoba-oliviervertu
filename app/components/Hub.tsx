@@ -83,11 +83,11 @@ export default function Hub() {
     <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-16 md:py-24">
       <header className="mb-10 flex items-center justify-between md:mb-16">
         <div>
-          <h1 className="font-display text-2xl font-medium tracking-tight sm:text-4xl md:text-5xl text-[var(--text)]">
-            Olivier Vertu
+          <h1 className="font-display text-3xl font-medium tracking-tight sm:text-5xl md:text-6xl text-[var(--text)]">
+            OLIVIER NDINGA OBA
           </h1>
-          <p className="font-mono text-xs text-[var(--text-muted)] mt-1 tracking-wider uppercase">
-            NDINGA OBA · Ingénieur Informatique & IA
+          <p className="font-mono text-xs text-[var(--text-muted)] mt-1.5 tracking-wider uppercase">
+            Ingénieur Informatique & IA · Systèmes Complexes & Leadership
           </p>
         </div>
         <button
@@ -140,10 +140,20 @@ export default function Hub() {
                 <Pattern id={subOpen ? subOpen.id : open.id} />
               </div>
               <div className="relative p-6 md:p-10">
-                <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--accent)]">
-                  {subOpen ? "LAB" : open.index}
-                </span>
-                <h2 className="font-display mt-2 text-3xl font-medium md:text-5xl">
+                {/* Header du panneau déplié avec bouton RETOUR en haut */}
+                <div className="flex items-center justify-between gap-4 mb-2">
+                  <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--accent)] font-semibold">
+                    {subOpen ? "LAB" : open.index}
+                  </span>
+                  <button
+                    onClick={() => setOpenId(null)}
+                    className="font-mono text-xs tracking-[0.15em] text-[var(--accent)] hover:underline border border-[var(--accent)]/30 rounded px-3 py-1 bg-[var(--accent)]/10 transition-colors hover:bg-[var(--accent)] hover:text-black"
+                  >
+                    ← {t.back} ▲
+                  </button>
+                </div>
+
+                <h2 className="font-display text-3xl font-medium md:text-5xl">
                   {subOpen ? subOpen.label[lang] : open.label[lang]}
                 </h2>
                 <p className="mt-4 max-w-lg text-[var(--text-muted)]">
