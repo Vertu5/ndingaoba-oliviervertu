@@ -5,11 +5,11 @@ import { bio, interests, contact, cvUrl, type Category } from "@/app/lib/categor
 import { superDomains } from "@/app/lib/superdomains";
 import { domains } from "@/app/lib/domains";
 import { content, type ContentType } from "@/app/lib/content";
-import { interestsIntro, interestsList } from "@/app/lib/interests";
 import Pattern from "@/app/components/Pattern";
 import SectionChat from "@/app/components/SectionChat";
 import BioView from "@/app/components/BioView";
 import ContactView from "@/app/components/ContactView";
+import InterestsView from "@/app/components/InterestsView";
 import { useLang } from "@/app/lib/i18n";
 
 const docTypeKey = {
@@ -155,21 +155,9 @@ export default function Hub() {
                   <ContactView lang={lang} />
                 )}
 
-                {/* Intérêts : liste générale, pas seulement technique */}
+                {/* Intérêts : 4 grands piliers (Philosophie, Sport, Créativité, Sérénité) */}
                 {open.id === "interets" && (
-                  <div className="mt-10 space-y-6">
-                    <p className="rounded-md border border-dashed border-[var(--border)] p-6 text-sm text-[var(--text-muted)]">
-                      {interestsIntro[lang]}
-                    </p>
-                    <div className="space-y-3">
-                      {interestsList.map((it) => (
-                        <div key={it.id} className="rounded-md border border-[var(--border)] p-4">
-                          <p className="font-display text-base font-medium">{it.title[lang]}</p>
-                          <p className="mt-1 text-sm text-[var(--text-muted)]">{it.text[lang]}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                  <InterestsView lang={lang} />
                 )}
 
                 {/* Grand domaine : sous-grille de ses sous-domaines */}
