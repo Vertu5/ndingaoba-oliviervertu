@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { bioNarrative, institutionalLinks } from "@/app/lib/bio";
 import { cvUrl, type DocEntry } from "@/app/lib/categories";
@@ -13,6 +14,8 @@ export default function BioView({
   t: Record<string, string>;
   documents?: DocEntry[];
 }) {
+  const [isZoomed, setIsZoomed] = useState(false);
+
   // Diplômes (titres académiques privés, sans fichier PDF public)
   const diplomas = documents.filter((d) => d.type === "diplome");
   const ermLink = institutionalLinks.erm;
@@ -20,12 +23,52 @@ export default function BioView({
 
   return (
     <div className="mt-6 space-y-8">
+      {/* Lightbox Modal pour photo agrandie */}
+      {isZoomed && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-opacity animate-in fade-in duration-200"
+          onClick={() => setIsZoomed(false)}
+        >
+          <div
+            className="relative max-w-sm sm:max-w-md w-full rounded-2xl border border-[var(--accent)]/30 bg-[var(--bg-elevated)] p-5 shadow-2xl flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setIsZoomed(false)}
+              className="absolute top-3 right-3 rounded-full border border-[var(--border)] bg-[var(--bg)] w-8 h-8 flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors text-sm font-mono"
+              aria-label="Fermer"
+            >
+              ✕
+            </button>
+            <div className="w-64 h-64 sm:w-80 sm:h-80 rounded-xl overflow-hidden border border-[var(--border)] shadow-xl mt-2">
+              <Image
+                src="/images/profile.jpeg"
+                alt="NDINGA OBA Olivier Vertu"
+                width={400}
+                height={400}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="mt-4 text-center">
+              <h3 className="font-display text-lg font-medium text-[var(--text)]">NDINGA OBA Olivier Vertu</h3>
+              <p className="font-mono text-xs text-[var(--text-muted)] mt-1 uppercase tracking-wider">
+                Bruxelles, Belgique · Ingénieur Informatique & IA
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header Block: Avatar slot + Tagline + Intro + Links */}
       <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-6 md:p-8">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-          {/* Avatar Photo Slot */}
-          <div className="relative group shrink-0">
-            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-[var(--accent)]/60 bg-[var(--bg)] overflow-hidden shadow-lg transition-transform duration-300 group-hover:scale-105">
+          {/* Avatar Photo Slot cliquable */}
+          <div
+            className="relative group shrink-0 cursor-pointer"
+            onClick={() => setIsZoomed(true)}
+            title={lang === "fr" ? "Cliquer pour agrandir" : "Click to enlarge"}
+          >
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-[var(--accent)]/60 bg-[var(--bg)] overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:border-[var(--accent)]">
               <Image
                 src="/images/profile.jpeg"
                 alt="NDINGA OBA Olivier Vertu"
@@ -34,8 +77,11 @@ export default function BioView({
                 priority
                 className="w-full h-full object-cover"
               />
+              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-mono">
+                🔍
+              </div>
             </div>
-            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-[var(--bg-elevated)] border border-[var(--border)] px-2 py-0.5 rounded-full font-mono text-[9px] text-[var(--text-muted)] whitespace-nowrap shadow-sm">
+            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-[var(--bg-elevated)] border border-[var(--border)] px-2 py-0.5 rounded-full font-mono text-[9px] text-[var(--text-muted)] whitespace-nowrap shadow-sm group-hover:border-[var(--accent)]/50 transition-colors">
               Bruxelles, BE
             </div>
           </div>
