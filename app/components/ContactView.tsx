@@ -5,32 +5,201 @@ import { useState } from "react";
 export default function ContactView({ lang }: { lang: "fr" | "en" }) {
   const [copied, setCopied] = useState(false);
 
-  const email = "obavertu@gmail.com";
+  // Form states
+  const [name, setName] = useState("");
+  const [emailInput, setEmailInput] = useState("");
+  const [message, setMessage] = useState("");
+  const [isAnonymous, setIsAnonymous] = useState(false);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const directEmail = "obavertu@gmail.com";
   const phone = "+32 497 21 21 37";
   const phoneClean = "+32497212137";
   const location = "Bruxelles, Belgique";
 
   const copyEmail = () => {
-    navigator.clipboard.writeText(email);
+    navigator.clipboard.writeText(directEmail);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!message.trim()) {
+      setErrorMsg(lang === "fr" ? "Veuillez saisir un message." : "Please type a message.");
+      setStatus("error");
+      return;
+    }
+
+    setStatus("loading");
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: isAnonymous ? "Anonyme" : name,
+          email: isAnonymous ? "" : emailInput,
+          message,
+          isAnonymous,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setStatus("success");
+        setMessage("");
+        setName("");
+        setEmailInput("");
+      } else {
+        setErrorMsg(data.error || "Erreur d'envoi");
+        setStatus("error");
+      }
+    } catch {
+      setErrorMsg(lang === "fr" ? "Erreur réseau, réessayez." : "Network error, try again.");
+      setStatus("error");
+    }
+  };
+
   return (
-    <div className="mt-8 space-y-8">
-      {/* Intro block */}
+    <div className="mt-6 space-y-8">
+      {/* Header Intro */}
       <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-6 md:p-8">
         <h3 className="font-display text-xl font-medium text-[var(--accent)] md:text-2xl">
-          {lang === "fr" ? "Prenons contact" : "Get in Touch"}
+          {lang === "fr" ? "Me contacter" : "Get in Touch"}
         </h3>
         <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)] max-w-xl">
           {lang === "fr"
-            ? "Disponible pour des opportunités en Software Development, Ingénierie IA, ou des projets complexes. N'hésitez pas à me joindre directement."
-            : "Available for Software Development, AI Engineering opportunities, or complex technical projects. Feel free to reach out directly."}
+            ? "Disponible pour des opportunités en Software Development, Ingénierie IA ou projets complexes. Écrivez-moi directement ci-dessous ou via mes coordonnées."
+            : "Available for Software Development, AI Engineering opportunities, or complex projects. Write to me directly below or via direct channels."}
         </p>
       </div>
 
-      {/* Grid des Coordonnées */}
+      {/* Formulaire de message direct & anonyme */}
+      <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)]/60 p-6 md:p-8 shadow-sm">
+        <div className="flex items-center justify-between gap-2 mb-6">
+          <div className="flex items-center gap-2">
+            <span className="text-xl">💬</span>
+            <h4 className="font-mono text-xs font-semibold text-[var(--accent)] uppercase tracking-wider">
+              {lang === "fr" ? "Envoyer un message direct" : "Send a direct message"}
+            </h4>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsAnonymous(!isAnonymous)}
+            className={`font-mono text-[10px] px-2.5 py-1 rounded-full border transition-colors ${
+              isAnonymous
+                ? "bg-[var(--accent)] text-black border-[var(--accent)] font-semibold"
+                : "border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)]"
+            }`}
+          >
+            {isAnonymous
+              ? (lang === "fr" ? "✓ Mode Anonyme Actif" : "✓ Anonymous Mode On")
+              : (lang === "fr" ? "🕵️ Passer en Anonyme" : "🕵️ Send Anonymously")}
+          </button>
+        </div>
+
+        {status === "success" ? (
+          <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-6 text-center space-y-3">
+            <span className="text-3xl">🎉</span>
+            <h5 className="font-display text-base font-semibold text-emerald-400">
+              {lang === "fr" ? "Message transmis avec succès !" : "Message sent successfully!"}
+            </h5>
+            <p className="text-xs text-[var(--text-muted)] max-w-md mx-auto">
+              {lang === "fr"
+                ? "Merci pour votre message. Je le lirai avec attention et y répondrai si des coordonnées ont été fournies."
+                : "Thank you for your message. I will read it carefully and reply if contact info was provided."}
+            </p>
+            <button
+              onClick={() => setStatus("idle")}
+              className="font-mono text-xs text-[var(--accent)] underline hover:no-underline mt-2 inline-block"
+            >
+              {lang === "fr" ? "Envoyer un autre message" : "Send another message"}
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {!isAnonymous && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block font-mono text-[11px] text-[var(--text-muted)] mb-1.5">
+                    {lang === "fr" ? "Votre nom / pseudo" : "Your name / handle"}
+                  </label>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder={lang === "fr" ? "Ex: Jean Dupont" : "E.g. Alex Smith"}
+                    className="w-full rounded-md border border-[var(--border)] bg-[var(--bg)] px-3.5 py-2 text-xs text-[var(--text)] placeholder-[var(--text-muted)]/50 focus:border-[var(--accent)] focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block font-mono text-[11px] text-[var(--text-muted)] mb-1.5">
+                    {lang === "fr" ? "Votre email (pour réponse)" : "Your email (for reply)"}
+                  </label>
+                  <input
+                    type="email"
+                    value={emailInput}
+                    onChange={(e) => setEmailInput(e.target.value)}
+                    placeholder="email@domaine.com"
+                    className="w-full rounded-md border border-[var(--border)] bg-[var(--bg)] px-3.5 py-2 text-xs text-[var(--text)] placeholder-[var(--text-muted)]/50 focus:border-[var(--accent)] focus:outline-none"
+                  />
+                </div>
+              </div>
+            )}
+
+            <div>
+              <label className="block font-mono text-[11px] text-[var(--text-muted)] mb-1.5">
+                {lang === "fr" ? "Votre message *" : "Your message *"}
+              </label>
+              <textarea
+                rows={4}
+                required
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder={
+                  isAnonymous
+                    ? (lang === "fr"
+                        ? "Écrivez votre message ou remarque anonyme ici..."
+                        : "Type your anonymous note or feedback here...")
+                    : (lang === "fr"
+                        ? "Bonjour Olivier, je souhaitais vous contacter concernant..."
+                        : "Hello Olivier, I'm reaching out regarding...")
+                }
+                className="w-full rounded-md border border-[var(--border)] bg-[var(--bg)] p-3.5 text-xs text-[var(--text)] placeholder-[var(--text-muted)]/50 focus:border-[var(--accent)] focus:outline-none resize-y"
+              />
+            </div>
+
+            {status === "error" && (
+              <p className="font-mono text-xs text-red-400 font-medium">
+                ⚠️ {errorMsg}
+              </p>
+            )}
+
+            <div className="flex items-center justify-between pt-2">
+              <span className="font-mono text-[10px] text-[var(--text-muted)]">
+                {isAnonymous
+                  ? (lang === "fr" ? "🔒 Message anonyme (aucun email requis)" : "🔒 Anonymous message (no email required)")
+                  : (lang === "fr" ? "✉️ Envoi direct" : "✉️ Direct delivery")}
+              </span>
+
+              <button
+                type="submit"
+                disabled={status === "loading"}
+                className="font-mono rounded bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-black transition-opacity hover:opacity-90 disabled:opacity-50"
+              >
+                {status === "loading"
+                  ? (lang === "fr" ? "Envoi en cours..." : "Sending...")
+                  : (lang === "fr" ? "Envoyer le message 🚀" : "Send Message 🚀")}
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
+
+      {/* Cards Coordonnées Directes */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Card Email */}
         <div className="rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)]/50 p-6 flex flex-col justify-between transition-colors hover:border-[var(--accent)]/40">
@@ -38,11 +207,11 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
             <div className="flex items-center gap-2 mb-2">
               <span className="text-xl">✉️</span>
               <span className="font-mono text-xs font-semibold text-[var(--accent)] uppercase tracking-wider">
-                Email
+                Email Direct
               </span>
             </div>
             <p className="font-mono text-base font-medium text-[var(--text)] select-all">
-              {email}
+              {directEmail}
             </p>
             <p className="mt-1 text-xs text-[var(--text-muted)]">
               {lang === "fr" ? "Réponse sous 24h" : "Response within 24h"}
@@ -50,7 +219,7 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
           </div>
           <div className="mt-5 flex items-center gap-3 pt-4 border-t border-dashed border-[var(--border)]">
             <a
-              href={`mailto:${email}`}
+              href={`mailto:${directEmail}`}
               className="font-mono rounded bg-[var(--accent)] px-3 py-1.5 text-xs font-semibold text-black transition-opacity hover:opacity-90"
             >
               {lang === "fr" ? "Écrire un email ↗" : "Send email ↗"}
