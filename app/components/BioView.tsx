@@ -119,22 +119,24 @@ export default function BioView({
         </div>
       </div>
 
-      {/* 🎯 Première lecture : Résumé Exécutif en 4 piliers (4 côte à côte sur 1 seule ligne) */}
-      <div className="grid grid-cols-4 gap-1.5 sm:gap-3">
+      {/* 🎯 Première lecture : Résumé Exécutif en 4 piliers (Grille 2x2 propre sur mobile, 4 en ligne sur desktop) */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
         {bioNarrative.executiveSummary.map((pill, idx) => (
           <div
             key={idx}
-            className="rounded-lg border border-[var(--border)] bg-[var(--bg)]/40 p-2 sm:p-4 transition-all hover:border-[var(--accent)]/40 hover:bg-[var(--bg-elevated)] flex flex-col justify-start"
+            className="rounded-lg border border-[var(--border)] bg-[var(--bg)]/40 p-2.5 sm:p-4 transition-all hover:border-[var(--accent)]/40 hover:bg-[var(--bg-elevated)] flex flex-col justify-between"
           >
-            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-              <span className="text-sm sm:text-lg shrink-0">{pill.icon}</span>
-              <h4 className="font-display text-[9px] sm:text-xs font-semibold tracking-tight sm:tracking-wide text-[var(--accent)] uppercase leading-tight break-words">
-                {pill.title[lang]}
-              </h4>
+            <div>
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="text-base sm:text-lg shrink-0">{pill.icon}</span>
+                <h4 className="font-display text-[11px] sm:text-xs font-semibold tracking-wide text-[var(--accent)] uppercase leading-tight hyphens-none break-normal">
+                  {pill.title[lang]}
+                </h4>
+              </div>
+              <p className="mt-1.5 sm:mt-2 text-[11px] sm:text-xs font-medium text-[var(--text)] leading-snug hyphens-none break-normal">
+                {pill.desc[lang]}
+              </p>
             </div>
-            <p className="mt-1 sm:mt-2 text-[9px] sm:text-xs font-medium text-[var(--text)] leading-tight sm:leading-snug break-words">
-              {pill.desc[lang]}
-            </p>
           </div>
         ))}
       </div>
