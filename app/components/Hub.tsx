@@ -81,13 +81,18 @@ export default function Hub() {
 
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-16 md:py-24">
-      <header className="mb-14 flex items-start justify-between md:mb-20">
-        <h1 className="font-display text-4xl font-medium tracking-tight md:text-6xl">
-          NDINGA OBA Olivier Vertu
-        </h1>
+      <header className="mb-10 flex items-center justify-between md:mb-16">
+        <div>
+          <h1 className="font-display text-2xl font-medium tracking-tight sm:text-4xl md:text-5xl text-[var(--text)]">
+            Olivier Vertu
+          </h1>
+          <p className="font-mono text-xs text-[var(--text-muted)] mt-1 tracking-wider uppercase">
+            NDINGA OBA · Ingénieur Informatique & IA
+          </p>
+        </div>
         <button
           onClick={toggle}
-          className="font-mono mt-1 rounded border border-[var(--border)] px-3 py-1.5 text-xs tracking-[0.1em] text-[var(--text-muted)] transition-colors hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
+          className="font-mono rounded border border-[var(--border)] px-3 py-1.5 text-xs tracking-[0.1em] text-[var(--text-muted)] transition-colors hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
         >
           {t.langToggle}
         </button>

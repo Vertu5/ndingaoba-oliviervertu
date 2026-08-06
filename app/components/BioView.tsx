@@ -25,7 +25,7 @@ export default function BioView({
           {/* Avatar Photo Slot */}
           <div className="relative group shrink-0">
             <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-dashed border-[var(--accent)]/50 bg-[var(--bg)] flex flex-col items-center justify-center text-center p-2 overflow-hidden shadow-inner">
-              <span className="font-display text-2xl font-semibold text-[var(--accent)]">NO</span>
+              <span className="font-display text-2xl font-semibold text-[var(--accent)]">OV</span>
               <span className="font-mono text-[9px] text-[var(--text-muted)] mt-1">
                 Photo à venir
               </span>
