@@ -86,7 +86,7 @@ export default function Hub() {
         <header className="mb-10 flex items-center justify-between md:mb-16">
           <div>
             <h1 className="font-display text-3xl font-medium tracking-tight sm:text-5xl md:text-6xl text-[var(--text)]">
-              OLIVIER NDINGA OBA
+              NDINGA OBA Olivier Vertu
             </h1>
             <p className="font-mono text-xs text-[var(--text-muted)] mt-1.5 tracking-wider uppercase">
               Ingénieur Informatique & IA · Systèmes Complexes & Leadership

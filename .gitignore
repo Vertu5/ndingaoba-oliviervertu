@@ -43,5 +43,7 @@ next-env.d.ts
 # local private guides & logs
 GIT_MERGE_VS_REBASE.md
 messages.log
+repomix-output.xml
+
 
 
