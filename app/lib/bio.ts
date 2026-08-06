@@ -30,8 +30,8 @@ export const bioNarrative = {
     en: "Computer Science & AI · Complex Systems · Leadership",
   },
   intro: {
-    fr: "Ingénieur civil en informatique (ULB, Distinction) et Bachelier de l'École Royale Militaire (ERM), je combine une expertise pointue en Intelligence Artificielle et Systèmes Complexes (IRIDIA) avec une solide expérience en Management d'équipe et Leadership. Basé à Bruxelles, j'évolue en tant que Software Developer & Ingénieur IA, avec l'ambition d'allier le développement logiciel à la gestion et au Management de projets techniques.",
-    en: "Computer Science Engineer (ULB, Distinction) and Royal Military Academy Bachelor (ERM), I bridge advanced technical expertise in Artificial Intelligence and Complex Systems (IRIDIA) with strong Team Management and Leadership skills. Based in Brussels, I work as a Software Developer & AI Engineer, aiming to combine hands-on software development with technical Project Management.",
+    fr: "Ingénieur civil en informatique (ULB, Distinction) et Bachelier de l'École Royale Militaire (ERM), je combine une expertise pointue en Intelligence Artificielle et Systèmes Complexes (IRIDIA) avec une solide expérience en Management d'équipe et Leadership. Basé à Bruxelles, je recherche des opportunités stimulantes en tant que Software Developer & Ingénieur IA, avec l'ambition d'évoluer vers le Management de projets techniques.",
+    en: "Computer Science Engineer (ULB, Distinction) and Royal Military Academy Bachelor (ERM), I bridge advanced technical expertise in Artificial Intelligence and Complex Systems (IRIDIA) with strong Team Management and Leadership skills. Based in Brussels, I am seeking challenging opportunities as a Software Developer & AI Engineer, aiming to grow into technical Project Management.",
   },
   executiveSummary: [
     {
