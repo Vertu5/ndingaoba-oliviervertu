@@ -22,7 +22,7 @@ export default function BioView({
   const ulbLink = institutionalLinks.ulb;
 
   return (
-    <div className="mt-6 space-y-8">
+    <div className="mt-2 sm:mt-6 space-y-4 sm:space-y-8">
       {/* Lightbox Modal pour photo agrandie */}
       {isZoomed && (
         <div
@@ -60,15 +60,15 @@ export default function BioView({
       )}
 
       {/* Header Block: Avatar slot + Tagline + Intro + Links */}
-      <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-5 md:p-8">
-        <div className="flex flex-row items-start sm:items-center gap-4 sm:gap-6">
+      <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-3.5 sm:p-6 md:p-8">
+        <div className="flex flex-row items-center gap-3.5 sm:gap-6">
           {/* Avatar Photo Slot cliquable */}
           <div
             className="relative group shrink-0 cursor-pointer"
             onClick={() => setIsZoomed(true)}
             title={lang === "fr" ? "Cliquer pour agrandir" : "Click to enlarge"}
           >
-            <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full border-2 border-[var(--accent)]/60 bg-[var(--bg)] overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:border-[var(--accent)]">
+            <div className="w-16 h-16 sm:w-28 sm:h-28 rounded-full border-2 border-[var(--accent)]/60 bg-[var(--bg)] overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:border-[var(--accent)]">
               <Image
                 src="/images/profile.jpeg"
                 alt="NDINGA OBA Olivier Vertu"
@@ -81,24 +81,25 @@ export default function BioView({
                 🔍
               </div>
             </div>
-            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-[var(--bg-elevated)] border border-[var(--border)] px-2 py-0.5 rounded-full font-mono text-[9px] text-[var(--text-muted)] whitespace-nowrap shadow-sm group-hover:border-[var(--accent)]/50 transition-colors">
+            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-[var(--bg-elevated)] border border-[var(--border)] px-1.5 py-0.2 rounded-full font-mono text-[8px] sm:text-[9px] text-[var(--text-muted)] whitespace-nowrap shadow-sm group-hover:border-[var(--accent)]/50 transition-colors">
               Bruxelles, BE
             </div>
           </div>
 
           {/* Subtitle Tag & Intro */}
           <div className="flex-1 min-w-0">
-            <div className="inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-2.5 py-0.5 sm:px-3 sm:py-1 font-mono text-[11px] sm:text-xs font-medium text-[var(--accent)] mb-2 sm:mb-3">
+            <div className="inline-flex max-w-full flex-wrap items-center gap-1.5 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-2 py-0.5 sm:px-3 sm:py-1 font-mono text-[10px] sm:text-xs font-medium text-[var(--accent)] mb-1 sm:mb-2.5">
               <span>💡</span>
               <span>{bioNarrative.headlineTag[lang]}</span>
             </div>
 
-            <p className="text-xs sm:text-sm md:text-base leading-relaxed text-[var(--text)]">
+            {/* Texte d'intro condensé sur mobile (2 lignes max) */}
+            <p className="text-[11px] sm:text-sm md:text-base line-clamp-2 sm:line-clamp-none leading-tight sm:leading-relaxed text-[var(--text)]">
               {bioNarrative.intro[lang]}
             </p>
 
             {/* Quick Links Header */}
-            <div className="mt-2.5 sm:mt-3 font-mono text-xs text-[var(--text-muted)] flex items-center">
+            <div className="mt-1 sm:mt-2.5 font-mono text-[10px] sm:text-xs text-[var(--text-muted)] flex items-center">
               {cvUrl ? (
                 <a
                   href={cvUrl}
@@ -118,7 +119,7 @@ export default function BioView({
         </div>
       </div>
 
-      {/* 🎯 Première lecture : Résumé Exécutif en 4 piliers (4 côte à côte sur 1 seule ligne, même sur mobile) */}
+      {/* 🎯 Première lecture : Résumé Exécutif en 4 piliers (4 côte à côte sur 1 seule ligne) */}
       <div className="grid grid-cols-4 gap-1.5 sm:gap-3">
         {bioNarrative.executiveSummary.map((pill, idx) => (
           <div
