@@ -15,6 +15,7 @@ export default function BioView({
   documents?: DocEntry[];
 }) {
   const [isZoomed, setIsZoomed] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   // Diplômes (titres académiques privés, sans fichier PDF public)
   const diplomas = documents.filter((d) => d.type === "diplome");
@@ -138,8 +139,25 @@ export default function BioView({
         ))}
       </div>
 
-      {/* 📜 Parcours narratif détaillé avec Liens Institutionnels cliquables */}
-      <div className="space-y-4">
+      {/* Bouton En Savoir Plus / Voir le parcours détaillé */}
+      <div className="flex justify-center pt-2 pb-1">
+        <button
+          onClick={() => setShowDetails(!showDetails)}
+          className="group inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/40 bg-[var(--bg-elevated)] px-4 sm:px-6 py-2 font-mono text-[11px] sm:text-xs font-medium text-[var(--accent)] transition-all hover:bg-[var(--accent)] hover:text-black shadow-sm cursor-pointer"
+        >
+          <span>
+            {showDetails
+              ? (lang === "fr" ? "Masquer les détails ↑" : "Hide details ↑")
+              : (lang === "fr" ? "Voir le parcours complet, certifications & diplômes ↓" : "View full background, certifications & degrees ↓")}
+          </span>
+        </button>
+      </div>
+
+      {/* Contenu détaillé repliable */}
+      {showDetails && (
+        <div className="space-y-8 transition-opacity duration-300 animate-in fade-in">
+          {/* 📜 Parcours narratif détaillé avec Liens Institutionnels cliquables */}
+          <div className="space-y-4">
         <h3 className="font-mono text-xs tracking-[0.2em] text-[var(--text-muted)] uppercase">
           {lang === "fr" ? "Parcours & Institutions" : "Background & Institutions"}
         </h3>
@@ -275,7 +293,7 @@ export default function BioView({
           {bioNarrative.vision.title[lang]}
         </h4>
         <p className="mt-2 text-xs md:text-sm italic text-[var(--text)] border-l-2 border-[var(--accent)] pl-3 py-1">
-          "{bioNarrative.vision.philosophy[lang]}"
+          &quot;{bioNarrative.vision.philosophy[lang]}&quot;
         </p>
         <p className="mt-3 text-xs md:text-sm leading-relaxed text-[var(--text-muted)]">
           {bioNarrative.vision.roadmap[lang]}
@@ -334,6 +352,8 @@ export default function BioView({
               );
             })}
           </div>
+        </div>
+      )}
         </div>
       )}
     </div>
