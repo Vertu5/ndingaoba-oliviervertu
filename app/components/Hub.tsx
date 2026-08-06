@@ -212,9 +212,32 @@ export default function Hub() {
                         <p className="text-sm text-[var(--text-muted)]">{t.emptyTab}</p>
                       )}
                       {items.map((item) => (
-                        <div key={item.id} className="rounded-md border border-[var(--border)] p-5">
-                          <h3 className="font-display text-lg font-medium">{item.title[lang]}</h3>
-                          <p className="mt-1 text-sm text-[var(--text-muted)]">{item.summary[lang]}</p>
+                        <div key={item.id} className="rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)]/40 p-5 space-y-3">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <h3 className="font-display text-lg font-medium text-[var(--text)]">{item.title[lang]}</h3>
+                            {item.githubUrl && (
+                              <a
+                                href={item.githubUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-mono text-xs text-[var(--accent)] underline hover:no-underline shrink-0"
+                              >
+                                💻 Code Source GitHub ↗
+                              </a>
+                            )}
+                          </div>
+
+                          <p className="text-sm text-[var(--text-muted)] leading-relaxed">{item.summary[lang]}</p>
+
+                          {item.tags && item.tags.length > 0 && (
+                            <div className="flex flex-wrap gap-1.5 font-mono text-[10px] pt-1">
+                              {item.tags.map((tg, i) => (
+                                <span key={i} className="rounded bg-[var(--accent)]/10 border border-[var(--accent)]/20 px-2 py-0.5 text-[var(--accent)] font-medium">
+                                  #{tg}
+                                </span>
+                              ))}
+                            </div>
+                          )}
 
                           {/* Projet : emplacement vidéo unique */}
                           {item.type === "projet" && (
