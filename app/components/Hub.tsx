@@ -309,12 +309,26 @@ export default function Hub() {
                   <SectionChat sectionId={subOpen ? subOpen.id : open.id} />
                 )}
 
-                <button
-                  onClick={() => setOpenId(null)}
-                  className="font-mono mt-10 flex items-center gap-2 text-xs tracking-[0.15em] text-[var(--text-muted)] transition-colors hover:text-[var(--accent)]"
-                >
-                  {t.back} ▲
-                </button>
+                {/* Barre de navigation inférieure : Remonter en haut & Retour au menu */}
+                <div className="mt-10 pt-6 border-t border-[var(--border)] flex items-center justify-between font-mono text-xs">
+                  <button
+                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                    className="inline-flex items-center gap-1.5 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors py-1.5 px-2 rounded hover:bg-[var(--bg)]"
+                  >
+                    <span>⬆</span>
+                    <span>{lang === "fr" ? "Remonter en haut" : "Scroll to top"}</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                      setOpenId(null);
+                    }}
+                    className="inline-flex items-center gap-1.5 text-[var(--accent)] hover:underline border border-[var(--accent)]/30 rounded px-3 py-1.5 bg-[var(--accent)]/10 transition-colors hover:bg-[var(--accent)] hover:text-black font-medium"
+                  >
+                    <span>←</span>
+                    <span>{t.back}</span>
+                  </button>
+                </div>
               </div>
             </div>
           )}
