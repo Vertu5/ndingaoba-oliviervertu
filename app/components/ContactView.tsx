@@ -9,7 +9,6 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
   const [name, setName] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [message, setMessage] = useState("");
-  const [isAnonymous, setIsAnonymous] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -27,7 +26,7 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) {
-      setErrorMsg(lang === "fr" ? "Veuillez saisir un message." : "Please type a message.");
+      setErrorMsg(lang === "fr" ? "Veuillez saisir un message." : "Please enter a message.");
       setStatus("error");
       return;
     }
@@ -40,10 +39,9 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: isAnonymous ? "Anonyme" : name,
-          email: isAnonymous ? "" : emailInput,
+          name: name || "Visiteur",
+          email: emailInput || "Non renseigné",
           message,
-          isAnonymous,
         }),
       });
 
@@ -73,32 +71,17 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
         <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)] max-w-xl">
           {lang === "fr"
             ? "Disponible pour des opportunités en Software Development, Ingénierie IA ou projets complexes. Écrivez-moi directement ci-dessous ou via mes coordonnées."
-            : "Available for Software Development, AI Engineering opportunities, or complex projects. Write to me directly below or via direct channels."}
+            : "Available for Software Development, AI Engineering opportunities, or complex projects. Send a message below or reach out directly."}
         </p>
       </div>
 
-      {/* Formulaire de message direct & anonyme */}
+      {/* Formulaire de contact classique & élégant */}
       <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)]/60 p-6 md:p-8 shadow-sm">
-        <div className="flex items-center justify-between gap-2 mb-6">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">💬</span>
-            <h4 className="font-mono text-xs font-semibold text-[var(--accent)] uppercase tracking-wider">
-              {lang === "fr" ? "Envoyer un message direct" : "Send a direct message"}
-            </h4>
-          </div>
-          <button
-            type="button"
-            onClick={() => setIsAnonymous(!isAnonymous)}
-            className={`font-mono text-[10px] px-2.5 py-1 rounded-full border transition-colors ${
-              isAnonymous
-                ? "bg-[var(--accent)] text-black border-[var(--accent)] font-semibold"
-                : "border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text)]"
-            }`}
-          >
-            {isAnonymous
-              ? (lang === "fr" ? "✓ Mode Anonyme Actif" : "✓ Anonymous Mode On")
-              : (lang === "fr" ? "🕵️ Passer en Anonyme" : "🕵️ Send Anonymously")}
-          </button>
+        <div className="flex items-center gap-2 mb-6">
+          <span className="text-xl">💬</span>
+          <h4 className="font-mono text-xs font-semibold text-[var(--accent)] uppercase tracking-wider">
+            {lang === "fr" ? "Envoyer un message direct" : "Send a direct message"}
+          </h4>
         </div>
 
         {status === "success" ? (
@@ -109,8 +92,8 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
             </h5>
             <p className="text-xs text-[var(--text-muted)] max-w-md mx-auto">
               {lang === "fr"
-                ? "Merci pour votre message. Je le lirai avec attention et y répondrai si des coordonnées ont été fournies."
-                : "Thank you for your message. I will read it carefully and reply if contact info was provided."}
+                ? "Merci pour votre message ! Je recevrai une notification et y répondrai dans les plus brefs délais."
+                : "Thank you for your message! I will be notified and respond as soon as possible."}
             </p>
             <button
               onClick={() => setStatus("idle")}
@@ -121,34 +104,32 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
-            {!isAnonymous && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-mono text-[11px] text-[var(--text-muted)] mb-1.5">
-                    {lang === "fr" ? "Votre nom / pseudo" : "Your name / handle"}
-                  </label>
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder={lang === "fr" ? "Ex: Jean Dupont" : "E.g. Alex Smith"}
-                    className="w-full rounded-md border border-[var(--border)] bg-[var(--bg)] px-3.5 py-2 text-xs text-[var(--text)] placeholder-[var(--text-muted)]/50 focus:border-[var(--accent)] focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block font-mono text-[11px] text-[var(--text-muted)] mb-1.5">
-                    {lang === "fr" ? "Votre email (pour réponse)" : "Your email (for reply)"}
-                  </label>
-                  <input
-                    type="email"
-                    value={emailInput}
-                    onChange={(e) => setEmailInput(e.target.value)}
-                    placeholder="email@domaine.com"
-                    className="w-full rounded-md border border-[var(--border)] bg-[var(--bg)] px-3.5 py-2 text-xs text-[var(--text)] placeholder-[var(--text-muted)]/50 focus:border-[var(--accent)] focus:outline-none"
-                  />
-                </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block font-mono text-[11px] text-[var(--text-muted)] mb-1.5">
+                  {lang === "fr" ? "Votre nom / entreprise" : "Your name / company"}
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder={lang === "fr" ? "Ex: Jean Dupont" : "E.g. Alex Smith"}
+                  className="w-full rounded-md border border-[var(--border)] bg-[var(--bg)] px-3.5 py-2 text-xs text-[var(--text)] placeholder-[var(--text-muted)]/50 focus:border-[var(--accent)] focus:outline-none"
+                />
               </div>
-            )}
+              <div>
+                <label className="block font-mono text-[11px] text-[var(--text-muted)] mb-1.5">
+                  {lang === "fr" ? "Votre adresse email" : "Your email address"}
+                </label>
+                <input
+                  type="email"
+                  value={emailInput}
+                  onChange={(e) => setEmailInput(e.target.value)}
+                  placeholder="email@domaine.com"
+                  className="w-full rounded-md border border-[var(--border)] bg-[var(--bg)] px-3.5 py-2 text-xs text-[var(--text)] placeholder-[var(--text-muted)]/50 focus:border-[var(--accent)] focus:outline-none"
+                />
+              </div>
+            </div>
 
             <div>
               <label className="block font-mono text-[11px] text-[var(--text-muted)] mb-1.5">
@@ -160,13 +141,9 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder={
-                  isAnonymous
-                    ? (lang === "fr"
-                        ? "Écrivez votre message ou remarque anonyme ici..."
-                        : "Type your anonymous note or feedback here...")
-                    : (lang === "fr"
-                        ? "Bonjour Olivier, je souhaitais vous contacter concernant..."
-                        : "Hello Olivier, I'm reaching out regarding...")
+                  lang === "fr"
+                    ? "Bonjour Olivier, je souhaite vous contacter concernant..."
+                    : "Hello Olivier, I would like to reach out regarding..."
                 }
                 className="w-full rounded-md border border-[var(--border)] bg-[var(--bg)] p-3.5 text-xs text-[var(--text)] placeholder-[var(--text-muted)]/50 focus:border-[var(--accent)] focus:outline-none resize-y"
               />
@@ -180,9 +157,7 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
 
             <div className="flex items-center justify-between pt-2">
               <span className="font-mono text-[10px] text-[var(--text-muted)]">
-                {isAnonymous
-                  ? (lang === "fr" ? "🔒 Message anonyme (aucun email requis)" : "🔒 Anonymous message (no email required)")
-                  : (lang === "fr" ? "✉️ Envoi direct" : "✉️ Direct delivery")}
+                📩 Notification envoyée à <span className="text-[var(--accent)]">obavertu@gmail.com</span>
               </span>
 
               <button
