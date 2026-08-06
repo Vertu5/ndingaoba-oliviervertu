@@ -106,7 +106,7 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
         </h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
           <a
-            href="https://github.com"
+            href="https://github.com/Vertu5"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-between rounded-md border border-[var(--border)] p-3 transition-colors hover:border-[var(--accent)]/50 hover:bg-[var(--bg-elevated)]"
@@ -114,10 +114,10 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
             <span className="flex items-center gap-2 text-[var(--text)]">
               <span>💻</span> GitHub
             </span>
-            <span className="text-[var(--accent)]">github.com ↗</span>
+            <span className="text-[var(--accent)]">github.com/Vertu5 ↗</span>
           </a>
           <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/olivier-ndinga-oba-1510101b7/"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-between rounded-md border border-[var(--border)] p-3 transition-colors hover:border-[var(--accent)]/50 hover:bg-[var(--bg-elevated)]"
@@ -125,7 +125,7 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
             <span className="flex items-center gap-2 text-[var(--text)]">
               <span>💼</span> LinkedIn
             </span>
-            <span className="text-[var(--accent)]">linkedin.com ↗</span>
+            <span className="text-[var(--accent)]">linkedin.com/in/olivier-ndinga-oba ↗</span>
           </a>
         </div>
       </div>
