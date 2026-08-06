@@ -5,17 +5,31 @@ export type BioSection = {
   content: { fr: string; en: string };
 };
 
+export type InstitutionalLink = {
+  name: string;
+  url: string;
+};
+
 export type CertificationItem = {
   id: string;
   name: string;
   issuer: string;
-  fileUrl?: string; // chemin dans /public/certifications/ex: /certifications/google-ai.pdf
+  verifyUrl: string; // Lien direct vers la certification (Coursera / Provider)
 };
 
 export type CertificationGroup = {
   category: { fr: string; en: string };
   icon: string;
   items: CertificationItem[];
+};
+
+export const institutionalLinks = {
+  erm: "https://www.rma.ac.be/fr/faculte-polytechnique",
+  ermEn: "https://www.rma.ac.be/en/faculty-engineering",
+  ulb: "https://polytech.ulb.be/fr/formations/masters/ingenieur-civil-en-informatique",
+  ulbEn: "https://polytech.ulb.be/en/programmes/masters/master-of-science-in-computer-science-engineering",
+  iridia: "https://iridia.ulb.ac.be/",
+  courseraCertificates: "https://www.coursera.org/my-learning?myLearningTab=CERTIFICATES",
 };
 
 export const bioNarrative = {
@@ -31,7 +45,7 @@ export const bioNarrative = {
     {
       icon: "🎓",
       title: { fr: "Excellence Académique", en: "Academic Excellence" },
-      desc: { fr: "Bachelier ERM + Master ULB (Mention Distinction)", en: "ERM Bachelor + ULB Master (With Distinction)" },
+      desc: { fr: "Ingénieur civil en informatique ULB + Bachelier ERM", en: "Computer Science Engineering ULB + ERM Bachelor" },
     },
     {
       icon: "🛡️",
@@ -65,13 +79,13 @@ export const bioNarrative = {
     {
       id: "erm-leadership",
       title: {
-        fr: "Excellence académique et apprentissage du Leadership",
-        en: "Academic Excellence & Leadership Training",
+        fr: "Excellence académique et apprentissage du Leadership à l'ERM",
+        en: "Academic Excellence & Leadership Training at ERM",
       },
       badge: { fr: "École Royale Militaire (ERM)", en: "Royal Military Academy (ERM)" },
       content: {
         fr: "Ressentant le besoin de franchir un cap scientifique, j'ai intégré la faculté Polytechnique de l'École Royale Militaire de Belgique (ERM). J'y ai obtenu un Bachelier en Sciences de l'Ingénieur dans un environnement extrêmement exigeant. Au-delà de la rigueur mathématique, c'est à l'ERM que j'ai forgé mon esprit d'équipe et mon leadership, apprenant à diriger de petites équipes de travail ainsi qu'un peloton entier, développant ainsi un sens aigu du commandement, de la cohésion et de la gestion de crise.",
-        en: "Driven to reach higher scientific standards, I entered the Faculty of Engineering at the Royal Military Academy of Belgium (ERM). I earned a Bachelor in Engineering Sciences in an exceptionally demanding environment. Beyond mathematical rigor, ERM is where I forged my teamwork and leadership—learning to lead small groups as well as a full platoon, developing a strong sense of command, cohesion, and crisis management.",
+        en: "Driven to reach higher scientific standards, I entered the Faculty of Engineering at the Royal Military Academy of Belgium (ERM). I earned a Bachelor of Science in Engineering Sciences in an exceptionally demanding environment. Beyond mathematical rigor, ERM is where I forged my teamwork and leadership—learning to lead small groups as well as a full platoon, developing a strong sense of command, cohesion, and crisis management.",
       },
     },
     {
@@ -82,8 +96,8 @@ export const bioNarrative = {
       },
       badge: { fr: "ULB / IRIDIA (Mention Distinction)", en: "ULB / IRIDIA (Honors / Distinction)" },
       content: {
-        fr: "J'ai poursuivi avec un Master en Informatique et Ingénierie à l'Université Libre de Bruxelles (ULB) avec Distinction. J'ai suivi ce programme volontairement généraliste avant de me spécialiser dans ma véritable passion : l'intelligence artificielle et l'analyse topologique des données. C'est ensuite au sein du laboratoire de recherche IRIDIA que j'ai pu exprimer pleinement cet attrait pour la complexité, en développant des outils mathématiques pour modéliser le comportement collectif (intelligence en essaim) de groupes de robots vers des modèles d'IA.",
-        en: "I pursued a Master in Computer Science & Engineering at Université Libre de Bruxelles (ULB) with Distinction. Following this comprehensive program, I specialized in my true passion: artificial intelligence and topological data analysis. At the IRIDIA research lab, I fully expressed this affinity for complexity by developing mathematical tools to model collective behavior (swarm intelligence) in multi-robot systems towards AI models.",
+        fr: "J'ai poursuivi avec le diplôme d'Ingénieur civil en informatique à l'Université Libre de Bruxelles (ULB) avec Distinction. J'ai suivi ce programme volontairement généraliste avant de me spécialiser dans ma véritable passion : l'intelligence artificielle et l'analyse topologique des données. C'est ensuite au sein du laboratoire de recherche IRIDIA que j'ai pu exprimer pleinement cet attrait pour la complexité, en développant des outils mathématiques pour modéliser le comportement collectif (intelligence en essaim) de groupes de robots vers des modèles d'IA.",
+        en: "I pursued the degree of Master of Science in Computer Science Engineering at Université Libre de Bruxelles (ULB) with Distinction. Following this comprehensive program, I specialized in my true passion: artificial intelligence and topological data analysis. At the IRIDIA research lab, I fully expressed this affinity for complexity by developing mathematical tools to model collective behavior (swarm intelligence) in multi-robot systems towards AI models.",
       },
     },
   ],
@@ -95,9 +109,9 @@ export const bioNarrative = {
       },
       icon: "🧠",
       items: [
-        { id: "google-ai", name: "Google AI Professional", issuer: "Google", fileUrl: "/certifications/google-ai-professional.pdf" },
-        { id: "rl-cert", name: "Reinforcement Learning Specialization", issuer: "Coursera", fileUrl: "/certifications/reinforcement-learning.pdf" },
-        { id: "tableau-cert", name: "Tableau (Networks & Time Series)", issuer: "Tableau", fileUrl: "/certifications/tableau-networks.pdf" },
+        { id: "google-ai", name: "Google AI Professional", issuer: "Google", verifyUrl: institutionalLinks.courseraCertificates },
+        { id: "rl-cert", name: "Reinforcement Learning Specialization", issuer: "Coursera", verifyUrl: institutionalLinks.courseraCertificates },
+        { id: "tableau-cert", name: "Tableau (Networks & Time Series)", issuer: "Tableau", verifyUrl: institutionalLinks.courseraCertificates },
       ],
     },
     {
@@ -107,9 +121,9 @@ export const bioNarrative = {
       },
       icon: "⚙️",
       items: [
-        { id: "ibm-data-eng", name: "IBM Data Engineering", issuer: "IBM", fileUrl: "/certifications/ibm-data-engineering.pdf" },
-        { id: "docker-k8s", name: "Conteneurisation (Docker, Kubernetes)", issuer: "Cloud Native", fileUrl: "/certifications/docker-kubernetes.pdf" },
-        { id: "git-github", name: "Git & GitHub Versioning", issuer: "GitHub", fileUrl: "/certifications/git-github.pdf" },
+        { id: "ibm-data-eng", name: "IBM Data Engineering", issuer: "IBM", verifyUrl: institutionalLinks.courseraCertificates },
+        { id: "docker-k8s", name: "Conteneurisation (Docker, Kubernetes)", issuer: "Cloud Native", verifyUrl: institutionalLinks.courseraCertificates },
+        { id: "git-github", name: "Git & GitHub Versioning", issuer: "GitHub", verifyUrl: institutionalLinks.courseraCertificates },
       ],
     },
     {
@@ -119,7 +133,7 @@ export const bioNarrative = {
       },
       icon: "📊",
       items: [
-        { id: "pm-fundamentals", name: "Fondamentaux du Project Management", issuer: "Project Management", fileUrl: "/certifications/pm-fundamentals.pdf" },
+        { id: "pm-fundamentals", name: "Fondamentaux du Project Management", issuer: "Project Management", verifyUrl: institutionalLinks.courseraCertificates },
       ],
     },
   ] as CertificationGroup[],

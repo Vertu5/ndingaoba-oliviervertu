@@ -38,8 +38,8 @@ export const bio: Category = {
       id: "master-ulb",
       type: "diplome",
       title: {
-        fr: "Master en Informatique et Ingénierie (Mention Distinction)",
-        en: "Master in Computer Science & Engineering (With Distinction)",
+        fr: "Ingénieur civil en informatique (Mention Distinction)",
+        en: "Master of Science in Computer Science Engineering (With Distinction)",
       },
       issuer: "Université Libre de Bruxelles (ULB) & IRIDIA",
       date: "ULB",
@@ -53,9 +53,9 @@ export const bio: Category = {
       type: "diplome",
       title: {
         fr: "Bachelier en Sciences de l'Ingénieur",
-        en: "Bachelor in Engineering Sciences",
+        en: "Bachelor of Science in Engineering Sciences",
       },
-      issuer: "École Royale Militaire de Belgique (ERM)",
+      issuer: "École Royale Militaire de Belgique (ERM) — Faculté Polytechnique",
       date: "ERM",
       detail: {
         fr: "Faculté Polytechnique. Rigueur académique et formation intensive au leadership et commandement d'un peloton.",
