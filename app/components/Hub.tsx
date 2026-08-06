@@ -81,22 +81,25 @@ export default function Hub() {
 
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-16 md:py-24">
-      <header className="mb-10 flex items-center justify-between md:mb-16">
-        <div>
-          <h1 className="font-display text-3xl font-medium tracking-tight sm:text-5xl md:text-6xl text-[var(--text)]">
-            OLIVIER NDINGA OBA
-          </h1>
-          <p className="font-mono text-xs text-[var(--text-muted)] mt-1.5 tracking-wider uppercase">
-            Ingénieur Informatique & IA · Systèmes Complexes & Leadership
-          </p>
-        </div>
-        <button
-          onClick={toggle}
-          className="font-mono rounded border border-[var(--border)] px-3 py-1.5 text-xs tracking-[0.1em] text-[var(--text-muted)] transition-colors hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
-        >
-          {t.langToggle}
-        </button>
-      </header>
+      {/* Header principal (affiché uniquement sur la grille d'accueil) */}
+      {!open && (
+        <header className="mb-10 flex items-center justify-between md:mb-16">
+          <div>
+            <h1 className="font-display text-3xl font-medium tracking-tight sm:text-5xl md:text-6xl text-[var(--text)]">
+              OLIVIER NDINGA OBA
+            </h1>
+            <p className="font-mono text-xs text-[var(--text-muted)] mt-1.5 tracking-wider uppercase">
+              Ingénieur Informatique & IA · Systèmes Complexes & Leadership
+            </p>
+          </div>
+          <button
+            onClick={toggle}
+            className="font-mono rounded border border-[var(--border)] px-3 py-1.5 text-xs tracking-[0.1em] text-[var(--text-muted)] transition-colors hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
+          >
+            {t.langToggle}
+          </button>
+        </header>
+      )}
 
       {/* Grille */}
       <div
@@ -140,17 +143,25 @@ export default function Hub() {
                 <Pattern id={subOpen ? subOpen.id : open.id} />
               </div>
               <div className="relative p-6 md:p-10">
-                {/* Header du panneau déplié avec bouton RETOUR en haut */}
-                <div className="flex items-center justify-between gap-4 mb-2">
+                {/* Header du panneau déplié avec langue et bouton RETOUR en haut */}
+                <div className="flex items-center justify-between gap-4 mb-3">
                   <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--accent)] font-semibold">
                     {subOpen ? "LAB" : open.index}
                   </span>
-                  <button
-                    onClick={() => setOpenId(null)}
-                    className="font-mono text-xs tracking-[0.15em] text-[var(--accent)] hover:underline border border-[var(--accent)]/30 rounded px-3 py-1 bg-[var(--accent)]/10 transition-colors hover:bg-[var(--accent)] hover:text-black"
-                  >
-                    ← {t.back} ▲
-                  </button>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={toggle}
+                      className="font-mono rounded border border-[var(--border)] px-2.5 py-1 text-xs tracking-[0.1em] text-[var(--text-muted)] transition-colors hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
+                    >
+                      {t.langToggle}
+                    </button>
+                    <button
+                      onClick={() => setOpenId(null)}
+                      className="font-mono text-xs tracking-[0.15em] text-[var(--accent)] hover:underline border border-[var(--accent)]/30 rounded px-3 py-1 bg-[var(--accent)]/10 transition-colors hover:bg-[var(--accent)] hover:text-black"
+                    >
+                      ← {t.back} ▲
+                    </button>
+                  </div>
                 </div>
 
                 <h2 className="font-display text-3xl font-medium md:text-5xl">
