@@ -47,7 +47,7 @@ export default function BioView({
             </p>
 
             {/* Quick Links Header */}
-            <div className="mt-3 font-mono text-xs text-[var(--text-muted)] flex flex-wrap items-center gap-4">
+            <div className="mt-3 font-mono text-xs text-[var(--text-muted)] flex items-center">
               {cvUrl ? (
                 <a
                   href={cvUrl}
@@ -62,14 +62,6 @@ export default function BioView({
                   📄 {t.bioIntroLink} ({t.cvMissing})
                 </span>
               )}
-              <a
-                href="https://coursera.org/share/d5eeb18371dd4b2f2d16a616beded9b8"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-[var(--accent)] underline underline-offset-4 hover:no-underline font-medium"
-              >
-                📜 Certifications Coursera ↗
-              </a>
             </div>
           </div>
         </div>
