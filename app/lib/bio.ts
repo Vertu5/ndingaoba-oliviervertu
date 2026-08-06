@@ -9,7 +9,7 @@ export type CertificationItem = {
   id: string;
   name: string;
   issuer: string;
-  verifyUrl: string; // Lien de partage unique et vérifié Coursera
+  verifyUrl?: string; // Lien de partage unique Coursera (optionnel si non publié)
 };
 
 export type CertificationGroup = {
@@ -19,10 +19,8 @@ export type CertificationGroup = {
 };
 
 export const institutionalLinks = {
-  erm: "https://www.rma.ac.be/fr/faculte-polytechnique",
-  ermEn: "https://www.rma.ac.be/en/faculty-engineering",
-  ulb: "https://polytech.ulb.be/fr/formations/masters/ingenieur-civil-en-informatique",
-  ulbEn: "https://polytech.ulb.be/en/programmes/masters/master-of-science-in-computer-science-engineering",
+  erm: "https://www.rma.ac.be/fr/Formations/3/Ing%C3%A9nieur%20civil%20-%20Polytechnique",
+  ulb: "https://polytech.ulb.be/en/studies/masters/computer-science",
   iridia: "https://iridia.ulb.ac.be/",
 };
 
@@ -49,7 +47,7 @@ export const bioNarrative = {
     {
       icon: "⚡",
       title: { fr: "Autodidacte & DevOps", en: "Self-Taught & DevOps" },
-      desc: { fr: "Certifications Google AI, IBM Data Eng, RL & Databases", en: "Google AI, IBM Data Eng, RL & Databases certifications" },
+      desc: { fr: "Certifications Google AI, IBM Data Eng, RL & Management", en: "Google AI, IBM Data Eng, RL & Management certifications" },
     },
     {
       icon: "🎯",
@@ -153,6 +151,21 @@ export const bioNarrative = {
           name: "Introduction to Git and GitHub",
           issuer: "Google / Coursera",
           verifyUrl: "https://coursera.org/share/a2a5651e8504dc0e4e0818fe73d29b32",
+        },
+      ],
+    },
+    {
+      category: {
+        fr: "Management & Projets",
+        en: "Management & Projects",
+      },
+      icon: "📊",
+      items: [
+        {
+          id: "pm-foundations",
+          name: "Foundations of Project Management",
+          issuer: "Google / Coursera",
+          verifyUrl: undefined, // Lien à ajouter plus tard
         },
       ],
     },

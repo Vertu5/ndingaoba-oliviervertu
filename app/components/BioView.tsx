@@ -14,8 +14,8 @@ export default function BioView({
 }) {
   // Diplômes (titres académiques privés, sans fichier PDF public)
   const diplomas = documents.filter((d) => d.type === "diplome");
-  const ermLink = lang === "fr" ? institutionalLinks.erm : institutionalLinks.ermEn;
-  const ulbLink = lang === "fr" ? institutionalLinks.ulb : institutionalLinks.ulbEn;
+  const ermLink = institutionalLinks.erm;
+  const ulbLink = institutionalLinks.ulb;
 
   return (
     <div className="mt-6 space-y-8">
@@ -197,14 +197,20 @@ export default function BioView({
                       </div>
                       <div className="flex items-center justify-between mt-1 pt-1 border-t border-dashed border-[var(--border)]">
                         <span className="text-[10px] text-[var(--text-muted)] font-mono">{item.issuer}</span>
-                        <a
-                          href={item.verifyUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-mono text-[10px] text-[var(--accent)] underline hover:no-underline"
-                        >
-                          Vérifier ↗
-                        </a>
+                        {item.verifyUrl ? (
+                          <a
+                            href={item.verifyUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-mono text-[10px] text-[var(--accent)] underline hover:no-underline"
+                          >
+                            Vérifier ↗
+                          </a>
+                        ) : (
+                          <span className="font-mono text-[10px] text-[var(--text-muted)]">
+                            (Lien à venir)
+                          </span>
+                        )}
                       </div>
                     </li>
                   ))}
