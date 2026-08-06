@@ -164,10 +164,10 @@ export default function Hub() {
                   </div>
                 </div>
 
-                <h2 className="font-display text-3xl font-medium md:text-5xl">
+                <h2 className="font-display text-2xl font-medium sm:text-4xl md:text-5xl">
                   {subOpen ? subOpen.label[lang] : open.label[lang]}
                 </h2>
-                <p className="mt-4 max-w-lg text-[var(--text-muted)]">
+                <p className="mt-1 sm:mt-3 max-w-lg text-xs sm:text-sm text-[var(--text-muted)]">
                   {subOpen ? subOpen.description[lang] : open.description[lang]}
                 </p>
 

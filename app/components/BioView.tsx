@@ -93,8 +93,7 @@ export default function BioView({
               <span>{bioNarrative.headlineTag[lang]}</span>
             </div>
 
-            {/* Texte d'intro condensé sur mobile (2 lignes max) */}
-            <p className="text-[11px] sm:text-sm md:text-base line-clamp-2 sm:line-clamp-none leading-tight sm:leading-relaxed text-[var(--text)]">
+            <p className="text-xs sm:text-sm md:text-base leading-relaxed text-[var(--text)]">
               {bioNarrative.intro[lang]}
             </p>
 
