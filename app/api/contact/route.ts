@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 
 export async function POST(request: Request) {
   try {
@@ -12,19 +14,26 @@ export async function POST(request: Request) {
       );
     }
 
-    const timestamp = new Date().toISOString();
-    const senderName = isAnonymous || !name ? "Anonyme" : name.trim();
+    const timestamp = new Date().toLocaleString("fr-BE", { timeZone: "Europe/Brussels" });
+    const senderName = isAnonymous || !name ? "Visiteur / Anonyme" : name.trim();
     const senderEmail = isAnonymous || !email ? "Non renseigné" : email.trim();
 
-    console.log("----------------------------------------");
-    console.log(`[NOUVEAU MESSAGE CONTACT] ${timestamp}`);
-    console.log(`De: ${senderName} (${senderEmail})`);
-    console.log(`Message:\n${message}`);
-    console.log("----------------------------------------");
+    const formattedLog = `\n========================================\n📅 Date: ${timestamp}\n👤 De: ${senderName}\n📧 Email: ${senderEmail}\n💬 Message:\n${message.trim()}\n========================================\n`;
+
+    // 1. Console log pour le serveur
+    console.log(formattedLog);
+
+    // 2. Sauvegarde dans un fichier journal local privé (messages.log)
+    try {
+      const logFilePath = path.join(process.cwd(), "messages.log");
+      fs.appendFileSync(logFilePath, formattedLog, "utf-8");
+    } catch (fsErr) {
+      console.error("Erreur sauvegarde fichier local messages.log:", fsErr);
+    }
 
     return NextResponse.json({
       success: true,
-      message: "Votre message a été transmis avec succès !",
+      message: "Votre message a été transmis et sauvegardé avec succès !",
       timestamp,
     });
   } catch (err) {
