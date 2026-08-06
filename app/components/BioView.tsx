@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { bioNarrative, institutionalLinks } from "@/app/lib/bio";
 import { cvUrl, type DocEntry } from "@/app/lib/categories";
 
@@ -24,13 +25,17 @@ export default function BioView({
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
           {/* Avatar Photo Slot */}
           <div className="relative group shrink-0">
-            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-dashed border-[var(--accent)]/50 bg-[var(--bg)] flex flex-col items-center justify-center text-center p-2 overflow-hidden shadow-inner">
-              <span className="font-display text-2xl font-semibold text-[var(--accent)]">OV</span>
-              <span className="font-mono text-[9px] text-[var(--text-muted)] mt-1">
-                Photo à venir
-              </span>
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-[var(--accent)]/60 bg-[var(--bg)] overflow-hidden shadow-lg transition-transform duration-300 group-hover:scale-105">
+              <Image
+                src="/images/profile.jpeg"
+                alt="NDINGA OBA Olivier Vertu"
+                width={112}
+                height={112}
+                priority
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-[var(--bg-elevated)] border border-[var(--border)] px-2 py-0.5 rounded-full font-mono text-[9px] text-[var(--text-muted)] whitespace-nowrap">
+            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-[var(--bg-elevated)] border border-[var(--border)] px-2 py-0.5 rounded-full font-mono text-[9px] text-[var(--text-muted)] whitespace-nowrap shadow-sm">
               Bruxelles, BE
             </div>
           </div>
