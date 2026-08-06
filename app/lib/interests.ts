@@ -55,20 +55,20 @@ export const interestPillars: InterestPillar[] = [
   },
   {
     id: "creativite",
-    icon: "📸",
+    icon: "🍳",
     title: {
-      fr: "L'esthétique et l'imaginaire (Créativité)",
-      en: "Aesthetics & Imagination (Creativity)",
+      fr: "L'esthétique, la cuisine et l'imaginaire (Créativité & Art Culinaire)",
+      en: "Aesthetics, Culinary Arts & Imagination (Creativity)",
     },
     badge: {
-      fr: "Photo, Beatmaking & Animes",
-      en: "Photo, Beatmaking & Anime",
+      fr: "Cuisine, Photo & Beatmaking",
+      en: "Cooking, Photo & Beatmaking",
     },
     text: {
-      fr: "J'ai toujours eu un besoin viscéral de créer. Très sensible à la mode et à l'image, je pratique la photographie en capturant aussi bien l'énergie des gens que la géométrie des immeubles ou la délicatesse de la nature. Plus jeune, j'ai exploré la création sonore en tant que beatmaker sur FL Studio. Mon imaginaire, quant à lui, est constamment nourri par la culture des animes, dont je regarde de nouveaux épisodes chaque semaine.",
-      en: "I have always had a deep visceral drive to create. Keenly sensitive to fashion and visuals, I practice photography—capturing human energy, architectural geometry, and natural details. Earlier, I explored music production as a beatmaker on FL Studio. My imagination is continuously inspired by anime culture, following new episodes weekly.",
+      fr: "J'ai toujours eu un besoin viscéral de créer. Cela s'exprime notamment dans ma passion pour la cuisine et l'art culinaire, où j'aime expérimenter des recettes et marier les saveurs avec précision. Je pratique également la photographie, capturant l'architecture et la nature. Plus jeune, j'ai exploré la création sonore en tant que beatmaker sur FL Studio, et mon imaginaire est constamment alimenté par la culture des animes.",
+      en: "I have always had a visceral drive to create. This expresses itself through my passion for cooking and culinary arts, where I love experimenting with recipes and pairing flavors with precision. I also practice photography, capturing architecture and nature. Earlier, I explored music production as a beatmaker on FL Studio, and my imagination is continuously inspired by anime culture.",
     },
-    tags: ["Photographie", "FL Studio", "Beatmaking", "Mode", "Animes"],
+    tags: ["Cuisine & Art Culinaire", "Photographie", "FL Studio", "Beatmaking", "Animes"],
   },
   {
     id: "serenite",
