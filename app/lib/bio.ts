@@ -30,8 +30,8 @@ export const bioNarrative = {
     en: "Computer Science & AI · Complex Systems · Leadership",
   },
   intro: {
-    fr: "D'origine congolaise (Brazzaville) et aujourd'hui basé à Bruxelles, je nourris une fascination profonde pour la compréhension des systèmes complexes, qu'ils relèvent de la biologie, des mathématiques ou de l'informatique.",
-    en: "Originally from Congo (Brazzaville) and currently based in Brussels, I share a deep fascination for understanding complex systems, whether in biology, mathematics, or computer science.",
+    fr: "Ingénieur civil en informatique (ULB, Distinction) et Bachelier de l'École Royale Militaire (ERM), je combine une expertise pointue en Intelligence Artificielle et Systèmes Complexes (laboratoire IRIDIA) avec une solide expérience en Management d'équipe et Leadership. Basé à Bruxelles, je conçois des solutions logicielles et IA robustes tout en me préparant au Management de projets complexes.",
+    en: "Computer Science Engineer (ULB, Distinction) and Royal Military Academy Bachelor (ERM), I bridge advanced technical expertise in Artificial Intelligence and Complex Systems (IRIDIA lab) with strong Team Management and Leadership skills. Based in Brussels, I engineer robust software and AI solutions while preparing for complex Project Management.",
   },
   executiveSummary: [
     {
@@ -41,8 +41,8 @@ export const bioNarrative = {
     },
     {
       icon: "🛡️",
-      title: { fr: "Leadership & Discipline", en: "Leadership & Discipline" },
-      desc: { fr: "Commandement de peloton à l'École Royale Militaire", en: "Platoon command at the Royal Military Academy" },
+      title: { fr: "Leadership & Management", en: "Leadership & Management" },
+      desc: { fr: "Management d'équipe & Rigueur à l'École Royale Militaire", en: "Team Management & Rigor at the Royal Military Academy" },
     },
     {
       icon: "⚡",
@@ -76,8 +76,8 @@ export const bioNarrative = {
       },
       badge: { fr: "École Royale Militaire (ERM)", en: "Royal Military Academy (ERM)" },
       content: {
-        fr: "Ressentant le besoin de franchir un cap scientifique, j'ai intégré la faculté Polytechnique de l'École Royale Militaire de Belgique (ERM). J'y ai obtenu un Bachelier en Sciences de l'Ingénieur dans un environnement extrêmement exigeant. Au-delà de la rigueur mathématique, c'est à l'ERM que j'ai forgé mon esprit d'équipe et mon leadership, apprenant à diriger de petites équipes de travail ainsi qu'un peloton entier, développant ainsi un sens aigu du commandement, de la cohésion et de la gestion de crise.",
-        en: "Driven to reach higher scientific standards, I entered the Faculty of Engineering at the Royal Military Academy of Belgium (ERM). I earned a Bachelor of Science in Engineering Sciences in an exceptionally demanding environment. Beyond mathematical rigor, ERM is where I forged my teamwork and leadership—learning to lead small groups as well as a full platoon, developing a strong sense of command, cohesion, and crisis management.",
+        fr: "Ressentant le besoin de franchir un cap scientifique, j'ai intégré la faculté Polytechnique de l'École Royale Militaire de Belgique (ERM). J'y ai obtenu un Bachelier en Sciences de l'Ingénieur dans un environnement extrêmement exigeant. Au-delà de la rigueur mathématique, c'est à l'ERM que j'ai forgé mon esprit d'équipe et mon leadership, apprenant à encadrer et diriger des équipes de travail, développant ainsi un sens aigu du management d'équipe, de la cohésion et de la gestion de crise.",
+        en: "Driven to reach higher scientific standards, I entered the Faculty of Engineering at the Royal Military Academy of Belgium (ERM). I earned a Bachelor of Science in Engineering Sciences in an exceptionally demanding environment. Beyond mathematical rigor, ERM is where I forged my teamwork and leadership—learning to manage and lead project teams, developing a strong sense of team management, cohesion, and crisis handling.",
       },
     },
     {
