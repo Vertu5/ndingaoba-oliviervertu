@@ -267,7 +267,10 @@ export default function Hub() {
                   </div>
                 )}
 
-                <SectionChat sectionId={subOpen ? subOpen.id : open.id} />
+                {/* Chat assistant : réservé uniquement aux domaines de recherche/laboratoire */}
+                {isSuperDomain && (
+                  <SectionChat sectionId={subOpen ? subOpen.id : open.id} />
+                )}
 
                 <button
                   onClick={() => setOpenId(null)}
