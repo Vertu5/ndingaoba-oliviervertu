@@ -5,20 +5,50 @@ export type BioSection = {
   content: { fr: string; en: string };
 };
 
+export type CertificationItem = {
+  id: string;
+  name: string;
+  issuer: string;
+  fileUrl?: string; // chemin dans /public/certifications/ex: /certifications/google-ai.pdf
+};
+
 export type CertificationGroup = {
   category: { fr: string; en: string };
-  items: string[];
+  icon: string;
+  items: CertificationItem[];
 };
 
 export const bioNarrative = {
-  headline: {
-    fr: "Ingénieur en Informatique & IA | Systèmes Complexes & Leadership",
-    en: "Computer Science & AI Engineer | Complex Systems & Leadership",
+  headlineTag: {
+    fr: "Informatique & IA · Systèmes Complexes · Leadership",
+    en: "Computer Science & AI · Complex Systems · Leadership",
   },
   intro: {
     fr: "D'origine congolaise (Brazzaville) et aujourd'hui basé à Bruxelles, je nourris une fascination profonde pour la compréhension des systèmes complexes, qu'ils relèvent de la biologie, des mathématiques ou de l'informatique.",
     en: "Originally from Congo (Brazzaville) and currently based in Brussels, I share a deep fascination for understanding complex systems, whether in biology, mathematics, or computer science.",
   },
+  executiveSummary: [
+    {
+      icon: "🎓",
+      title: { fr: "Excellence Académique", en: "Academic Excellence" },
+      desc: { fr: "Bachelier ERM + Master ULB (Mention Distinction)", en: "ERM Bachelor + ULB Master (With Distinction)" },
+    },
+    {
+      icon: "🛡️",
+      title: { fr: "Leadership & Discipline", en: "Leadership & Discipline" },
+      desc: { fr: "Commandement de peloton à l'École Royale Militaire", en: "Platoon command at the Royal Military Academy" },
+    },
+    {
+      icon: "⚡",
+      title: { fr: "Autodidacte & DevOps", en: "Self-Taught & DevOps" },
+      desc: { fr: "Certifications Google AI, IBM Data Eng, Docker, K8s", en: "Google AI, IBM Data Eng, Docker, K8s certifications" },
+    },
+    {
+      icon: "🎯",
+      title: { fr: "Vision Pro", en: "Professional Vision" },
+      desc: { fr: "Software Developer ➔ Project Manager", en: "Software Developer ➔ Project Manager" },
+    },
+  ],
   sections: [
     {
       id: "fondations",
@@ -56,29 +86,18 @@ export const bioNarrative = {
         en: "I pursued a Master in Computer Science & Engineering at Université Libre de Bruxelles (ULB) with Distinction. Following this comprehensive program, I specialized in my true passion: artificial intelligence and topological data analysis. At the IRIDIA research lab, I fully expressed this affinity for complexity by developing mathematical tools to model collective behavior (swarm intelligence) in multi-robot systems towards AI models.",
       },
     },
-    {
-      id: "autodidacte-certifs",
-      title: {
-        fr: "Apprentissage continu et Profil Autodidacte",
-        en: "Continuous Learning & Self-Taught Certifications",
-      },
-      badge: { fr: "Certifications Tech & DevOps", en: "Tech & DevOps Certifications" },
-      content: {
-        fr: "Ma soif de comprendre et de maîtriser de nouveaux outils ne s'arrête pas aux portes de l'université. Conscient de l'évolution rapide de la tech, je me forme continuellement par moi-même. J'ai récemment validé une série de certifications clés pour consolider ma stack technique et méthodologique :",
-        en: "My passion for learning and mastering new tools extends beyond university. Aware of how fast tech moves, I continuously train myself. I recently completed a suite of targeted certifications to solidify my technical and methodological stack:",
-      },
-    },
   ],
-  certifications: [
+  certificationsGrouped: [
     {
       category: {
         fr: "Intelligence Artificielle & Data",
         en: "Artificial Intelligence & Data",
       },
+      icon: "🧠",
       items: [
-        "Google AI Professional",
-        "Reinforcement Learning",
-        "Tableau (Networks & Time Series)",
+        { id: "google-ai", name: "Google AI Professional", issuer: "Google", fileUrl: "/certifications/google-ai-professional.pdf" },
+        { id: "rl-cert", name: "Reinforcement Learning Specialization", issuer: "Coursera", fileUrl: "/certifications/reinforcement-learning.pdf" },
+        { id: "tableau-cert", name: "Tableau (Networks & Time Series)", issuer: "Tableau", fileUrl: "/certifications/tableau-networks.pdf" },
       ],
     },
     {
@@ -86,10 +105,11 @@ export const bioNarrative = {
         fr: "Engineering & DevOps",
         en: "Engineering & DevOps",
       },
+      icon: "⚙️",
       items: [
-        "IBM Data Engineering",
-        "Conteneurisation (Docker, Kubernetes)",
-        "Git & GitHub",
+        { id: "ibm-data-eng", name: "IBM Data Engineering", issuer: "IBM", fileUrl: "/certifications/ibm-data-engineering.pdf" },
+        { id: "docker-k8s", name: "Conteneurisation (Docker, Kubernetes)", issuer: "Cloud Native", fileUrl: "/certifications/docker-kubernetes.pdf" },
+        { id: "git-github", name: "Git & GitHub Versioning", issuer: "GitHub", fileUrl: "/certifications/git-github.pdf" },
       ],
     },
     {
@@ -97,9 +117,12 @@ export const bioNarrative = {
         fr: "Management & Projets",
         en: "Management & Projects",
       },
-      items: ["Fondamentaux du Project Management"],
+      icon: "📊",
+      items: [
+        { id: "pm-fundamentals", name: "Fondamentaux du Project Management", issuer: "Project Management", fileUrl: "/certifications/pm-fundamentals.pdf" },
+      ],
     },
-  ],
+  ] as CertificationGroup[],
   vision: {
     title: {
       fr: "Ma vision et mes objectifs : Dev ➔ Project Management",
