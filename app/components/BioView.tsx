@@ -63,12 +63,12 @@ export default function BioView({
                 </span>
               )}
               <a
-                href={institutionalLinks.courseraCertificates}
+                href="https://coursera.org/share/d5eeb18371dd4b2f2d16a616beded9b8"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 text-[var(--accent)] underline underline-offset-4 hover:no-underline font-medium"
               >
-                📜 Mes Certifications Coursera ↗
+                📜 Certifications Coursera ↗
               </a>
             </div>
           </div>
@@ -167,12 +167,12 @@ export default function BioView({
             {lang === "fr" ? "Certifications & Stack DevOps" : "Certifications & DevOps Stack"}
           </h3>
           <a
-            href={institutionalLinks.courseraCertificates}
+            href="https://coursera.org/share/d5eeb18371dd4b2f2d16a616beded9b8"
             target="_blank"
             rel="noopener noreferrer"
             className="font-mono text-[11px] text-[var(--accent)] underline hover:no-underline"
           >
-            🔗 Voir mon profil Coursera ↗
+            🔗 7 Certifications Vérifiées ↗
           </a>
         </div>
 

@@ -5,16 +5,11 @@ export type BioSection = {
   content: { fr: string; en: string };
 };
 
-export type InstitutionalLink = {
-  name: string;
-  url: string;
-};
-
 export type CertificationItem = {
   id: string;
   name: string;
   issuer: string;
-  verifyUrl: string; // Lien direct vers la certification (Coursera / Provider)
+  verifyUrl: string; // Lien de partage unique et vérifié Coursera
 };
 
 export type CertificationGroup = {
@@ -29,7 +24,6 @@ export const institutionalLinks = {
   ulb: "https://polytech.ulb.be/fr/formations/masters/ingenieur-civil-en-informatique",
   ulbEn: "https://polytech.ulb.be/en/programmes/masters/master-of-science-in-computer-science-engineering",
   iridia: "https://iridia.ulb.ac.be/",
-  courseraCertificates: "https://www.coursera.org/my-learning?myLearningTab=CERTIFICATES",
 };
 
 export const bioNarrative = {
@@ -55,7 +49,7 @@ export const bioNarrative = {
     {
       icon: "⚡",
       title: { fr: "Autodidacte & DevOps", en: "Self-Taught & DevOps" },
-      desc: { fr: "Certifications Google AI, IBM Data Eng, Docker, K8s", en: "Google AI, IBM Data Eng, Docker, K8s certifications" },
+      desc: { fr: "Certifications Google AI, IBM Data Eng, RL & Databases", en: "Google AI, IBM Data Eng, RL & Databases certifications" },
     },
     {
       icon: "🎯",
@@ -104,36 +98,62 @@ export const bioNarrative = {
   certificationsGrouped: [
     {
       category: {
-        fr: "Intelligence Artificielle & Data",
-        en: "Artificial Intelligence & Data",
+        fr: "Intelligence Artificielle & Data Science",
+        en: "Artificial Intelligence & Data Science",
       },
       icon: "🧠",
       items: [
-        { id: "google-ai", name: "Google AI Professional", issuer: "Google", verifyUrl: institutionalLinks.courseraCertificates },
-        { id: "rl-cert", name: "Reinforcement Learning Specialization", issuer: "Coursera", verifyUrl: institutionalLinks.courseraCertificates },
-        { id: "tableau-cert", name: "Tableau (Networks & Time Series)", issuer: "Tableau", verifyUrl: institutionalLinks.courseraCertificates },
+        {
+          id: "google-ai",
+          name: "Google AI Professional",
+          issuer: "Google / Coursera",
+          verifyUrl: "https://coursera.org/share/d5eeb18371dd4b2f2d16a616beded9b8",
+        },
+        {
+          id: "rl-cert",
+          name: "Reinforcement Learning Specialization",
+          issuer: "University of Alberta / Coursera",
+          verifyUrl: "https://coursera.org/share/acf19969352d9928d0d8d0645cc65dcd",
+        },
+        {
+          id: "tableau-cert",
+          name: "Tableau, Networks & Time Series Data Visualization",
+          issuer: "UC Davis / Coursera",
+          verifyUrl: "https://coursera.org/share/e35b516356c3e90fa667dd1bdf826c9c",
+        },
+        {
+          id: "infiniment-grand",
+          name: "Vers l'infiniment grand",
+          issuer: "Coursera",
+          verifyUrl: "https://coursera.org/share/40321d81f432c6738b028e57638bd39e",
+        },
       ],
     },
     {
       category: {
-        fr: "Engineering & DevOps",
-        en: "Engineering & DevOps",
+        fr: "Data Engineering & Infrastructure",
+        en: "Data Engineering & Infrastructure",
       },
       icon: "⚙️",
       items: [
-        { id: "ibm-data-eng", name: "IBM Data Engineering", issuer: "IBM", verifyUrl: institutionalLinks.courseraCertificates },
-        { id: "docker-k8s", name: "Conteneurisation (Docker, Kubernetes)", issuer: "Cloud Native", verifyUrl: institutionalLinks.courseraCertificates },
-        { id: "git-github", name: "Git & GitHub Versioning", issuer: "GitHub", verifyUrl: institutionalLinks.courseraCertificates },
-      ],
-    },
-    {
-      category: {
-        fr: "Management & Projets",
-        en: "Management & Projects",
-      },
-      icon: "📊",
-      items: [
-        { id: "pm-fundamentals", name: "Fondamentaux du Project Management", issuer: "Project Management", verifyUrl: institutionalLinks.courseraCertificates },
+        {
+          id: "ibm-data-eng",
+          name: "Introduction to Data Engineering",
+          issuer: "IBM / Coursera",
+          verifyUrl: "https://coursera.org/share/83eea9aa9f0b5400ec29bae9ae6bd009",
+        },
+        {
+          id: "rdbms-cert",
+          name: "Introduction to Relational Databases (RDBMS)",
+          issuer: "IBM / Coursera",
+          verifyUrl: "https://coursera.org/share/533f2517c87bb8277e3823b737df4c57",
+        },
+        {
+          id: "git-github",
+          name: "Introduction to Git and GitHub",
+          issuer: "Google / Coursera",
+          verifyUrl: "https://coursera.org/share/a2a5651e8504dc0e4e0818fe73d29b32",
+        },
       ],
     },
   ] as CertificationGroup[],
