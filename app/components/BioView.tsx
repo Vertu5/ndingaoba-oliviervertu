@@ -60,15 +60,15 @@ export default function BioView({
       )}
 
       {/* Header Block: Avatar slot + Tagline + Intro + Links */}
-      <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-6 md:p-8">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+      <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-5 md:p-8">
+        <div className="flex flex-row items-start sm:items-center gap-4 sm:gap-6">
           {/* Avatar Photo Slot cliquable */}
           <div
             className="relative group shrink-0 cursor-pointer"
             onClick={() => setIsZoomed(true)}
             title={lang === "fr" ? "Cliquer pour agrandir" : "Click to enlarge"}
           >
-            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-[var(--accent)]/60 bg-[var(--bg)] overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:border-[var(--accent)]">
+            <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full border-2 border-[var(--accent)]/60 bg-[var(--bg)] overflow-hidden shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:border-[var(--accent)]">
               <Image
                 src="/images/profile.jpeg"
                 alt="NDINGA OBA Olivier Vertu"
@@ -87,18 +87,18 @@ export default function BioView({
           </div>
 
           {/* Subtitle Tag & Intro */}
-          <div className="flex-1">
-            <div className="inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-1 font-mono text-xs font-medium text-[var(--accent)] mb-3">
+          <div className="flex-1 min-w-0">
+            <div className="inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-2.5 py-0.5 sm:px-3 sm:py-1 font-mono text-[11px] sm:text-xs font-medium text-[var(--accent)] mb-2 sm:mb-3">
               <span>💡</span>
               <span>{bioNarrative.headlineTag[lang]}</span>
             </div>
 
-            <p className="text-sm md:text-base leading-relaxed text-[var(--text)]">
+            <p className="text-xs sm:text-sm md:text-base leading-relaxed text-[var(--text)]">
               {bioNarrative.intro[lang]}
             </p>
 
             {/* Quick Links Header */}
-            <div className="mt-3 font-mono text-xs text-[var(--text-muted)] flex items-center">
+            <div className="mt-2.5 sm:mt-3 font-mono text-xs text-[var(--text-muted)] flex items-center">
               {cvUrl ? (
                 <a
                   href={cvUrl}
@@ -118,20 +118,20 @@ export default function BioView({
         </div>
       </div>
 
-      {/* 🎯 Première lecture : Résumé Exécutif en 4 piliers */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      {/* 🎯 Première lecture : Résumé Exécutif en 4 piliers (2x2 sur mobile, 4 en ligne sur desktop) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
         {bioNarrative.executiveSummary.map((pill, idx) => (
           <div
             key={idx}
-            className="rounded-lg border border-[var(--border)] bg-[var(--bg)]/40 p-4 transition-all hover:border-[var(--accent)]/40 hover:bg-[var(--bg-elevated)]"
+            className="rounded-lg border border-[var(--border)] bg-[var(--bg)]/40 p-3.5 sm:p-4 transition-all hover:border-[var(--accent)]/40 hover:bg-[var(--bg-elevated)]"
           >
-            <div className="flex items-center gap-2">
-              <span className="text-lg">{pill.icon}</span>
-              <h4 className="font-display text-xs font-semibold tracking-wide text-[var(--accent)] uppercase">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="text-base sm:text-lg">{pill.icon}</span>
+              <h4 className="font-display text-[11px] sm:text-xs font-semibold tracking-wide text-[var(--accent)] uppercase leading-tight">
                 {pill.title[lang]}
               </h4>
             </div>
-            <p className="mt-2 text-xs font-medium text-[var(--text)] leading-snug">
+            <p className="mt-1.5 sm:mt-2 text-[11px] sm:text-xs font-medium text-[var(--text)] leading-snug">
               {pill.desc[lang]}
             </p>
           </div>
