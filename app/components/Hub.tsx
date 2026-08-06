@@ -8,6 +8,7 @@ import { content, type ContentType } from "@/app/lib/content";
 import { interestsIntro, interestsList } from "@/app/lib/interests";
 import Pattern from "@/app/components/Pattern";
 import SectionChat from "@/app/components/SectionChat";
+import BioView from "@/app/components/BioView";
 import { useLang } from "@/app/lib/i18n";
 
 const docTypeKey = {
@@ -143,77 +144,9 @@ export default function Hub() {
                   {subOpen ? subOpen.description[lang] : open.description[lang]}
                 </p>
 
-                {/* Bio : paragraphe de présentation (avec le CV en lien inline) + documents cliquables */}
-                {open.id === "bio" && open.documents && (
-                  <div className="mt-10 space-y-8">
-                    <p className="max-w-lg text-sm text-[var(--text)]">
-                      {t.bioIntroBefore}
-                      {cvUrl ? (
-                        <a
-                          href={cvUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[var(--accent)] underline underline-offset-2 hover:no-underline"
-                        >
-                          {t.bioIntroLink}
-                        </a>
-                      ) : (
-                        <span className="text-[var(--text-muted)]">
-                          {t.bioIntroLink} ({t.cvMissing})
-                        </span>
-                      )}
-                      {t.bioIntroAfter}
-                    </p>
-
-                    <div className="space-y-6">
-                      {(["diplome", "certification", "lettre"] as const).map((type) => {
-                        const docs = open.documents!.filter((d) => d.type === type);
-                        if (docs.length === 0) return null;
-                        return (
-                          <div key={type}>
-                            <p className="font-mono text-[11px] tracking-[0.15em] text-[var(--text-muted)]">
-                              {t[docTypeKey[type]]}
-                            </p>
-                            <ul className="mt-2 space-y-2">
-                              {docs.map((doc) => {
-                                const isOpen = openDocId === doc.id;
-                                return (
-                                  <li key={doc.id} className="rounded-md border border-[var(--border)] overflow-hidden">
-                                    <button
-                                      onClick={() => setOpenDocId(isOpen ? null : doc.id)}
-                                      className="flex w-full items-center justify-between px-4 py-3 text-left text-sm transition-colors hover:bg-[var(--bg)]/40"
-                                    >
-                                      <span>
-                                        <span className="text-[var(--text)]">{doc.title[lang]}</span>
-                                        <span className="text-[var(--text-muted)]"> — {doc.issuer} · {doc.date} </span>
-                                        <span className="font-mono text-[10px] text-[var(--text-muted)]">({t.docTodo})</span>
-                                      </span>
-                                      <span className="font-mono text-[var(--text-muted)]">{isOpen ? "−" : "+"}</span>
-                                    </button>
-                                    {isOpen && (
-                                      <div className="border-t border-dashed border-[var(--border)] px-4 py-3 text-sm text-[var(--text-muted)]">
-                                        {doc.detail?.[lang]}
-                                        {doc.fileUrl && (
-                                          <a
-                                            href={doc.fileUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="font-mono mt-2 block text-xs text-[var(--accent)] hover:underline"
-                                          >
-                                            {t.docView}
-                                          </a>
-                                        )}
-                                      </div>
-                                    )}
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
+                {/* Bio : vue détaillée avec narrative, certifications et documents */}
+                {open.id === "bio" && (
+                  <BioView lang={lang} t={t} documents={open.documents} />
                 )}
 
                 {/* Contact */}
