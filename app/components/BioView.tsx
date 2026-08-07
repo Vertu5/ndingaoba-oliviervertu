@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { bioNarrative, institutionalLinks } from "@/app/lib/bio";
 import { cvUrl, type DocEntry } from "@/app/lib/categories";
@@ -16,6 +16,31 @@ export default function BioView({
 }) {
   const [isZoomed, setIsZoomed] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("details") === "true") {
+        setShowDetails(true);
+      }
+    }
+  }, []);
+
+  const toggleDetails = () => {
+    const next = !showDetails;
+    setShowDetails(next);
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (next) {
+        params.set("details", "true");
+      } else {
+        params.delete("details");
+      }
+      const searchStr = params.toString() ? `?${params.toString()}` : "";
+      const newUrl = `${window.location.pathname}${searchStr}`;
+      window.history.replaceState(window.history.state, "", newUrl);
+    }
+  };
 
   // Diplômes (titres académiques privés, sans fichier PDF public)
   const diplomas = documents.filter((d) => d.type === "diplome");
@@ -144,7 +169,7 @@ export default function BioView({
       {/* Bouton En Savoir Plus / Voir le parcours détaillé */}
       <div className="flex justify-center pt-2 pb-1">
         <button
-          onClick={() => setShowDetails(!showDetails)}
+          onClick={toggleDetails}
           className="group inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/40 bg-[var(--bg-elevated)] px-4 sm:px-6 py-2 font-mono text-[11px] sm:text-xs font-medium text-[var(--accent)] transition-all hover:bg-[var(--accent)] hover:text-black shadow-sm cursor-pointer"
         >
           <span>

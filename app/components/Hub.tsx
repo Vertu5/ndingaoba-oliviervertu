@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { bio, interests, contact, cvUrl, type Category } from "@/app/lib/categories";
 import { superDomains } from "@/app/lib/superdomains";
 import { domains } from "@/app/lib/domains";
@@ -64,15 +64,78 @@ export default function Hub() {
   const [openSubId, setOpenSubId] = useState<string | null>(null);
   const [tab, setTab] = useState<ContentType>("projet");
   const [openDocId, setOpenDocId] = useState<string | null>(null);
+
+  const navigate = (
+    newOpenId: string | null,
+    newOpenSubId: string | null = null,
+    newTab: ContentType = "projet",
+    mode: "push" | "replace" = "push"
+  ) => {
+    setOpenId(newOpenId);
+    setOpenSubId(newOpenSubId);
+    setTab(newTab);
+
+    if (typeof window === "undefined") return;
+
+    const params = new URLSearchParams();
+    if (newOpenId) {
+      params.set("view", newOpenId);
+      if (newOpenSubId) {
+        params.set("sub", newOpenSubId);
+      }
+      if (newTab && newTab !== "projet") {
+        params.set("tab", newTab);
+      }
+    }
+
+    const searchStr = params.toString();
+    const newSearch = searchStr ? `?${searchStr}` : "";
+    const currentSearch = window.location.search;
+
+    if (newSearch !== currentSearch) {
+      const newUrl = newSearch ? `${window.location.pathname}${newSearch}` : window.location.pathname;
+      if (mode === "replace") {
+        window.history.replaceState({ view: newOpenId, sub: newOpenSubId, tab: newTab }, "", newUrl);
+      } else {
+        window.history.pushState({ view: newOpenId, sub: newOpenSubId, tab: newTab }, "", newUrl);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const applyUrlState = () => {
+      if (typeof window === "undefined") return;
+      const params = new URLSearchParams(window.location.search);
+      const viewParam = params.get("view");
+      const subParam = params.get("sub");
+      const tabParam = params.get("tab");
+
+      const validView = tiles.some((c) => c.id === viewParam) ? viewParam : null;
+      const validSub = validView && domains.some((d) => d.id === subParam && d.superId === validView) ? subParam : null;
+      const validTab: ContentType = (tabParam === "papier" || tabParam === "demo") ? tabParam : "projet";
+
+      setOpenId(validView);
+      setOpenSubId(validSub);
+      setTab(validTab);
+    };
+
+    applyUrlState();
+
+    const handlePopState = () => {
+      applyUrlState();
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
   const open = tiles.find((c) => c.id === openId) ?? null;
   const isSuperDomain = !!open && superDomains.some((s) => s.id === open.id);
   const subOptions = isSuperDomain ? domains.filter((d) => d.superId === open!.id) : [];
   const subOpen = domains.find((d) => d.id === openSubId) ?? null;
 
   function openTile(id: string) {
-    setOpenId(id);
-    setOpenSubId(null);
-    setTab("projet");
+    navigate(id, null, "projet", "push");
   }
 
   const items = subOpen
@@ -156,7 +219,7 @@ export default function Hub() {
                       {t.langToggle}
                     </button>
                     <button
-                      onClick={() => setOpenId(null)}
+                      onClick={() => navigate(null, null, "projet", "push")}
                       className="font-mono text-xs tracking-[0.15em] text-[var(--accent)] hover:underline border border-[var(--accent)]/30 rounded px-3 py-1 bg-[var(--accent)]/10 transition-colors hover:bg-[var(--accent)] hover:text-black"
                     >
                       ← {t.back} ▲
@@ -192,7 +255,7 @@ export default function Hub() {
                     {subOptions.map((d) => (
                       <button
                         key={d.id}
-                        onClick={() => setOpenSubId(d.id)}
+                        onClick={() => navigate(openId, d.id, "projet", "push")}
                         className="group relative flex h-32 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg)]/40 text-left transition-colors hover:border-[var(--accent)]/40"
                       >
                         <div className="absolute inset-0 opacity-60 transition-transform duration-500 group-hover:scale-105">
@@ -212,7 +275,7 @@ export default function Hub() {
                 {subOpen && (
                   <div className="mt-10">
                     <button
-                      onClick={() => setOpenSubId(null)}
+                      onClick={() => navigate(openId, null, "projet", "push")}
                       className="font-mono mb-6 flex items-center gap-2 text-xs tracking-[0.15em] text-[var(--text-muted)] transition-colors hover:text-[var(--accent)]"
                     >
                       ← {t.backToDomains}
@@ -221,7 +284,7 @@ export default function Hub() {
                       {tabs.map((tb) => (
                         <button
                           key={tb.type}
-                          onClick={() => setTab(tb.type)}
+                          onClick={() => navigate(openId, openSubId, tb.type, "replace")}
                           className={`font-mono px-3 py-2 text-xs tracking-[0.1em] transition-colors ${
                             tab === tb.type
                               ? "border-b border-[var(--accent)] text-[var(--accent)]"
@@ -321,7 +384,7 @@ export default function Hub() {
                   <button
                     onClick={() => {
                       window.scrollTo({ top: 0, behavior: "smooth" });
-                      setOpenId(null);
+                      navigate(null, null, "projet", "push");
                     }}
                     className="inline-flex items-center gap-1.5 text-[var(--accent)] hover:underline border border-[var(--accent)]/30 rounded px-3 py-1.5 bg-[var(--accent)]/10 transition-colors hover:bg-[var(--accent)] hover:text-black font-medium"
                   >
