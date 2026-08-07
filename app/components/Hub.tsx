@@ -73,7 +73,36 @@ const projectTiles: (Category & { tags?: string[] })[] = [
 const superTiles: Category[] = superDomains.map((s) => ({ id: s.id, index: "LAB", label: s.label, description: s.description }));
 const tiles: Category[] = [...personalTiles, ...projectTiles, ...superTiles];
 
-function TileButton({
+function StandardTileButton({
+  cat,
+  lang,
+  onOpen,
+}: {
+  cat: Category;
+  lang: "fr" | "en";
+  onOpen: (id: string) => void;
+}) {
+  return (
+    <button
+      onClick={() => onOpen(cat.id)}
+      className="group relative flex h-44 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40"
+    >
+      <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
+        <Pattern id={cat.id} />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-elevated)] via-[var(--bg-elevated)]/40 to-transparent" />
+      <div className="relative p-5">
+        <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--text-muted)]">
+          {cat.index}
+        </span>
+        <h2 className="font-display text-xl font-medium">{cat.label[lang]}</h2>
+        <p className="mt-1 text-sm text-[var(--text-muted)]">{cat.description[lang]}</p>
+      </div>
+    </button>
+  );
+}
+
+function ProjectTileButton({
   cat,
   lang,
   onOpen,
@@ -239,7 +268,7 @@ export default function Hub() {
             </p>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {personalTiles.map((cat) => (
-                <TileButton key={cat.id} cat={cat} lang={lang} onOpen={openTile} />
+                <StandardTileButton key={cat.id} cat={cat} lang={lang} onOpen={openTile} />
               ))}
             </div>
           </section>
@@ -252,7 +281,7 @@ export default function Hub() {
             </p>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {projectTiles.map((cat) => (
-                <TileButton key={cat.id} cat={cat} lang={lang} onOpen={openTile} />
+                <ProjectTileButton key={cat.id} cat={cat} lang={lang} onOpen={openTile} />
               ))}
             </div>
           </section>
@@ -263,7 +292,7 @@ export default function Hub() {
             </p>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {superTiles.map((cat) => (
-                <TileButton key={cat.id} cat={cat} lang={lang} onOpen={openTile} />
+                <StandardTileButton key={cat.id} cat={cat} lang={lang} onOpen={openTile} />
               ))}
             </div>
           </section>
