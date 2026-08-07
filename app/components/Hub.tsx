@@ -10,6 +10,7 @@ import SectionChat from "@/app/components/SectionChat";
 import BioView from "@/app/components/BioView";
 import ContactView from "@/app/components/ContactView";
 import InterestsView from "@/app/components/InterestsView";
+import GeneticOptimizer from "@/app/components/GeneticOptimizer";
 import { useLang } from "@/app/lib/i18n";
 
 const docTypeKey = {
@@ -341,6 +342,9 @@ export default function Hub() {
 
                 {/* Vue détaillée si une tuile de Projet Phare est ouverte */}
                 {projectTiles.some((p) => p.id === open.id) && (() => {
+                  if (open.id === "nsga2-promethee2-agricultural") {
+                    return <GeneticOptimizer />;
+                  }
                   const item = content.find((c) => c.id === open.id);
                   if (!item) return null;
                   return (
