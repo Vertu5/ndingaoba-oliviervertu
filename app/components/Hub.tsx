@@ -24,35 +24,98 @@ const tabs: { type: ContentType; key: "tabProjets" | "tabPapiers" | "tabDemos" }
   { type: "demo", key: "tabDemos" },
 ];
 
-// Niveau 1 (grille principale) : compartiments personnels + grands domaines.
+// Niveau 1 (grille principale) : compartiments personnels + projets phares + grands domaines.
 const personalTiles: Category[] = [bio, interests, contact];
+
+const projectTiles: (Category & { tags?: string[] })[] = [
+  {
+    id: "swarm-tda-iridia",
+    index: "01.TDA",
+    label: { fr: "Essaim & TDA", en: "Swarm & TDA" },
+    description: {
+      fr: "Imitation en essaim & Analyse Topologique (IRIDIA/ULB).",
+      en: "Swarm behavior & Topological Analysis (IRIDIA/ULB).",
+    },
+    tags: ["TDA", "Python", "C++", "Wasserstein"],
+  },
+  {
+    id: "nsga2-promethee2-agricultural",
+    index: "02.GA",
+    label: { fr: "NSGA-II & MCDA", en: "NSGA-II & MCDA" },
+    description: {
+      fr: "Optimisation évolutive spatiale (NSGA-II + PROMETHEE II).",
+      en: "Multi-objective spatial evolutionary optimization.",
+    },
+    tags: ["NSGA-II", "Python", "PROMETHEE II", "Plotly 3D"],
+  },
+  {
+    id: "urban-air-pollution-ml",
+    index: "03.ML",
+    label: { fr: "Pollution ML", en: "Pollution ML" },
+    description: {
+      fr: "Pipeline Machine Learning spatiotemporel (ULB).",
+      en: "Spatio-temporal Machine Learning pipeline (ULB).",
+    },
+    tags: ["ML", "Python", "PyTorch", "SpatioTemporal"],
+  },
+  {
+    id: "air-quality-system-design",
+    index: "04.SYS",
+    label: { fr: "System Design SQL", en: "System Design SQL" },
+    description: {
+      fr: "Architecture système, modélisation 3NF, FastAPI & Docker.",
+      en: "System architecture, 3NF database modeling & Docker.",
+    },
+    tags: ["PostgreSQL", "SQL DDL", "FastAPI", "Docker"],
+  },
+];
+
 const superTiles: Category[] = superDomains.map((s) => ({ id: s.id, index: "LAB", label: s.label, description: s.description }));
-const tiles: Category[] = [...personalTiles, ...superTiles];
+const tiles: Category[] = [...personalTiles, ...projectTiles, ...superTiles];
 
 function TileButton({
   cat,
   lang,
   onOpen,
 }: {
-  cat: Category;
+  cat: Category & { tags?: string[] };
   lang: "fr" | "en";
   onOpen: (id: string) => void;
 }) {
   return (
     <button
       onClick={() => onOpen(cat.id)}
-      className="group relative flex h-44 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40"
+      className="group relative flex min-h-[11.5rem] flex-col justify-between overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-all duration-300 hover:border-[var(--accent)]/50 hover:bg-[var(--bg-elevated)] shadow-sm"
     >
-      <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
+      <div className="absolute inset-0 opacity-60 transition-transform duration-500 group-hover:scale-105">
         <Pattern id={cat.id} />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-elevated)] via-[var(--bg-elevated)]/40 to-transparent" />
-      <div className="relative p-5">
-        <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--text-muted)]">
-          {cat.index}
-        </span>
-        <h2 className="font-display text-xl font-medium">{cat.label[lang]}</h2>
-        <p className="mt-1 text-sm text-[var(--text-muted)]">{cat.description[lang]}</p>
+      <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-elevated)] via-[var(--bg-elevated)]/60 to-transparent" />
+      <div className="relative p-4 sm:p-5 flex flex-col justify-between h-full w-full">
+        <div>
+          <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.15em] text-[var(--accent)] font-semibold">
+            {cat.index}
+          </span>
+          <h2 className="font-display text-base sm:text-lg font-medium text-[var(--text)] mt-1 group-hover:text-[var(--accent)] transition-colors leading-tight">
+            {cat.label[lang]}
+          </h2>
+          <p className="mt-1 text-xs text-[var(--text-muted)] line-clamp-2 leading-relaxed">
+            {cat.description[lang]}
+          </p>
+        </div>
+
+        {cat.tags && cat.tags.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-1 font-mono text-[9px] sm:text-[10px]">
+            {cat.tags.map((tg, i) => (
+              <span
+                key={i}
+                className="rounded bg-[var(--accent)]/10 border border-[var(--accent)]/20 px-1.5 py-0.5 text-[var(--accent)] font-medium"
+              >
+                #{tg}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </button>
   );
@@ -181,6 +244,19 @@ export default function Hub() {
             </div>
           </section>
 
+          {/* Section 2 : Projets Phares (1 seule ligne de 4 tuiles compactes sur desktop) */}
+          <section>
+            <p className="font-mono mb-3 text-xs tracking-[0.2em] text-[var(--accent)] font-semibold flex items-center gap-1.5">
+              <span>⭐</span>
+              <span>{t.sectionFeaturedProjects}</span>
+            </p>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {projectTiles.map((cat) => (
+                <TileButton key={cat.id} cat={cat} lang={lang} onOpen={openTile} />
+              ))}
+            </div>
+          </section>
+
           <section>
             <p className="font-mono mb-3 text-xs tracking-[0.2em] text-[var(--text-muted)]">
               {t.sectionDomains}
@@ -233,6 +309,43 @@ export default function Hub() {
                 <p className="mt-1 sm:mt-3 max-w-lg text-xs sm:text-sm text-[var(--text-muted)]">
                   {subOpen ? subOpen.description[lang] : open.description[lang]}
                 </p>
+
+                {/* Vue détaillée si une tuile de Projet Phare est ouverte */}
+                {projectTiles.some((p) => p.id === open.id) && (() => {
+                  const item = content.find((c) => c.id === open.id);
+                  if (!item) return null;
+                  return (
+                    <div className="mt-6 rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)]/40 p-6 space-y-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--border)] pb-4">
+                        <h3 className="font-display text-xl sm:text-2xl font-semibold text-[var(--text)]">
+                          {item.title[lang]}
+                        </h3>
+                        {item.githubUrl && (
+                          <a
+                            href={item.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-mono text-xs text-[var(--accent)] underline hover:no-underline shrink-0 font-medium"
+                          >
+                            💻 Code Source GitHub ↗
+                          </a>
+                        )}
+                      </div>
+
+                      <p className="text-sm sm:text-base text-[var(--text-muted)] leading-relaxed">{item.summary[lang]}</p>
+
+                      {item.tags && item.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 font-mono text-[11px] pt-2">
+                          {item.tags.map((tg, i) => (
+                            <span key={i} className="rounded bg-[var(--accent)]/10 border border-[var(--accent)]/20 px-2.5 py-1 text-[var(--accent)] font-medium">
+                              #{tg}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
 
                 {/* Bio : vue détaillée avec narrative, certifications et documents */}
                 {open.id === "bio" && (
