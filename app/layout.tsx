@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import { LangProvider } from "@/app/lib/i18n";
+import "katex/dist/katex.min.css";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({

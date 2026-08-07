@@ -1,436 +1,448 @@
 "use client";
 
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState } from 'react';
+import { BlockMath, InlineMath } from 'react-katex';
 import { useLang } from "@/app/lib/i18n";
 
 // ==============================================================================
-// 🌾 Project: Evolutionary Spatial Allocation via NSGA-II & PROMETHEE II
-// 👨‍💻 Research Lead: Olivier Vertu NDINGA OBA
-// 🌐 Portfolio: https://ndingaoba-oliviervertu.vercel.app/
-// 📅 Date: August 2026
-// 📝 Description: Rock-solid 100% Resilient DeepMind Standard Research Paper
+// 🌾 Project: Genetic Agricultural Optimization (NSGA-II + PROMETHEE II)
+// 👨💻 Author: Olivier Vertu Ndingaoba
 // ==============================================================================
-
-const USAGE_MAP = [
-  ["R", "R", "C", "C", "C", "R", "C", "C", "A", "A"],
-  ["R", "C", "C", "C", "C", "C", "C", "A", "A", "A"],
-  ["C", "C", "C", "R", "R", "C", "C", "C", "C", "A"],
-  ["C", "C", "R", "R", "R", "C", "C", "C", "C", "C"],
-  ["C", "C", "C", "C", "C", "C", "C", "R", "R", "C"],
-  ["A", "C", "C", "C", "C", "C", "C", "C", "R", "R"],
-  ["A", "A", "C", "C", "R", "R", "C", "C", "C", "C"],
-  ["A", "A", "C", "C", "C", "R", "C", "C", "C", "C"],
-  ["C", "C", "C", "C", "C", "C", "C", "C", "C", "C"],
-  ["R", "R", "C", "C", "C", "C", "C", "R", "R", "R"],
-];
-
-const COST_MAP = Array(10)
-  .fill(0)
-  .map((_, i) => Array(10).fill(0).map((_, j) => Math.floor(Math.abs(Math.sin(i * 10 + j)) * 40) + 30));
-
-const COLORS = {
-  R: "#1f2937", // Restricted: Dark Charcoal
-  C: "#475569", // Candidate: Slate Gray
-  A: "#065f46", // Existing: Deep Forest Green
-  NEW: "#fbbf24", // Optimal Extension: Glowing Gold
-};
-
-interface ParetoPoint {
-  id: number;
-  compactness: number;
-  proximity: number;
-  productivity: number;
-  cost: number;
-  phi: number;
-  grid: number[][];
-}
-
-const generateParetoFrontier = (numPoints = 65): ParetoPoint[] => {
-  return Array.from({ length: numPoints })
-    .map((_, i) => {
-      const compactness = Number((1.0 + Math.random() * 0.9).toFixed(3));
-      const proximity = Number((1.0 + Math.random() * 3.5).toFixed(3));
-      const productivity = Number(
-        (12.5 - Math.pow(compactness, 1.2) * 2.0 - proximity * 0.8 + Math.random() * 0.5).toFixed(3)
-      );
-      const cost = Math.floor(300 + Math.random() * 250);
-      const phi = Number((productivity * 0.4 - proximity * 0.4 - compactness * 0.2).toFixed(4));
-
-      const grid = USAGE_MAP.map((row) =>
-        row.map((cell) => {
-          if (cell === "C") return Math.random() < (compactness < 1.3 ? 0.85 : 0.6) ? 2 : 1;
-          return cell === "A" ? 2 : 0;
-        })
-      );
-
-      return { id: i, compactness, proximity, productivity, cost, phi, grid };
-    })
-    .sort((a, b) => b.phi - a.phi);
-};
 
 export default function GeneticOptimizer() {
   const { lang } = useLang();
+  const isEn = lang === 'en';
   
-  // Synchronous initialization so paretoData is NEVER empty on first render
-  const [paretoData, setParetoData] = useState<ParetoPoint[]>(() => generateParetoFrontier(65));
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [hoveredCell, setHoveredCell] = useState<{ r: number; c: number } | null>(null);
-
-  // 3D Rotation Angles
-  const [rotX, setRotX] = useState<number>(25);
-  const [rotY, setRotY] = useState<number>(45);
-  const isDragging = useRef<boolean>(false);
-  const lastMousePos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-
-  // Safe active solution selection
-  const activeSolution = paretoData[activeIndex] || paretoData[0];
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    isDragging.current = true;
-    lastMousePos.current = { x: e.clientX, y: e.clientY };
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging.current) return;
-    const dx = e.clientX - lastMousePos.current.x;
-    const dy = e.clientY - lastMousePos.current.y;
-    setRotY((prev) => prev + dx * 0.5);
-    setRotX((prev) => Math.max(-80, Math.min(80, prev - dy * 0.5)));
-    lastMousePos.current = { x: e.clientX, y: e.clientY };
-  };
-
-  const handleMouseUp = () => {
-    isDragging.current = false;
-  };
-
-  // Convert 3D Point to 2D Screen Coordinates
-  const projectedPoints = useMemo(() => {
-    if (!paretoData || !paretoData.length) return [];
-
-    const radX = (rotX * Math.PI) / 180;
-    const radY = (rotY * Math.PI) / 180;
-
-    return paretoData.map((pt, idx) => {
-      const nx = ((pt.compactness - 1.0) / 0.9) * 2 - 1;
-      const ny = ((pt.proximity - 1.0) / 3.5) * 2 - 1;
-      const nz = ((pt.productivity - 5.0) / 7.5) * 2 - 1;
-
-      const x1 = nx * Math.cos(radY) + nz * Math.sin(radY);
-      const y1 = ny;
-      const z1 = -nx * Math.sin(radY) + nz * Math.cos(radY);
-
-      const x2 = x1;
-      const y2 = y1 * Math.cos(radX) - z1 * Math.sin(radX);
-      const z2 = y1 * Math.sin(radX) + z1 * Math.cos(radX);
-
-      const scale = 120;
-      const cx = 250;
-      const cy = 200;
-
-      const screenX = cx + x2 * scale;
-      const screenY = cy - y2 * scale;
-
-      return { ...pt, index: idx, screenX, screenY, depth: z2 };
-    });
-  }, [paretoData, rotX, rotY]);
-
-  const sortedProjectedPoints = useMemo(() => {
-    return [...projectedPoints].sort((a, b) => a.depth - b.depth);
-  }, [projectedPoints]);
-
-  const exportCSV = () => {
-    let csv = "Rank,NetFlow_Phi,Compactness_CS,Proximity_PS,Productivity_RS,Cost_Euro\n";
-    paretoData.forEach((pt, i) => {
-      csv += `${i + 1},${pt.phi},${pt.compactness},${pt.proximity},${pt.productivity},${pt.cost}\n`;
-    });
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "pareto_frontier_solutions.csv";
-    a.click();
-  };
-
-  if (!activeSolution) return null;
+  // States
+  const [frameIndex, setFrameIndex] = useState(0);
+  const [showTheory, setShowTheory] = useState(false);
+  const [fullscreenImg, setFullscreenImg] = useState<string | null>(null);
+  const [imgZoom, setImgZoom] = useState(1);
+  const [tourFullscreen, setTourFullscreen] = useState(false);
+  
+  const totalFrames = 31; // Extracted from pareto_solutions_tour.gif
 
   return (
-    <div className="w-full bg-white text-slate-900 font-sans antialiased rounded-2xl overflow-hidden shadow-2xl border border-slate-200">
-      {/* SECTION 1 : PUBLICATION SCIENTIFIQUE */}
-      <article className="max-w-5xl mx-auto py-12 px-6 sm:px-12">
-        <header className="mb-10 border-b border-slate-200 pb-8">
-          <div className="flex flex-wrap items-center gap-3 text-xs font-bold text-blue-600 tracking-widest uppercase mb-4">
-            <span>⚡ Research Publication</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
-            <span>Operations Research</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
-            <span className="text-emerald-600">NSGA-II + PROMETHEE II</span>
+    <>
+      {/* GENERIC FULLSCREEN IMAGE MODAL (for static GIFs and Maps) */}
+      {fullscreenImg && (
+        <div 
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 overflow-auto p-4"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setFullscreenImg(null);
+              setImgZoom(1);
+            }
+          }}
+        >
+          <div 
+            className="relative cursor-auto transition-all duration-300"
+            style={{ 
+              width: `${100 * imgZoom}%`, 
+              maxWidth: imgZoom === 1 ? '100%' : '300%',
+              display: 'flex', 
+              justifyContent: 'center' 
+            }}
+          >
+            <img 
+              src={fullscreenImg} 
+              alt="Fullscreen View" 
+              className={`max-w-full ${imgZoom === 1 ? 'max-h-[90vh]' : 'h-auto'} object-contain rounded shadow-2xl`}
+            />
           </div>
-
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tighter leading-[1.1] text-slate-900 mb-4">
-            Evolutionary Spatial Allocation via NSGA-II & PROMETHEE II
-          </h1>
-
-          <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-light">
-            {lang === "fr"
-              ? "L'extension des infrastructures agricoles est un défi topologique et financier strict. Nous présentons un moteur d'optimisation multi-objectifs générant une frontière de Pareto mathématique, classée sans pondération arbitraire par flux nets multicritères."
-              : "Agricultural infrastructure extension is a strict topological and financial challenge. We present a multi-objective optimization engine generating a mathematical Pareto frontier, ranked without arbitrary scalar weighting via net preference flows."}
-          </p>
-        </header>
-
-        {/* FORMULATION DU PROBLÈME */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="space-y-2">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-              {lang === "fr" ? "Vecteur 1" : "Vector 1"}
-            </h3>
-            <h4 className="text-lg font-bold text-slate-900">Productivité</h4>
-            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-              {lang === "fr"
-                ? "Maximisation du rendement agronomique global évalué sur la matrice continue de production des sols."
-                : "Maximizing global crop yield evaluated over the continuous soil productivity matrix."}
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-              {lang === "fr" ? "Vecteur 2" : "Vector 2"}
-            </h3>
-            <h4 className="text-lg font-bold text-slate-900">Proximité</h4>
-            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-              {lang === "fr"
-                ? "Minimisation de la distance euclidienne vers l'infrastructure existante pour contraindre les coûts logistiques."
-                : "Minimizing Euclidean distance to existing infrastructure to constrain logistics costs."}
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-              {lang === "fr" ? "Vecteur 3" : "Vector 3"}
-            </h3>
-            <h4 className="text-lg font-bold text-slate-900">Compacité</h4>
-            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-2">
-              {lang === "fr"
-                ? "Minimisation du quotient isopérimétrique exact pour neutraliser le fractionnement spatial."
-                : "Minimizing the exact isoperimetric quotient to neutralize spatial fragmentation."}
-            </p>
-            <div className="bg-slate-50 border border-slate-200 py-1.5 px-3 text-center rounded font-mono text-xs font-semibold text-slate-800 shadow-sm">
-              C = Perimeter² / (4π × Area)
-            </div>
-          </div>
-        </section>
-      </article>
-
-      {/* SECTION 2 : LAB DARK MODE */}
-      <section className="bg-[#0f172a] text-slate-300 py-10 px-4 sm:px-8 border-t border-slate-800">
-        <div className="max-w-7xl mx-auto space-y-6">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-slate-800 pb-4 gap-4">
-            <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-                <span>📊</span>
-                <span>Pareto Frontier Interactive Manifold</span>
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-400 mt-1 font-light">
-                {lang === "fr"
-                  ? "Exploration de l'espace 3D des 65 solutions non-dominées NSGA-II. Glissez la souris pour faire pivoter le nuage."
-                  : "3D exploration of 65 NSGA-II non-dominated solutions. Click & drag mouse to rotate 3D cloud."}
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3">
-              <button
-                onClick={exportCSV}
-                className="font-mono text-xs text-white bg-blue-600 hover:bg-blue-500 border border-blue-400 px-3 py-1.5 rounded transition-colors flex items-center gap-1.5 font-semibold shadow"
-              >
-                <span>📥 Export CSV</span>
-              </button>
-
-              <button
-                onClick={() => {
-                  setRotX(25);
-                  setRotY(45);
-                }}
-                className="font-mono text-xs text-slate-400 hover:text-white border border-slate-700 px-3 py-1.5 rounded transition-colors"
-              >
-                🔄 Reset Camera
-              </button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            {/* 3D SVG Isometric Engine */}
-            <div
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseUp}
-              className="lg:col-span-8 bg-black/50 rounded-xl border border-slate-800 p-4 relative overflow-hidden flex flex-col items-center justify-center cursor-grab active:cursor-grabbing select-none h-[420px] shadow-2xl"
+          
+          {/* Controls */}
+          <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-black/80 px-6 py-3 rounded-full text-white font-sans backdrop-blur-sm border border-white/10 shadow-xl z-10">
+            <button onClick={() => setImgZoom(z => Math.max(1, z - 0.5))} className="hover:text-blue-400 font-bold text-2xl px-2 leading-none">−</button>
+            <span className="font-mono text-sm w-12 text-center">{Math.round(imgZoom * 100)}%</span>
+            <button onClick={() => setImgZoom(z => Math.min(4, z + 0.5))} className="hover:text-blue-400 font-bold text-2xl px-2 leading-none">+</button>
+            <div className="w-px h-5 bg-white/20 mx-2"></div>
+            <button 
+              onClick={() => { setFullscreenImg(null); setImgZoom(1); }}
+              className="hover:text-red-400 text-sm font-bold uppercase tracking-wider"
             >
-              <div className="absolute top-4 left-4 z-10 font-mono text-xs">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">
-                  3D Projection
-                </span>
-                <span className="text-white font-bold">NSGA-II Manifold</span>
-              </div>
-
-              <div className="absolute bottom-4 left-4 z-10 font-mono text-[10px] text-slate-400 bg-slate-900/80 px-2.5 py-1.5 rounded border border-slate-800 space-y-0.5">
-                <div className="text-purple-400">X: Compacité C(S) [1.0 ➔ 1.9]</div>
-                <div className="text-sky-400">Y: Proximité P(S) [1.0 ➔ 4.5]</div>
-                <div className="text-emerald-400">Z: Productivité R(S) [5.0 ➔ 12.5]</div>
-              </div>
-
-              <svg width="100%" height="100%" viewBox="0 0 500 400" className="w-full h-full">
-                <line x1="130" y1="320" x2="370" y2="320" stroke="#334155" strokeWidth="1" strokeDasharray="3 3" />
-                <line x1="130" y1="320" x2="130" y2="80" stroke="#334155" strokeWidth="1" strokeDasharray="3 3" />
-                <line x1="370" y1="320" x2="370" y2="80" stroke="#334155" strokeWidth="1" strokeDasharray="3 3" />
-                <line x1="130" y1="80" x2="370" y2="80" stroke="#334155" strokeWidth="1" strokeDasharray="3 3" />
-
-                {sortedProjectedPoints.map((pt) => {
-                  const isActive = pt.index === activeIndex;
-                  const pointRadius = isActive ? 9 : 4.5;
-                  const fillColor = isActive
-                    ? "#ffffff"
-                    : pt.phi > 0.6
-                    ? "#38bdf8"
-                    : pt.phi > 0.4
-                    ? "#a855f7"
-                    : "#64748b";
-
-                  return (
-                    <g key={pt.id} onClick={() => setActiveIndex(pt.index)} className="cursor-pointer">
-                      {isActive && (
-                        <circle
-                          cx={pt.screenX}
-                          cy={pt.screenY}
-                          r={14}
-                          fill="none"
-                          stroke="#fbbf24"
-                          strokeWidth="2"
-                          className="animate-ping"
-                        />
-                      )}
-                      <circle
-                        cx={pt.screenX}
-                        cy={pt.screenY}
-                        r={pointRadius}
-                        fill={fillColor}
-                        stroke={isActive ? "#fbbf24" : "#0f172a"}
-                        strokeWidth={isActive ? 2 : 1}
-                      />
-                      {isActive && (
-                        <text
-                          x={pt.screenX + 12}
-                          y={pt.screenY + 4}
-                          fill="#fbbf24"
-                          fontSize="10"
-                          fontFamily="monospace"
-                          fontWeight="bold"
-                        >
-                          Rang 1 (Top Φ: +{pt.phi})
-                        </text>
-                      )}
-                    </g>
-                  );
-                })}
-              </svg>
-            </div>
-
-            {/* Right Side: PROMETHEE II Data & 2D Map */}
-            <div className="lg:col-span-4 flex flex-col gap-5">
-              <div className="bg-black/40 p-5 rounded-xl border border-slate-800 shadow-2xl space-y-3">
-                <div className="flex justify-between items-end border-b border-slate-800 pb-2">
-                  <div>
-                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">
-                      PROMETHEE II Ranking
-                    </span>
-                    <h3 className="text-lg font-bold text-white tracking-tight">
-                      {activeIndex === 0 ? "🏆 Global Optimum (Rang 1)" : `Compromise Rank ${activeIndex + 1}`}
-                    </h3>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">
-                      Net Flow (Φ)
-                    </span>
-                    <span className="text-lg font-mono font-bold text-blue-400">+{activeSolution.phi}</span>
-                  </div>
-                </div>
-
-                <div className="space-y-2 font-mono text-xs">
-                  <div className="flex justify-between border-b border-slate-800/80 pb-1.5">
-                    <span className="text-slate-400">🌾 Productivité (R_S):</span>
-                    <span className="font-bold text-emerald-400">+{activeSolution.productivity} pts</span>
-                  </div>
-                  <div className="flex justify-between border-b border-slate-800/80 pb-1.5">
-                    <span className="text-slate-400">📍 Proximité (P_S):</span>
-                    <span className="font-bold text-sky-400">{activeSolution.proximity} km</span>
-                  </div>
-                  <div className="flex justify-between border-b border-slate-800/80 pb-1.5">
-                    <span className="text-slate-400">🧩 Compacité (C_S):</span>
-                    <span className="font-bold text-purple-400">{activeSolution.compactness}</span>
-                  </div>
-                  <div className="flex justify-between pt-1">
-                    <span className="text-slate-400">💰 Coût Acquisition:</span>
-                    <span className="font-bold text-amber-400">{activeSolution.cost} €</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* 2D Spatial Map Allocation */}
-              <div className="bg-black/40 p-5 rounded-xl border border-slate-800 flex flex-col items-center justify-center shadow-2xl">
-                <div className="w-full flex justify-between items-center border-b border-slate-800 pb-2 mb-3 font-mono text-[10px]">
-                  <span className="font-bold text-slate-400 uppercase tracking-wider">Spatial Topology</span>
-                  {hoveredCell && (
-                    <span className="text-amber-400 font-bold">
-                      [{hoveredCell.r},{hoveredCell.c}] {USAGE_MAP[hoveredCell.r][hoveredCell.c]} · {COST_MAP[hoveredCell.r][hoveredCell.c]}€
-                    </span>
-                  )}
-                </div>
-
-                <div className="w-full max-w-[200px] aspect-square grid grid-cols-10 gap-[2px]">
-                  {USAGE_MAP.map((row, i) =>
-                    row.map((_, j) => {
-                      const usage = USAGE_MAP[i][j];
-                      const isBought = activeSolution.grid && activeSolution.grid[i] && activeSolution.grid[i][j] === 2 && usage === "C";
-                      let bgColor = COLORS[usage as keyof typeof COLORS];
-                      if (isBought) bgColor = COLORS.NEW;
-
-                      return (
-                        <div
-                          key={`${i}-${j}`}
-                          onMouseEnter={() => setHoveredCell({ r: i, c: j })}
-                          onMouseLeave={() => setHoveredCell(null)}
-                          className={`w-full h-full rounded-[1px] transition-colors duration-200 ${
-                            isBought ? "shadow-[0_0_10px_rgba(251,191,36,0.6)] z-10" : ""
-                          }`}
-                          style={{ backgroundColor: bgColor }}
-                        ></div>
-                      );
-                    })
-                  )}
-                </div>
-
-                <div className="grid grid-cols-2 gap-2 mt-3 pt-2 border-t border-slate-800/80 w-full font-mono text-[10px]">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 bg-[#1f2937] rounded-sm" />
-                    <span className="text-slate-400">Restreint (R)</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 bg-[#475569] rounded-sm" />
-                    <span className="text-slate-300">Candidat (C)</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 bg-[#065f46] rounded-sm" />
-                    <span className="text-emerald-400">Ferme (A)</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 bg-[#fbbf24] rounded-sm shadow-[0_0_8px_#fbbf24]" />
-                    <span className="text-amber-400 font-bold">Achat IA ★</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+              {isEn ? "Close ✕" : "Fermer ✕"}
+            </button>
           </div>
         </div>
-      </section>
-    </div>
+      )}
+
+      <article className="bg-[#fafafa] text-[#222222] font-serif selection:bg-blue-200 rounded-lg overflow-hidden border border-slate-200 shadow-xl relative">
+        
+        {/* HEADER / TITRE */}
+        <header className="max-w-3xl mx-auto pt-16 pb-12 px-6">
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 font-sans tracking-tight text-slate-900">
+            {isEn ? "Evolutionary Spatial Allocation" : "Allocation Spatiale Évolutive"} <br/>
+            <span className="text-slate-500 font-light text-3xl">(NSGA-II & PROMETHEE II)</span>
+          </h1>
+          
+          <div className="flex flex-wrap items-center gap-4 text-sm font-sans mb-10 text-slate-600 border-b border-slate-200 pb-8">
+            <div>
+              <strong>{isEn ? "Author" : "Auteur"}</strong><br/>
+              Olivier Vertu Ndingaoba
+            </div>
+            <div className="ml-6">
+              <strong>Framework</strong><br/>
+              {isEn ? "Multi-Objective Evolutionary Optimization" : "Optimisation Évolutive Multi-Objectifs"}
+            </div>
+            <div className="ml-6 flex gap-2 mt-4 md:mt-0">
+              <span className="bg-slate-100 px-2 py-1 rounded border border-slate-200">NSGA-II</span>
+              <span className="bg-slate-100 px-2 py-1 rounded border border-slate-200">PROMETHEE II</span>
+              <span className="bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-200">Python 3.8+</span>
+            </div>
+          </div>
+
+          {/* ABSTRACT */}
+          <section className="text-xl leading-relaxed text-slate-700 mb-12 text-justify">
+            <p>
+              <strong>{isEn ? "Project Goal:" : "Le but du projet :"}</strong> {isEn 
+                ? "Automating spatial decision-making for agricultural land expansion. We aim to find the optimal land parcels to purchase in order to maximize crop yields, maintain proximity to existing farms, and group fields efficiently, all while strictly adhering to a predefined budget constraint."
+                : "Automatiser la prise de décision pour l'extension de terres agricoles. Nous voulons trouver les meilleures parcelles de terrain à acheter pour maximiser les rendements, rester proche de nos fermes actuelles, et regrouper les champs intelligemment, le tout sans dépasser un budget strict."
+              }
+            </p>
+          </section>
+        </header>
+
+        {/* CORPS DE L'ARTICLE */}
+        <main className="max-w-3xl mx-auto px-6 pb-24 text-lg leading-relaxed text-slate-800">
+          
+          {/* PROBLEM FORMULATION */}
+          <section className="mb-16">
+            <div className="flex flex-col md:flex-row justify-between items-baseline mb-6 border-b border-slate-200 pb-2">
+              <h2 className="text-2xl font-bold font-sans">
+                {isEn ? "1. Problem Formulation" : "1. Formulation du Problème"}
+              </h2>
+              <button 
+                onClick={() => setShowTheory(!showTheory)}
+                className="text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 py-1.5 px-3 rounded font-sans transition-colors border border-slate-200 mt-4 md:mt-0 shadow-sm"
+              >
+                {showTheory 
+                  ? (isEn ? "Hide mathematical formulas" : "Cacher les formules mathématiques") 
+                  : (isEn ? "Show mathematical formulas" : "Voir les formules mathématiques")
+                }
+              </button>
+            </div>
+            
+            <p className="mb-8 text-base text-slate-600 text-justify">
+              {isEn 
+                ? "Before seeking a solution, we must understand the baseline. The territory is divided into parcels. Some already belong to the farmer (Existing Farms), others are candidates for purchase, and each has a specific cost and yield potential." 
+                : "Avant de chercher une solution, il faut comprendre notre point de départ. Le territoire est divisé en parcelles. Certaines appartiennent déjà à l'agriculteur (Fermes existantes), d'autres sont candidates à l'achat, et chacune possède un coût et un potentiel de rendement différent."
+              }
+            </p>
+
+            {/* INITIAL PROBLEM MAPS */}
+            <figure className="mb-12 -mx-4 md:-mx-8">
+              <div 
+                className="bg-white p-3 rounded-lg border border-slate-200 shadow-sm cursor-zoom-in hover:shadow-md transition-shadow"
+                onClick={() => setFullscreenImg(`/assets/${isEn ? 'en' : 'fr'}/input_maps.png`)}
+              >
+                <img 
+                  src={`/assets/${isEn ? 'en' : 'fr'}/input_maps.png`} 
+                  alt={isEn ? "Initial Spatial Maps" : "Cartes Spatiales Initiales"} 
+                  className="w-full h-auto rounded"
+                />
+              </div>
+              <figcaption className="mt-4 text-sm font-sans text-slate-500 text-center px-4">
+                <strong>{isEn ? "Figure 1. Input Data." : "Figure 1. Les données d'entrée."}</strong> {isEn ? "The initial topology showing the productivity map (left), cost map (middle), and current land use (right)." : "La topologie initiale du terrain, montrant la carte de productivité (gauche), la carte des coûts (milieu) et l'usage actuel des sols (droite)."} <em>{isEn ? "(Click image to enlarge)" : "(Cliquez sur l'image pour agrandir)"}</em>
+              </figcaption>
+            </figure>
+
+            <p className="mb-6 text-base text-slate-600 text-justify">
+              {isEn 
+                ? "When purchasing new land, the AI algorithm balances 4 often contradictory objectives:" 
+                : "Lors de l'achat de nouvelles parcelles, l'algorithme d'Intelligence Artificielle arbitre la situation entre 4 objectifs souvent contradictoires :"
+              }
+            </p>
+
+            <ul className="space-y-4 mb-8">
+              <li className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm text-justify">
+                <strong className="font-sans text-slate-900">1. {isEn ? "Productivity (Maximize)" : "Productivité (Maximiser)"}</strong>
+                <p className="mt-1 text-base text-slate-600">{isEn ? "Prioritize land that offers the highest crop yield." : "Acheter en priorité les terres qui offrent le meilleur rendement de culture."}</p>
+                {showTheory && (
+                  <div className="mt-4 p-4 bg-slate-50 border border-slate-200 rounded text-sm overflow-x-auto text-center">
+                    <em>{isEn ? "Mathematical Formulation:" : "Formulation Mathématique :"}</em> 
+                    <div className="my-3 flex justify-center"><BlockMath math={String.raw`R_S = \sum_{c \in S} \text{Production}(c)`} /></div>
+                  </div>
+                )}
+              </li>
+              <li className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm text-justify">
+                <strong className="font-sans text-slate-900">2. {isEn ? "Proximity (Minimize)" : "Proximité (Minimiser)"}</strong>
+                <p className="mt-1 text-base text-slate-600">{isEn ? "Keep new land as close as possible to existing infrastructure to reduce transport costs." : "Garder les nouvelles terres le plus près possible des infrastructures existantes pour réduire les coûts de transport."}</p>
+                {showTheory && (
+                  <div className="mt-4 p-4 bg-slate-50 border border-slate-200 rounded text-sm overflow-x-auto text-center">
+                    <em>{isEn ? "Mathematical Formulation:" : "Formulation Mathématique :"}</em> 
+                    <div className="my-3 flex justify-center"><BlockMath math={String.raw`P_S = \frac{1}{|S|} \sum_{c \in S} \min_{a \in A} \text{dist}(c, a)`} /></div>
+                  </div>
+                )}
+              </li>
+              <li className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm text-justify">
+                <strong className="font-sans text-slate-900">3. {isEn ? "Compactness (Minimize Scatter)" : "Compacité (Minimiser l'éparpillement)"}</strong>
+                <p className="mt-1 text-base text-slate-600">{isEn ? "Favor large, contiguous blocks of land rather than small, scattered 'confetti' patches." : "Favoriser des gros blocs de terres collés les uns aux autres, plutôt que des petits bouts de champs éparpillés partout en 'confetti'."}</p>
+                {showTheory && (
+                  <div className="mt-4 p-4 bg-slate-50 border border-slate-200 rounded text-sm overflow-x-auto text-center">
+                    <em>{isEn ? "Mathematical Formulation:" : "Formulation Mathématique :"}</em> 
+                    <div className="my-3 flex justify-center"><BlockMath math={String.raw`C_S=\frac{\text{Perimeter}^2}{4\pi\cdot\text{Area}}`} /></div>
+                  </div>
+                )}
+              </li>
+              <li className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm text-justify">
+                <strong className="font-sans text-slate-900">4. {isEn ? "Budget (Strict Constraint)" : "Le Budget (Contrainte Stricte)"}</strong>
+                <p className="mt-1 text-base text-slate-600">{isEn ? "The total price of the purchased land must never exceed the farmer's wallet." : "Le prix total des terres achetées ne doit jamais dépasser le portefeuille de l'agriculteur."}</p>
+                {showTheory && (
+                  <div className="mt-4 p-4 bg-slate-50 border border-slate-200 rounded text-sm overflow-x-auto text-center">
+                    <em>{isEn ? "Mathematical Formulation:" : "Formulation Mathématique :"}</em> 
+                    <div className="my-3 flex justify-center"><BlockMath math={String.raw`\sum_{c \in S} \text{Cost}(c) \le B`} /></div>
+                  </div>
+                )}
+              </li>
+            </ul>
+          </section>
+
+          {/* GENETIC ALGORITHM EXPLANATION */}
+          <section className="mb-16">
+            <h2 className="text-2xl font-bold font-sans mb-6 border-b border-slate-200 pb-2">
+              {isEn ? "How the Genetic Algorithm Works" : "Comment fonctionne l'Algorithme Génétique ?"}
+            </h2>
+            <p className="mb-8 text-base text-slate-600 text-justify">
+              {isEn 
+                ? "To solve this complex equation, we use an AI inspired by Darwin's theory of evolution. Instead of testing all billions of possibilities, the algorithm \"evolves\" solutions over generations."
+                : "Pour résoudre cette équation complexe, nous utilisons une IA inspirée par la théorie de l'évolution de Darwin. Au lieu de tester les milliards de possibilités une par une, l'algorithme fait \"évoluer\" les solutions sur plusieurs générations."
+              }
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
+              {/* Desktop Connecting Line */}
+              <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-slate-200 -z-10 -translate-y-1/2"></div>
+              
+              {/* Step 1 */}
+              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center relative z-10 flex flex-col items-center">
+                <div className="w-10 h-10 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-bold mb-3 border-2 border-white shadow">1</div>
+                <strong className="text-sm text-slate-900 block mb-1">{isEn ? "Initialization" : "Initialisation"}</strong>
+                <p className="text-xs text-slate-500">{isEn ? "Generate random purchase plans." : "Créer des plans d'achat aléatoires."}</p>
+              </div>
+
+              {/* Step 2 */}
+              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center relative z-10 flex flex-col items-center">
+                <div className="w-10 h-10 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center font-bold mb-3 border-2 border-white shadow">2</div>
+                <strong className="text-sm text-slate-900 block mb-1">{isEn ? "Evaluation" : "Évaluation"}</strong>
+                <p className="text-xs text-slate-500">{isEn ? "Calculate the 4 objectives for each plan." : "Calculer les 4 objectifs pour chaque plan."}</p>
+              </div>
+
+              {/* Step 3 */}
+              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center relative z-10 flex flex-col items-center">
+                <div className="w-10 h-10 bg-green-100 text-green-700 rounded-full flex items-center justify-center font-bold mb-3 border-2 border-white shadow">3</div>
+                <strong className="text-sm text-slate-900 block mb-1">{isEn ? "Selection" : "Sélection"}</strong>
+                <p className="text-xs text-slate-500">{isEn ? "Keep the most promising solutions." : "Garder les compromis les plus prometteurs."}</p>
+              </div>
+
+              {/* Step 4 */}
+              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center relative z-10 flex flex-col items-center">
+                <div className="w-10 h-10 bg-orange-100 text-orange-700 rounded-full flex items-center justify-center font-bold mb-3 border-2 border-white shadow">4</div>
+                <strong className="text-sm text-slate-900 block mb-1">{isEn ? "Crossover" : "Croisement"}</strong>
+                <p className="text-xs text-slate-500">{isEn ? "Mix good plans to create better offspring." : "Mélanger les bons plans pour créer des enfants."}</p>
+              </div>
+
+              {/* Step 5 */}
+              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center relative z-10 flex flex-col items-center">
+                <div className="w-10 h-10 bg-red-100 text-red-700 rounded-full flex items-center justify-center font-bold mb-3 border-2 border-white shadow">5</div>
+                <strong className="text-sm text-slate-900 block mb-1">{isEn ? "Mutation" : "Mutation"}</strong>
+                <p className="text-xs text-slate-500">{isEn ? "Random tweaks to explore new ideas." : "Petits changements aléatoires (innovations)."}</p>
+              </div>
+            </div>
+            
+            <div className="mt-8 text-center">
+              <span className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-600 rounded-full text-sm font-medium">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                {isEn ? "Loops for 100 generations" : "Boucle répétée sur 100 générations"}
+              </span>
+            </div>
+          </section>
+
+          {/* ARCHITECTURE */}
+          {showTheory && (
+            <section className="mb-16 bg-blue-50/50 p-6 rounded-lg border border-blue-100">
+              <h2 className="text-xl font-bold font-sans mb-4 text-blue-900">
+                {isEn ? "Algorithmic Architecture (Advanced)" : "Architecture Algorithmique (Avancé)"}
+              </h2>
+              <p className="mb-4 text-base text-slate-700 text-justify">
+                {isEn 
+                  ? "Unlike classical approaches that arbitrarily sum scores, this architecture implements pure Multi-Objective Pareto Dominance."
+                  : "Contrairement aux approches classiques qui additionnent arbitrairement les scores, cette architecture implémente une Dominance de Pareto multi-objectifs pure."
+                }
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans text-justify">
+                <div className="bg-white p-4 rounded border border-slate-200 shadow-sm overflow-x-auto">
+                  <strong className="text-slate-900 text-sm">{isEn ? "NSGA-II Engine" : "Moteur NSGA-II"}</strong>
+                  <p className="mt-1 text-sm text-slate-600">
+                    {isEn 
+                      ? "Uses Fast Non-Dominated Sorting to partition populations into Pareto fronts"
+                      : "Utilise le tri non-dominé rapide (Fast Non-Dominated Sorting) pour diviser la population en fronts de Pareto"
+                    } (<InlineMath math={String.raw`F_1, F_2, \dots`} />).
+                  </p>
+                </div>
+                <div className="bg-white p-4 rounded border border-slate-200 shadow-sm overflow-x-auto">
+                  <strong className="text-slate-900 text-sm">{isEn ? "PROMETHEE II Ranking" : "Classement PROMETHEE II"}</strong>
+                  <p className="mt-1 text-sm text-slate-600">
+                    {isEn 
+                      ? "Evaluates non-dominated solutions on the final front to provide a decision-maker ranking based on preference flows"
+                      : "Évalue les solutions non-dominées du front final pour classer les compromis selon les flux de préférence"
+                    } (<InlineMath math={String.raw`\Phi^+, \Phi^-`} />).
+                  </p>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* INTERACTIVE VISUALIZATIONS */}
+          <section className="mb-16">
+            <h2 className="text-2xl font-bold font-sans mb-6 border-b border-slate-200 pb-2">
+              {isEn ? "2. Interactive Solution Exploration" : "2. Exploration Interactive des Solutions"}
+            </h2>
+            <p className="mb-10 text-base text-slate-600 text-justify">
+              {isEn 
+                ? "The AI algorithm generates dozens of valid compromises (the \"Pareto Front\"). You can explore the 31 best solutions found below. The slider allows you to navigate from the most balanced solution (Solution 1) to more extreme solutions."
+                : "L'algorithme IA génère des dizaines de compromis valides (le \"Front de Pareto\"). Vous pouvez explorer ci-dessous les 31 meilleures solutions trouvées. Le curseur vous permet de naviguer de la solution la plus équilibrée (Solution 1) aux solutions plus extrêmes."
+              }
+              <br/><br/>
+              <em>{isEn ? "Tip: Click on any image or graph to view it in full screen and read the axes in detail!" : "Astuce : Cliquez sur n'importe quelle image ou graphique pour l'afficher en plein écran et zoomer dedans !"}</em>
+            </p>
+
+            <figure className="mb-16 -mx-4 md:-mx-12 lg:-mx-24 font-sans">
+              
+              {/* INTERACTIVE VIEWER (Modal-aware) */}
+              <div className={`transition-all duration-300 ${tourFullscreen ? 'fixed inset-0 z-[70] bg-black/95 flex flex-col items-center justify-center p-4 sm:p-12 overflow-y-auto' : 'bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-xl flex flex-col items-center'}`}>
+                
+                {tourFullscreen && (
+                  <button 
+                    onClick={() => setTourFullscreen(false)}
+                    className="absolute top-6 right-8 text-white font-sans bg-white/10 px-4 py-2 rounded-full cursor-pointer hover:bg-white/20 transition-colors z-[80]"
+                  >
+                    {isEn ? "Close ✕" : "Fermer ✕"}
+                  </button>
+                )}
+
+                {/* IMAGE FRAME */}
+                <div 
+                  className={`w-full relative ${tourFullscreen ? 'bg-black flex-1 min-h-[50vh] max-h-[75vh]' : 'bg-slate-50 min-h-[300px] md:min-h-[500px]'} border ${tourFullscreen ? 'border-white/10' : 'border-slate-200'} rounded-lg overflow-hidden flex items-center justify-center cursor-zoom-in group`}
+                  onClick={() => !tourFullscreen && setTourFullscreen(true)}
+                >
+                  <img 
+                    src={`/assets/${isEn ? 'en' : 'fr'}/tour_frames/frame_${frameIndex.toString().padStart(3, '0')}.png`} 
+                    alt={`Pareto Tour Frame ${frameIndex}`} 
+                    className={`w-full h-full object-contain transition-transform duration-300 ${!tourFullscreen && 'group-hover:scale-[1.01]'}`}
+                  />
+                  {!tourFullscreen && (
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors pointer-events-none flex items-center justify-center">
+                      <span className="bg-black/70 text-white px-3 py-1.5 rounded-full text-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2 shadow-lg backdrop-blur-sm">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                        {isEn ? "Fullscreen View" : "Vue Plein Écran"}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* CONTROLS */}
+                <div className={`w-full max-w-3xl mt-6 flex flex-col items-center gap-4 ${tourFullscreen ? 'bg-black/50 p-6 rounded-2xl border border-white/10 backdrop-blur-md mt-8' : ''}`}>
+                  <div className="flex w-full items-center gap-4">
+                    <button 
+                      onClick={() => setFrameIndex(Math.max(0, frameIndex - 1))}
+                      disabled={frameIndex === 0}
+                      className={`px-4 py-2 ${tourFullscreen ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'} disabled:opacity-30 font-bold rounded-lg transition-colors`}
+                    >
+                      ⬅ {isEn ? "Prev" : "Préc"}
+                    </button>
+                    
+                    <div className="flex-1 flex flex-col items-center px-4">
+                      <input 
+                        type="range" 
+                        min="0" 
+                        max={totalFrames - 1} 
+                        value={frameIndex} 
+                        onChange={(e) => setFrameIndex(parseInt(e.target.value))}
+                        className="w-full accent-blue-500 h-2 bg-slate-300/50 rounded-lg appearance-none cursor-pointer"
+                      />
+                      <span className={`text-xs font-mono mt-3 font-bold tracking-widest uppercase ${tourFullscreen ? 'text-blue-300' : 'text-slate-500'}`}>
+                        {isEn ? "Solution" : "Solution"} {frameIndex + 1} / {totalFrames}
+                      </span>
+                    </div>
+
+                    <button 
+                      onClick={() => setFrameIndex(Math.min(totalFrames - 1, frameIndex + 1))}
+                      disabled={frameIndex === totalFrames - 1}
+                      className={`px-4 py-2 ${tourFullscreen ? 'bg-blue-600 text-white hover:bg-blue-500' : 'bg-blue-600 text-white hover:bg-blue-700'} disabled:opacity-30 font-bold rounded-lg transition-colors shadow-sm`}
+                    >
+                      {isEn ? "Next" : "Suiv"} ➡
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              {!tourFullscreen && (
+                <figcaption className="mt-6 text-sm font-sans text-slate-500 text-center max-w-2xl mx-auto px-4">
+                  <strong>{isEn ? "Figure 2. Interactive Pareto Tour." : "Figure 2. Tour Interactif des Solutions Pareto."}</strong> {isEn ? "Exploration of non-dominated solutions ranked by PROMETHEE II. The left panel shows the spatial allocation map (new land in gold). The right panel tracks the exact position on the 3D Pareto front." : "Exploration des solutions non-dominées classées par PROMETHEE II. Le panneau de gauche montre la carte spatiale d'allocation (nouvelles terres en or). Le panneau de droite suit la position exacte sur le front de Pareto 3D."}
+                </figcaption>
+              )}
+            </figure>
+
+            {/* Figure 3 & 4: Evolutions side-by-side (Static Generated Visuals) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 -mx-4 md:-mx-12">
+              <figure>
+                <div 
+                  className="bg-white border border-slate-200 p-2 shadow-sm rounded-lg cursor-zoom-in hover:shadow-md transition-all group relative"
+                  onClick={() => setFullscreenImg(`/assets/${isEn ? 'en' : 'fr'}/spatial_evolution.gif`)}
+                >
+                  <img src={`/assets/${isEn ? 'en' : 'fr'}/spatial_evolution.gif`} alt="Spatial Configuration Evolution" className="w-full h-auto rounded" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors pointer-events-none flex items-center justify-center">
+                    <span className="bg-black/70 text-white px-3 py-1.5 rounded-full text-xs opacity-0 group-hover:opacity-100 transition-opacity">
+                      {isEn ? "Zoom In" : "Agrandir"}
+                    </span>
+                  </div>
+                </div>
+                <figcaption className="mt-4 text-sm font-sans text-slate-500 px-2 text-justify">
+                  <strong>{isEn ? "Figure 3. Spatial Evolution." : "Figure 3. Évolution Spatiale."}</strong> {isEn ? "The algorithm converges from a sparse distribution to contiguous agricultural blocks across generations." : "L'algorithme converge d'une distribution éparse vers des blocs agricoles contigus au fil des générations."}
+                </figcaption>
+              </figure>
+
+              <figure>
+                <div 
+                  className="bg-white border border-slate-200 p-2 shadow-sm rounded-lg cursor-zoom-in hover:shadow-md transition-all group relative"
+                  onClick={() => setFullscreenImg(`/assets/${isEn ? 'en' : 'fr'}/pareto_convergence.gif`)}
+                >
+                  <img src={`/assets/${isEn ? 'en' : 'fr'}/pareto_convergence.gif`} alt="Pareto Frontier Convergence" className="w-full h-auto rounded" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors pointer-events-none flex items-center justify-center">
+                    <span className="bg-black/70 text-white px-3 py-1.5 rounded-full text-xs opacity-0 group-hover:opacity-100 transition-opacity">
+                      {isEn ? "Zoom In" : "Agrandir"}
+                    </span>
+                  </div>
+                </div>
+                <figcaption className="mt-4 text-sm font-sans text-slate-500 px-2 text-justify">
+                  <strong>{isEn ? "Figure 4. Frontier Convergence." : "Figure 4. Convergence du Front."}</strong> {isEn ? "The population converges towards the true Pareto front in the objective space, escaping local minima." : "La population converge vers le véritable front de Pareto dans l'espace des objectifs, s'échappant des minima locaux."}
+                </figcaption>
+              </figure>
+            </div>
+          </section>
+
+          {/* CONCLUSION / REPO */}
+          <section className="bg-slate-900 text-slate-300 p-8 rounded-xl font-sans shadow-lg">
+            <h3 className="text-xl font-bold text-white mb-4">{isEn ? "Quality Verification & Open Source" : "Vérification de Qualité & Open Source"}</h3>
+            <p className="text-sm mb-4 leading-relaxed text-justify">
+              {isEn 
+                ? "The pipeline executes an automated quality audit (" 
+                : "Le pipeline exécute un audit de qualité automatisé ("
+              }
+              <code className="bg-slate-800 text-blue-300 px-1.5 py-0.5 rounded font-mono text-xs">src/verify_solutions.py</code>
+              {isEn 
+                ? ") after every run to ensure 100% of solutions satisfy budget constraints and strict Pareto dominance rules." 
+                : ") après chaque optimisation pour s'assurer qu'absolument 100% des solutions respectent les contraintes budgétaires et les règles de dominance stricte de Pareto."
+              }
+            </p>
+            <a href="https://github.com/Vertu5/genetic_agricultural_optimization/tree/old-version-before-website" target="_blank" rel="noopener noreferrer" className="inline-block bg-white text-slate-900 font-bold px-6 py-2.5 rounded shadow hover:bg-slate-100 transition-colors">
+              {isEn ? "View Source Code (Python) on GitHub" : "Voir le code source complet (Python) sur GitHub"}
+            </a>
+          </section>
+
+        </main>
+      </article>
+    </>
   );
 }
