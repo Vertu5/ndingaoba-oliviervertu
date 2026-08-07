@@ -114,27 +114,27 @@ function ProjectTileButton({
   return (
     <button
       onClick={() => onOpen(cat.id)}
-      className="group relative flex min-h-[11.5rem] flex-col justify-between overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-all duration-300 hover:border-[var(--accent)]/50 hover:bg-[var(--bg-elevated)] shadow-sm"
+      className="group relative flex h-44 flex-col justify-between overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40"
     >
-      <div className="absolute inset-0 opacity-60 transition-transform duration-500 group-hover:scale-105">
+      <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
         <Pattern id={cat.id} />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-elevated)] via-[var(--bg-elevated)]/60 to-transparent" />
-      <div className="relative p-4 sm:p-5 flex flex-col justify-between h-full w-full">
+      <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-elevated)] via-[var(--bg-elevated)]/40 to-transparent" />
+      <div className="relative p-5 flex flex-col justify-between h-full w-full">
         <div>
-          <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.15em] text-[var(--accent)] font-semibold">
+          <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--accent)] font-semibold">
             {cat.index}
           </span>
-          <h2 className="font-display text-base sm:text-lg font-medium text-[var(--text)] mt-1 group-hover:text-[var(--accent)] transition-colors leading-tight">
+          <h2 className="font-display text-base font-medium text-[var(--text)] mt-0.5 group-hover:text-[var(--accent)] transition-colors leading-snug">
             {cat.label[lang]}
           </h2>
-          <p className="mt-1 text-xs text-[var(--text-muted)] line-clamp-2 leading-relaxed">
+          <p className="mt-0.5 text-xs text-[var(--text-muted)] line-clamp-1 leading-normal">
             {cat.description[lang]}
           </p>
         </div>
 
         {cat.tags && cat.tags.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-1 font-mono text-[9px] sm:text-[10px]">
+          <div className="flex flex-wrap gap-1 font-mono text-[9px]">
             {cat.tags.map((tg, i) => (
               <span
                 key={i}
