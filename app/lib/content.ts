@@ -8,6 +8,7 @@ export type Block =
 export type ContentItem = {
   id: string;
   type: ContentType;
+  featured?: boolean; // Indique si le projet est affiché dans la grille 2x2 des Projets Phares sur l'accueil
   domains: string[]; // un contenu peut appartenir à plusieurs domaines (swarm, ml, robotics, algo, heuristics, physics)
   title: { fr: string; en: string };
   summary: { fr: string; en: string };
@@ -20,86 +21,67 @@ export type ContentItem = {
 
 export const content: ContentItem[] = [
   {
-    id: "swarm-robotics-iridia",
+    id: "swarm-tda-iridia",
     type: "projet",
+    featured: true,
     domains: ["swarm", "robotics"],
     title: {
-      fr: "Modélisation & Contrôle d'Intelligence en Essaim (Swarm Robotics)",
-      en: "Swarm Intelligence & Multi-Robot Control (Swarm Robotics)",
+      fr: "🛸 Imitation Systématique en Essaim par Analyse Topologique des Données (TDA)",
+      en: "🛸 Systematic Swarm Behavior Imitation via Topological Data Analysis (TDA)",
     },
     summary: {
-      fr: "Conception d'outils mathématiques et d'algorithmes décentralisés pour modéliser le comportement collectif de groupes de robots autonomes au laboratoire IRIDIA.",
-      en: "Design of mathematical tools and decentralized algorithms to model collective behavior in autonomous robot swarms at IRIDIA research lab.",
+      fr: "Cadre théorique et expérimental développé au laboratoire IRIDIA (ULB). Imitation de comportements collectifs de robots autonomes combinant l'Analyse Topologique des Données (TDA), la décomposition de Helmholtz-Hodge (NHHD) et la métrique de Wasserstein pour le transfert trans-architecture (EvoStick ➔ AutoMoDe-Chocolate) et l'imitation de bancs de poissons.",
+      en: "Theoretical & experimental framework developed at IRIDIA research lab (ULB). Systematic swarm behavior imitation combining Topological Data Analysis (TDA), Natural Helmholtz-Hodge Decomposition (NHHD), and Wasserstein metrics for cross-architecture transfer (EvoStick ➔ AutoMoDe-Chocolate) and fish schooling imitation.",
     },
-    tags: ["Python", "C++", "Swarm Intelligence", "Multi-Robot", "IRIDIA"],
+    tags: ["TDA", "Swarm Robotics", "Python", "C++", "Wasserstein", "IRIDIA", "ULB"],
     githubUrl: "https://github.com/Vertu5",
   },
   {
-    id: "tda-machine-learning",
-    type: "papier",
-    domains: ["ml", "algo"],
-    title: {
-      fr: "Analyse Topologique des Données (TDA) & Deep Learning",
-      en: "Topological Data Analysis (TDA) & Deep Learning",
-    },
-    summary: {
-      fr: "Étude des invariants géométriques et des structures topologiques dans des espaces de données à haute dimension pour enrichir les modèles de Machine Learning.",
-      en: "Study of geometric invariants and topological structures in high-dimensional data spaces to enhance Machine Learning model generalization.",
-    },
-    tags: ["Python", "PyTorch", "Topological Data Analysis", "Machine Learning", "ULB"],
-    githubUrl: "https://github.com/Vertu5",
-    blocks: [
-      {
-        kind: "text",
-        text: {
-          fr: "L'analyse topologique des données (TDA) extrait des caractéristiques géométriques persistantes qui échappent aux méthodes statistiques traditionnelles.",
-          en: "Topological Data Analysis (TDA) extracts persistent geometric features that traditional statistical methods miss.",
-        },
-      },
-      {
-        kind: "video",
-        caption: {
-          fr: "Visualisation de l'homologie persistante sur des ensembles de données complexes.",
-          en: "Visualization of persistent homology on complex data point clouds.",
-        },
-      },
-      {
-        kind: "text",
-        text: {
-          fr: "Intégration des signatures topologiques comme représentations explicatives pour les réseaux de neurones profonds.",
-          en: "Integration of topological signatures as explanatory representations for deep neural networks.",
-        },
-      },
-    ],
-  },
-  {
-    id: "devops-data-engineering",
+    id: "nsga2-promethee2-agricultural",
     type: "projet",
-    domains: ["algo", "ml"],
-    title: {
-      fr: "Pipelines Data Engineering & Architecture Cloud Native",
-      en: "Data Engineering Pipelines & Cloud Native Architecture",
-    },
-    summary: {
-      fr: "Mise en place de pipelines de traitement de données distribuées, conteneurisation des services avec Docker et orchestration sous Kubernetes.",
-      en: "Implementation of distributed data processing pipelines, service containerization with Docker, and Kubernetes orchestration.",
-    },
-    tags: ["Docker", "Kubernetes", "Data Engineering", "IBM", "Git/GitHub"],
-    githubUrl: "https://github.com/Vertu5",
-  },
-  {
-    id: "metaheuristics-optimization",
-    type: "demo",
+    featured: true,
     domains: ["heuristics", "algo"],
     title: {
-      fr: "Algorithmes Métaheuristiques & Optimisation Combinatoire",
-      en: "Metaheuristic Algorithms & Combinatorial Optimization",
+      fr: "🌾 Optimisation Évolutive Spatiale Multi-Objectifs (NSGA-II + PROMETHEE II)",
+      en: "🌾 Multi-Objective Spatial Evolutionary Optimization (NSGA-II & PROMETHEE II)",
     },
     summary: {
-      fr: "Démos interactives d'algorithmes de recherche localisée, algorithmes génétiques et optimisation par colonies de fourmis.",
-      en: "Interactive demos of local search algorithms, genetic algorithms, and ant colony optimization for complex problems.",
+      fr: "Moteur d'optimisation évolutive haute performance pour l'allocation parcellaire agricole. Algorithme NSGA-II vectorisé (dominance de Pareto pure sur la Compacité, Proximité et Productivité sous contrainte budgétaire), couplé à l'analyse multicritère PROMETHEE II et visualisations 3D interactives.",
+      en: "High-performance evolutionary optimization engine for spatial agricultural parcel allocation. Pure vectorized Pareto NSGA-II optimization (Compactness, Proximity, Productivity under budget ceiling) coupled with PROMETHEE II MCDA ranking and 3D interactive visualizations.",
     },
-    tags: ["Optimization", "Metaheuristics", "Algorithms", "Python"],
+    tags: ["NSGA-II", "PROMETHEE II", "Python", "Genetic Algorithms", "Plotly 3D", "Graph BFS"],
+    githubUrl: "https://github.com/Vertu5/genetic_agricultural_optimization",
+  },
+  {
+    id: "urban-air-pollution-ml",
+    type: "projet",
+    featured: true,
+    domains: ["ml", "algo"],
+    title: {
+      fr: "🤖 Prédiction Spatiotemporelle de la Pollution Urbaine (Machine Learning)",
+      en: "🤖 Spatio-Temporal Air Pollution Prediction (Machine Learning Pipeline)",
+    },
+    summary: {
+      fr: "Pipeline complet de Machine Learning pour l'analyse spatiotemporelle et la prédiction haute précision des niveaux de pollution urbaine (ULB ML Challenge). Extraction de caractéristiques géographiques complexes, ingénierie de variables et modèles prédictifs.",
+      en: "Comprehensive Machine Learning pipeline for spatio-temporal analysis and high-precision urban air pollution prediction (ULB ML Challenge). Complex geographic feature engineering, time-series analysis, and predictive modeling.",
+    },
+    tags: ["Machine Learning", "Python", "PyTorch", "SpatioTemporal", "Scikit-Learn", "ULB"],
+    githubUrl: "https://github.com/Vertu5/urban-air-pollution-ml",
+  },
+  {
+    id: "air-quality-system-design",
+    type: "projet",
+    featured: true,
+    domains: ["algo", "ml"],
+    title: {
+      fr: "⚙️ Architecture Système & Analytics de la Qualité de l'Air en Temps Réel",
+      en: "⚙️ Real-Time Air Quality System Design & Relational Data Architecture",
+    },
+    summary: {
+      fr: "Conception de A à Z d'une plateforme événementielle : modélisation de base de données relationnelle normalisée (3NF), écriture des scripts DDL SQL avec indexation optimisée, pipeline d'ingestion streaming temps réel, API REST FastAPI et conteneurisation Docker.",
+      en: "End-to-end event-driven platform design: 3NF normalized relational database modeling, SQL DDL scripts with optimized indexing, real-time streaming ingestion pipeline, FastAPI REST API, and Docker containerization.",
+    },
+    tags: ["PostgreSQL", "SQL DDL", "FastAPI", "Data Modeling 3NF", "Docker", "DevOps"],
     githubUrl: "https://github.com/Vertu5",
   },
 ];

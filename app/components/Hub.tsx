@@ -181,6 +181,60 @@ export default function Hub() {
             </div>
           </section>
 
+          {/* Section 2 : Projets Phares (Grille 2x2) */}
+          <section>
+            <p className="font-mono mb-3 text-xs tracking-[0.2em] text-[var(--accent)] font-semibold flex items-center gap-1.5">
+              <span>⭐</span>
+              <span>{t.sectionFeaturedProjects}</span>
+            </p>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {content.filter((item) => item.featured).map((item) => (
+                <div
+                  key={item.id}
+                  className="group relative flex flex-col justify-between rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)]/60 p-5 sm:p-6 transition-all duration-300 hover:border-[var(--accent)]/50 hover:bg-[var(--bg-elevated)] shadow-sm hover:shadow-md"
+                >
+                  <div>
+                    <h3 className="font-display text-base sm:text-lg font-semibold text-[var(--text)] leading-snug group-hover:text-[var(--accent)] transition-colors">
+                      {item.title[lang]}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed mt-2">
+                      {item.summary[lang]}
+                    </p>
+
+                    {item.tags && item.tags.length > 0 && (
+                      <div className="mt-4 flex flex-wrap gap-1.5 font-mono text-[10px]">
+                        {item.tags.map((tg, i) => (
+                          <span
+                            key={i}
+                            className="rounded bg-[var(--accent)]/10 border border-[var(--accent)]/20 px-2 py-0.5 text-[var(--accent)] font-medium"
+                          >
+                            #{tg}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="mt-5 pt-3 border-t border-[var(--border)]/60 flex items-center justify-between font-mono text-xs">
+                    {item.githubUrl ? (
+                      <a
+                        href={item.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-[var(--accent)] underline hover:no-underline font-medium"
+                      >
+                        <span>💻 Code Source GitHub ↗</span>
+                      </a>
+                    ) : (
+                      <span />
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
           <section>
             <p className="font-mono mb-3 text-xs tracking-[0.2em] text-[var(--text-muted)]">
               {t.sectionDomains}

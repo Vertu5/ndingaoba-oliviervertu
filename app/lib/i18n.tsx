@@ -6,7 +6,8 @@ import type { Lang } from "@/app/lib/categories";
 const dict = {
   fr: {
     sectionAbout: "MOI",
-    sectionDomains: "DOMAINES",
+    sectionFeaturedProjects: "PROJETS PHARES & RÉALISATIONS",
+    sectionDomains: "EXPLORER LES DOMAINES",
     bioIntroBefore: "Présentation à venir — qui tu es, ton parcours, ta démarche. Pour le détail complet, tu peux ",
     bioIntroLink: "cliquer ici pour voir mon CV",
     bioIntroAfter: ".",
@@ -35,7 +36,8 @@ const dict = {
   },
   en: {
     sectionAbout: "ABOUT",
-    sectionDomains: "DOMAINS",
+    sectionFeaturedProjects: "FEATURED PROJECTS & REALIZATIONS",
+    sectionDomains: "EXPLORE DOMAINS",
     bioIntroBefore: "Introduction coming soon — who you are, your path, your approach. For the full detail, you can ",
     bioIntroLink: "click here to view my résumé",
     bioIntroAfter: ".",
