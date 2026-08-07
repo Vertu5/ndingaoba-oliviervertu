@@ -333,17 +333,25 @@ export default function Hub() {
                   </div>
                 </div>
 
-                <h2 className="font-display text-2xl font-medium sm:text-4xl md:text-5xl">
-                  {subOpen ? subOpen.label[lang] : open.label[lang]}
-                </h2>
-                <p className="mt-1 sm:mt-3 max-w-lg text-xs sm:text-sm text-[var(--text-muted)]">
-                  {subOpen ? subOpen.description[lang] : open.description[lang]}
-                </p>
+                {open.id !== "nsga2-promethee2-agricultural" && (
+                  <>
+                    <h2 className="font-display text-2xl font-medium sm:text-4xl md:text-5xl">
+                      {subOpen ? subOpen.label[lang] : open.label[lang]}
+                    </h2>
+                    <p className="mt-1 sm:mt-3 max-w-lg text-xs sm:text-sm text-[var(--text-muted)]">
+                      {subOpen ? subOpen.description[lang] : open.description[lang]}
+                    </p>
+                  </>
+                )}
 
                 {/* Vue détaillée si une tuile de Projet Phare est ouverte */}
                 {projectTiles.some((p) => p.id === open.id) && (() => {
                   if (open.id === "nsga2-promethee2-agricultural") {
-                    return <GeneticOptimizer />;
+                    return (
+                      <div className="mt-4">
+                        <GeneticOptimizer />
+                      </div>
+                    );
                   }
                   const item = content.find((c) => c.id === open.id);
                   if (!item) return null;
