@@ -11,6 +11,7 @@ import BioView from "@/app/components/BioView";
 import ContactView from "@/app/components/ContactView";
 import InterestsView from "@/app/components/InterestsView";
 import GeneticOptimizer from "@/app/components/GeneticOptimizer";
+import UrbanAirPollution from "@/app/components/UrbanAirPollution";
 import { useLang } from "@/app/lib/i18n";
 import ThemeToggle from "@/app/components/ThemeToggle";
 
@@ -338,7 +339,7 @@ export default function Hub() {
                   </div>
                 </div>
 
-                {open.id !== "nsga2-promethee2-agricultural" && (
+                {open.id !== "nsga2-promethee2-agricultural" && open.id !== "urban-air-pollution-ml" && (
                   <>
                     <h2 className="font-display text-2xl font-medium sm:text-4xl md:text-5xl">
                       {subOpen ? subOpen.label[lang] : open.label[lang]}
@@ -355,6 +356,13 @@ export default function Hub() {
                     return (
                       <div className="mt-4">
                         <GeneticOptimizer />
+                      </div>
+                    );
+                  }
+                  if (open.id === "urban-air-pollution-ml") {
+                    return (
+                      <div className="mt-4">
+                        <UrbanAirPollution />
                       </div>
                     );
                   }
