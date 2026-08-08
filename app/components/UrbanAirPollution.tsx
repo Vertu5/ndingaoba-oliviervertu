@@ -291,7 +291,7 @@ export default function UrbanAirPollution() {
               <li>
                 <strong>{isEn ? "Cyclic Encoding:" : "Encodage Cyclique :"}</strong> {isEn 
                 ? "Time-related features were transformed into sinusoidal representations (" : "Les caractéristiques liées au temps ont été transformées en représentations sinusoïdales ("}
-                <InlineMath math="day_{cos}, week_{sin}, month_{sin}" />
+                <span className="font-mono text-xs sm:text-sm bg-slate-100 dark:bg-white/10 px-1 rounded whitespace-nowrap">day_cos, week_sin, month_sin</span>
                 {isEn ? ") to correctly capture planetary and weekly cycles." : ") pour capturer correctement les cycles planétaires et hebdomadaires."}
               </li>
               <li>
