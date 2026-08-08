@@ -270,10 +270,10 @@ export default function GeneticOptimizer() {
                   : "Contrairement aux approches classiques qui additionnent arbitrairement les scores, cette architecture implémente une Dominance de Pareto multi-objectifs pure."
                 }
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans text-left md:text-justify md:hyphens-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans">
                 <div className="bg-white p-4 rounded border border-slate-200 shadow-sm overflow-x-auto">
                   <strong className="text-slate-900 text-sm">{isEn ? "NSGA-II Engine" : "Moteur NSGA-II"}</strong>
-                  <p className="mt-1 text-sm text-slate-600">
+                  <p className="mt-1 text-sm text-slate-600 text-left md:text-justify md:hyphens-auto">
                     {isEn 
                       ? "Uses Fast Non-Dominated Sorting to partition populations into Pareto fronts"
                       : "Utilise le tri non-dominé rapide (Fast Non-Dominated Sorting) pour diviser la population en fronts de Pareto"
@@ -282,7 +282,7 @@ export default function GeneticOptimizer() {
                 </div>
                 <div className="bg-white p-4 rounded border border-slate-200 shadow-sm overflow-x-auto">
                   <strong className="text-slate-900 text-sm">{isEn ? "PROMETHEE II Ranking" : "Classement PROMETHEE II"}</strong>
-                  <p className="mt-1 text-sm text-slate-600">
+                  <p className="mt-1 text-sm text-slate-600 text-left md:text-justify md:hyphens-auto">
                     {isEn 
                       ? "Evaluates non-dominated solutions on the final front to provide a decision-maker ranking based on preference flows"
                       : "Évalue les solutions non-dominées du front final pour classer les compromis selon les flux de préférence"
