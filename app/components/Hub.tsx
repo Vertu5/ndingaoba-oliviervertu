@@ -322,13 +322,17 @@ export default function Hub() {
               </div>
               <div className="relative p-6 md:p-10">
                 {/* Header du panneau déplié avec langue et bouton RETOUR en haut */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-3">
-                  <div className="flex items-center gap-4">
+                <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-3">
+                  
+                  {/* Left: Index */}
+                  <div className="flex-1 flex items-center justify-start">
                     <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--accent)] font-semibold">
                       {subOpen ? "LAB" : open.index}
                     </span>
+                  </div>
                     
-                    {/* Top Prev/Next Navigation (only for projectTiles) */}
+                  {/* Center: Top Prev/Next Navigation (only for projectTiles) */}
+                  <div className="flex-1 flex items-center justify-start sm:justify-center">
                     {currentProjectIndex !== -1 && (
                       <div className="flex items-center bg-[var(--bg)] border border-[var(--border)] rounded font-mono text-xs overflow-hidden">
                         <button 
@@ -352,7 +356,8 @@ export default function Hub() {
                     )}
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  {/* Right: Theme, Lang, Close */}
+                  <div className="flex-1 flex items-center justify-start sm:justify-end gap-3">
                     <ThemeToggle />
                     <button
                       onClick={toggle}
