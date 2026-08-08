@@ -385,7 +385,7 @@ export default function Hub() {
                       className="flex items-center gap-1.5 font-mono text-xs tracking-[0.15em] text-[var(--accent)] border border-[var(--accent)]/30 rounded px-3 py-1 bg-[var(--accent)]/10 transition-colors hover:bg-[var(--accent)] hover:text-black"
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                      {lang === "fr" ? "FERMER" : "CLOSE"}
+                      <span className="hidden sm:inline">{lang === "fr" ? "FERMER" : "CLOSE"}</span>
                     </button>
                   </div>
                 </div>
@@ -610,7 +610,7 @@ export default function Hub() {
                       className="w-1/3 flex justify-start items-center gap-1 sm:gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-1 sm:p-2 rounded hover:bg-[var(--bg)] text-left group"
                     >
                       <svg className="shrink-0 transition-transform group-hover:-translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                      <span className="truncate font-semibold">{prevProject.label[lang]}</span>
+                      <span className="truncate font-semibold hidden sm:inline">{prevProject.label[lang]}</span>
                     </button>
                   ) : (
                     <div className="w-1/3"></div>
@@ -647,7 +647,7 @@ export default function Hub() {
                       }}
                       className="w-1/3 flex justify-end items-center gap-1 sm:gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-1 sm:p-2 rounded hover:bg-[var(--bg)] text-right group"
                     >
-                      <span className="truncate font-semibold">{nextProject.label[lang]}</span>
+                      <span className="truncate font-semibold hidden sm:inline">{nextProject.label[lang]}</span>
                       <svg className="shrink-0 transition-transform group-hover:translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                     </button>
                   ) : (
