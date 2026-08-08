@@ -337,7 +337,7 @@ export default function Hub() {
               </div>
               <div className="relative p-6 md:p-10">
                 {/* Header du panneau déplié avec langue et bouton RETOUR en haut */}
-                <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-3">
+                <div className="relative flex flex-row items-center justify-between gap-2 sm:gap-4 mb-3">
                   
                   {/* Left: Index */}
                   <div className="flex-1 flex items-center justify-start">
@@ -598,10 +598,8 @@ export default function Hub() {
                 )}
 
                 {/* Barre de navigation inférieure : Précédent, Haut, Retour, Suivant */}
-                {/* ========================================= */}
-                {/* DESKTOP FOOTER (Original, intact) */}
-                {/* ========================================= */}
-                <div className="hidden sm:flex mt-12 pt-6 border-t border-[var(--border)] flex-row items-center justify-between gap-4 font-mono text-xs">
+                <div className="mt-12 pt-6 border-t border-[var(--border)] flex flex-row items-center justify-between gap-2 sm:gap-4 font-mono text-xs">
+                  
                   {/* Previous Project */}
                   {prevProject ? (
                     <button
@@ -609,7 +607,7 @@ export default function Hub() {
                         window.scrollTo({ top: 0, behavior: "smooth" });
                         navigate(prevProject.id, null, "projet", "push");
                       }}
-                      className="w-1/3 flex justify-start items-center gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-2 rounded hover:bg-[var(--bg)] text-left group"
+                      className="w-1/3 flex justify-start items-center gap-1 sm:gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-1 sm:p-2 rounded hover:bg-[var(--bg)] text-left group"
                     >
                       <svg className="shrink-0 transition-transform group-hover:-translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                       <span className="truncate font-semibold">{prevProject.label[lang]}</span>
@@ -619,7 +617,7 @@ export default function Hub() {
                   )}
 
                   {/* Scroll to Top & Back */}
-                  <div className="w-1/3 flex justify-center items-center gap-4">
+                  <div className="w-1/3 flex justify-center items-center gap-2 sm:gap-4">
                     <button
                       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                       className="flex flex-col items-center gap-1 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors p-2 rounded hover:bg-[var(--bg)]"
@@ -647,7 +645,7 @@ export default function Hub() {
                         window.scrollTo({ top: 0, behavior: "smooth" });
                         navigate(nextProject.id, null, "projet", "push");
                       }}
-                      className="w-1/3 flex justify-end items-center gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-2 rounded hover:bg-[var(--bg)] text-right group"
+                      className="w-1/3 flex justify-end items-center gap-1 sm:gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-1 sm:p-2 rounded hover:bg-[var(--bg)] text-right group"
                     >
                       <span className="truncate font-semibold">{nextProject.label[lang]}</span>
                       <svg className="shrink-0 transition-transform group-hover:translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
@@ -656,63 +654,6 @@ export default function Hub() {
                     <div className="w-1/3"></div>
                   )}
                 </div>
-
-                {/* ========================================= */}
-                {/* MOBILE FOOTER (Customized for single line) */}
-                {/* ========================================= */}
-                <div className="flex sm:hidden mt-12 pt-6 border-t border-[var(--border)] flex-row items-center justify-between gap-1 font-mono text-xs">
-                  {/* Previous Project (Icon only) */}
-                  {prevProject ? (
-                    <button
-                      onClick={() => {
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                        navigate(prevProject.id, null, "projet", "push");
-                      }}
-                      className="w-1/3 flex justify-start items-center gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-2 rounded hover:bg-[var(--bg)] group"
-                    >
-                      <svg className="shrink-0 transition-transform group-hover:-translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                    </button>
-                  ) : (
-                    <div className="w-1/3"></div>
-                  )}
-
-                  {/* Scroll to Top & Back */}
-                  <div className="w-1/3 flex justify-center items-center gap-4">
-                    <button
-                      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                      className="flex flex-col items-center gap-1 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors p-2 rounded hover:bg-[var(--bg)]"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-                    </button>
-                    <div className="w-px h-4 bg-[var(--border)]"></div>
-                    <button
-                      onClick={() => {
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                        navigate(null, null, "projet", "push");
-                      }}
-                      className="flex flex-col items-center gap-1 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-2 rounded hover:bg-[var(--bg)]"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
-                    </button>
-                  </div>
-
-                  {/* Next Project (Icon only) */}
-                  {nextProject ? (
-                    <button
-                      onClick={() => {
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                        navigate(nextProject.id, null, "projet", "push");
-                      }}
-                      className="w-1/3 flex justify-end items-center gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-2 rounded hover:bg-[var(--bg)] group"
-                    >
-                      <svg className="shrink-0 transition-transform group-hover:translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                    </button>
-                  ) : (
-                    <div className="w-1/3"></div>
-                  )}
-                </div>
-
-
               </div>
             </div>
           </motion.div>
