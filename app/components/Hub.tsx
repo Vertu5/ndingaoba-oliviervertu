@@ -229,6 +229,10 @@ export default function Hub() {
   const subOptions = isSuperDomain ? domains.filter((d) => d.superId === open!.id) : [];
   const subOpen = domains.find((d) => d.id === openSubId) ?? null;
 
+  const currentProjectIndex = open ? projectTiles.findIndex(p => p.id === open.id) : -1;
+  const prevProject = currentProjectIndex > 0 ? projectTiles[currentProjectIndex - 1] : null;
+  const nextProject = currentProjectIndex !== -1 && currentProjectIndex < projectTiles.length - 1 ? projectTiles[currentProjectIndex + 1] : null;
+
   function openTile(id: string) {
     navigate(id, null, "projet", "push");
   }
@@ -539,25 +543,61 @@ export default function Hub() {
                   <SectionChat sectionId={subOpen ? subOpen.id : open.id} />
                 )}
 
-                {/* Barre de navigation inférieure : Remonter en haut & Retour au menu */}
-                <div className="mt-10 pt-6 border-t border-[var(--border)] flex items-center justify-between font-mono text-xs">
-                  <button
-                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                    className="inline-flex items-center gap-1.5 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors py-1.5 px-2 rounded hover:bg-[var(--bg)]"
-                  >
-                    <span>⬆</span>
-                    <span>{lang === "fr" ? "Remonter en haut" : "Scroll to top"}</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                      navigate(null, null, "projet", "push");
-                    }}
-                    className="inline-flex items-center gap-1.5 text-[var(--accent)] hover:underline border border-[var(--accent)]/30 rounded px-3 py-1.5 bg-[var(--accent)]/10 transition-colors hover:bg-[var(--accent)] hover:text-black font-medium"
-                  >
-                    <span>←</span>
-                    <span>{t.back}</span>
-                  </button>
+                {/* Barre de navigation inférieure : Précédent, Haut, Retour, Suivant */}
+                <div className="mt-12 pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs">
+                  
+                  {/* Previous Project */}
+                  {prevProject ? (
+                    <button
+                      onClick={() => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                        navigate(prevProject.id, null, "projet", "push");
+                      }}
+                      className="w-full sm:w-1/3 flex justify-start items-center gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-2 rounded hover:bg-[var(--bg)] text-left"
+                    >
+                      <span className="text-lg shrink-0">←</span>
+                      <span className="truncate">{prevProject.label[lang]}</span>
+                    </button>
+                  ) : (
+                    <div className="hidden sm:block sm:w-1/3"></div>
+                  )}
+
+                  {/* Scroll to Top & Back */}
+                  <div className="w-full sm:w-1/3 flex justify-center items-center gap-4">
+                    <button
+                      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                      className="inline-flex items-center gap-1.5 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors py-1.5 px-3 rounded hover:bg-[var(--bg)]"
+                    >
+                      <span>⬆</span>
+                      <span className="hidden sm:inline">{lang === "fr" ? "Haut" : "Top"}</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                        navigate(null, null, "projet", "push");
+                      }}
+                      className="inline-flex items-center gap-1.5 text-[var(--accent)] hover:underline border border-[var(--accent)]/30 rounded px-3 py-1.5 bg-[var(--accent)]/10 transition-colors hover:bg-[var(--accent)] hover:text-black font-medium"
+                    >
+                      <span>⌂</span>
+                      <span>{t.back}</span>
+                    </button>
+                  </div>
+
+                  {/* Next Project */}
+                  {nextProject ? (
+                    <button
+                      onClick={() => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                        navigate(nextProject.id, null, "projet", "push");
+                      }}
+                      className="w-full sm:w-1/3 flex justify-end items-center gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-2 rounded hover:bg-[var(--bg)] text-right"
+                    >
+                      <span className="truncate">{nextProject.label[lang]}</span>
+                      <span className="text-lg shrink-0">→</span>
+                    </button>
+                  ) : (
+                    <div className="hidden sm:block sm:w-1/3"></div>
+                  )}
                 </div>
               </div>
             </div>
