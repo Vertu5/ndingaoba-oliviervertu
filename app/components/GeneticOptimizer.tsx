@@ -52,14 +52,14 @@ export default function GeneticOptimizer() {
           </div>
           
           {/* Controls */}
-          <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-black/80 px-6 py-3 rounded-full text-white font-sans backdrop-blur-sm border border-white/10 shadow-xl z-10">
+          <div className="fixed bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 sm:gap-4 bg-black/80 px-4 sm:px-6 py-2 sm:py-3 rounded-full text-white font-sans backdrop-blur-sm border border-white/10 shadow-xl z-10 w-[90%] sm:w-auto justify-center max-w-sm">
             <button onClick={() => setImgZoom(z => Math.max(1, z - 0.5))} className="hover:text-blue-400 font-bold text-2xl px-2 leading-none">−</button>
             <span className="font-mono text-sm w-12 text-center">{Math.round(imgZoom * 100)}%</span>
             <button onClick={() => setImgZoom(z => Math.min(4, z + 0.5))} className="hover:text-blue-400 font-bold text-2xl px-2 leading-none">+</button>
-            <div className="w-px h-5 bg-white/20 mx-2"></div>
+            <div className="w-px h-5 bg-white/20 mx-1 sm:mx-2"></div>
             <button 
               onClick={() => { setFullscreenImg(null); setImgZoom(1); }}
-              className="hover:text-red-400 text-sm font-bold uppercase tracking-wider"
+              className="hover:text-red-400 text-xs sm:text-sm font-bold uppercase tracking-wider"
             >
               {isEn ? "Close ✕" : "Fermer ✕"}
             </button>
@@ -71,9 +71,9 @@ export default function GeneticOptimizer() {
         
         {/* HEADER / TITRE */}
         <header className="max-w-3xl mx-auto pt-16 pb-12 px-6">
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 font-sans tracking-tight text-slate-900">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6 font-sans tracking-tight text-slate-900">
             {isEn ? "Evolutionary Spatial Allocation" : "Allocation Spatiale Évolutive"} <br/>
-            <span className="text-slate-500 font-light text-3xl">(NSGA-II & PROMETHEE II)</span>
+            <span className="text-slate-500 font-light text-xl sm:text-2xl md:text-3xl">(NSGA-II & PROMETHEE II)</span>
           </h1>
           
           <div className="flex flex-wrap items-center gap-4 text-sm font-sans mb-10 text-slate-600 border-b border-slate-200 pb-8">
@@ -93,7 +93,7 @@ export default function GeneticOptimizer() {
           </div>
 
           {/* ABSTRACT */}
-          <section className="text-xl leading-relaxed text-slate-700 mb-12 text-justify">
+          <section className="text-xl leading-relaxed text-slate-700 mb-12 text-left md:text-justify">
             <p>
               <strong>{isEn ? "Project Goal:" : "Le but du projet :"}</strong> {isEn 
                 ? "Automating spatial decision-making for agricultural land expansion. We aim to find the optimal land parcels to purchase in order to maximize crop yields, maintain proximity to existing farms, and group fields efficiently, all while strictly adhering to a predefined budget constraint."
@@ -123,7 +123,7 @@ export default function GeneticOptimizer() {
               </button>
             </div>
             
-            <p className="mb-8 text-base text-slate-600 text-justify">
+            <p className="mb-8 text-base text-slate-600 text-left md:text-justify">
               {isEn 
                 ? "Before seeking a solution, we must understand the baseline. The territory is divided into parcels. Some already belong to the farmer (Existing Farms), others are candidates for purchase, and each has a specific cost and yield potential." 
                 : "Avant de chercher une solution, il faut comprendre notre point de départ. Le territoire est divisé en parcelles. Certaines appartiennent déjà à l'agriculteur (Fermes existantes), d'autres sont candidates à l'achat, et chacune possède un coût et un potentiel de rendement différent."
@@ -131,7 +131,7 @@ export default function GeneticOptimizer() {
             </p>
 
             {/* INITIAL PROBLEM MAPS */}
-            <figure className="mb-12 -mx-4 md:-mx-8">
+            <figure className="mb-12 -mx-6 md:-mx-8">
               <div 
                 className="bg-white p-3 rounded-lg border border-slate-200 shadow-sm cursor-zoom-in hover:shadow-md transition-shadow"
                 onClick={() => setFullscreenImg(`/assets/${isEn ? 'en' : 'fr'}/input_maps.png`)}
@@ -147,7 +147,7 @@ export default function GeneticOptimizer() {
               </figcaption>
             </figure>
 
-            <p className="mb-6 text-base text-slate-600 text-justify">
+            <p className="mb-6 text-base text-slate-600 text-left md:text-justify">
               {isEn 
                 ? "When purchasing new land, the AI algorithm balances 4 often contradictory objectives:" 
                 : "Lors de l'achat de nouvelles parcelles, l'algorithme d'Intelligence Artificielle arbitre la situation entre 4 objectifs souvent contradictoires :"
@@ -155,7 +155,7 @@ export default function GeneticOptimizer() {
             </p>
 
             <ul className="space-y-4 mb-8">
-              <li className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm text-justify">
+              <li className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm text-left md:text-justify">
                 <strong className="font-sans text-slate-900">1. {isEn ? "Productivity (Maximize)" : "Productivité (Maximiser)"}</strong>
                 <p className="mt-1 text-base text-slate-600">{isEn ? "Prioritize land that offers the highest crop yield." : "Acheter en priorité les terres qui offrent le meilleur rendement de culture."}</p>
                 {showTheory && (
@@ -165,7 +165,7 @@ export default function GeneticOptimizer() {
                   </div>
                 )}
               </li>
-              <li className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm text-justify">
+              <li className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm text-left md:text-justify">
                 <strong className="font-sans text-slate-900">2. {isEn ? "Proximity (Minimize)" : "Proximité (Minimiser)"}</strong>
                 <p className="mt-1 text-base text-slate-600">{isEn ? "Keep new land as close as possible to existing infrastructure to reduce transport costs." : "Garder les nouvelles terres le plus près possible des infrastructures existantes pour réduire les coûts de transport."}</p>
                 {showTheory && (
@@ -175,7 +175,7 @@ export default function GeneticOptimizer() {
                   </div>
                 )}
               </li>
-              <li className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm text-justify">
+              <li className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm text-left md:text-justify">
                 <strong className="font-sans text-slate-900">3. {isEn ? "Compactness (Minimize Scatter)" : "Compacité (Minimiser l'éparpillement)"}</strong>
                 <p className="mt-1 text-base text-slate-600">{isEn ? "Favor large, contiguous blocks of land rather than small, scattered 'confetti' patches." : "Favoriser des gros blocs de terres collés les uns aux autres, plutôt que des petits bouts de champs éparpillés partout en 'confetti'."}</p>
                 {showTheory && (
@@ -185,7 +185,7 @@ export default function GeneticOptimizer() {
                   </div>
                 )}
               </li>
-              <li className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm text-justify">
+              <li className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm text-left md:text-justify">
                 <strong className="font-sans text-slate-900">4. {isEn ? "Budget (Strict Constraint)" : "Le Budget (Contrainte Stricte)"}</strong>
                 <p className="mt-1 text-base text-slate-600">{isEn ? "The total price of the purchased land must never exceed the farmer's wallet." : "Le prix total des terres achetées ne doit jamais dépasser le portefeuille de l'agriculteur."}</p>
                 {showTheory && (
@@ -203,7 +203,7 @@ export default function GeneticOptimizer() {
             <h2 className="text-2xl font-bold font-sans mb-6 border-b border-slate-200 pb-2">
               {isEn ? "How the Genetic Algorithm Works" : "Comment fonctionne l'Algorithme Génétique ?"}
             </h2>
-            <p className="mb-8 text-base text-slate-600 text-justify">
+            <p className="mb-8 text-base text-slate-600 text-left md:text-justify">
               {isEn 
                 ? "To solve this complex equation, we use an AI inspired by Darwin's theory of evolution. Instead of testing all billions of possibilities, the algorithm \"evolves\" solutions over generations."
                 : "Pour résoudre cette équation complexe, nous utilisons une IA inspirée par la théorie de l'évolution de Darwin. Au lieu de tester les milliards de possibilités une par une, l'algorithme fait \"évoluer\" les solutions sur plusieurs générations."
@@ -264,13 +264,13 @@ export default function GeneticOptimizer() {
               <h2 className="text-xl font-bold font-sans mb-4 text-blue-900">
                 {isEn ? "Algorithmic Architecture (Advanced)" : "Architecture Algorithmique (Avancé)"}
               </h2>
-              <p className="mb-4 text-base text-slate-700 text-justify">
+              <p className="mb-4 text-base text-slate-700 text-left md:text-justify">
                 {isEn 
                   ? "Unlike classical approaches that arbitrarily sum scores, this architecture implements pure Multi-Objective Pareto Dominance."
                   : "Contrairement aux approches classiques qui additionnent arbitrairement les scores, cette architecture implémente une Dominance de Pareto multi-objectifs pure."
                 }
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans text-justify">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans text-left md:text-justify">
                 <div className="bg-white p-4 rounded border border-slate-200 shadow-sm overflow-x-auto">
                   <strong className="text-slate-900 text-sm">{isEn ? "NSGA-II Engine" : "Moteur NSGA-II"}</strong>
                   <p className="mt-1 text-sm text-slate-600">
@@ -298,7 +298,7 @@ export default function GeneticOptimizer() {
             <h2 className="text-2xl font-bold font-sans mb-6 border-b border-slate-200 pb-2">
               {isEn ? "2. Interactive Solution Exploration" : "2. Exploration Interactive des Solutions"}
             </h2>
-            <p className="mb-10 text-base text-slate-600 text-justify">
+            <p className="mb-10 text-base text-slate-600 text-left md:text-justify">
               {isEn 
                 ? "The AI algorithm generates dozens of valid compromises (the \"Pareto Front\"). You can explore the 31 best solutions found below. The slider allows you to navigate from the most balanced solution (Solution 1) to more extreme solutions."
                 : "L'algorithme IA génère des dizaines de compromis valides (le \"Front de Pareto\"). Vous pouvez explorer ci-dessous les 31 meilleures solutions trouvées. Le curseur vous permet de naviguer de la solution la plus équilibrée (Solution 1) aux solutions plus extrêmes."
@@ -307,7 +307,7 @@ export default function GeneticOptimizer() {
               <em>{isEn ? "Tip: Click on any image or graph to view it in full screen and read the axes in detail!" : "Astuce : Cliquez sur n'importe quelle image ou graphique pour l'afficher en plein écran et zoomer dedans !"}</em>
             </p>
 
-            <figure className="mb-16 -mx-4 md:-mx-12 lg:-mx-24 font-sans">
+            <figure className="mb-16 -mx-6 md:-mx-12 lg:-mx-24 font-sans">
               
               {/* INTERACTIVE VIEWER (Modal-aware) */}
               <div className={`transition-all duration-300 ${tourFullscreen ? 'fixed inset-0 z-[70] bg-black/95 flex flex-col items-center justify-center p-4 sm:p-12 overflow-y-auto' : 'bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-xl flex flex-col items-center'}`}>
@@ -343,16 +343,16 @@ export default function GeneticOptimizer() {
 
                 {/* CONTROLS */}
                 <div className={`w-full max-w-3xl mt-6 flex flex-col items-center gap-4 ${tourFullscreen ? 'bg-black/50 p-6 rounded-2xl border border-white/10 backdrop-blur-md mt-8' : ''}`}>
-                  <div className="flex w-full items-center gap-4">
+                  <div className="flex w-full items-center justify-between gap-2 sm:gap-4">
                     <button 
                       onClick={() => setFrameIndex(Math.max(0, frameIndex - 1))}
                       disabled={frameIndex === 0}
-                      className={`px-4 py-2 ${tourFullscreen ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'} disabled:opacity-30 font-bold rounded-lg transition-colors`}
+                      className={`px-3 py-2 sm:px-4 ${tourFullscreen ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'} disabled:opacity-30 font-bold rounded-lg transition-colors`}
                     >
-                      ⬅ {isEn ? "Prev" : "Préc"}
+                      ⬅<span className="hidden sm:inline"> {isEn ? "Prev" : "Préc"}</span>
                     </button>
                     
-                    <div className="flex-1 flex flex-col items-center px-4">
+                    <div className="flex-1 flex flex-col items-center px-1 sm:px-4">
                       <input 
                         type="range" 
                         min="0" 
@@ -361,17 +361,17 @@ export default function GeneticOptimizer() {
                         onChange={(e) => setFrameIndex(parseInt(e.target.value))}
                         className="w-full accent-blue-500 h-2 bg-slate-300/50 rounded-lg appearance-none cursor-pointer"
                       />
-                      <span className={`text-xs font-mono mt-3 font-bold tracking-widest uppercase ${tourFullscreen ? 'text-blue-300' : 'text-slate-500'}`}>
-                        {isEn ? "Solution" : "Solution"} {frameIndex + 1} / {totalFrames}
+                      <span className={`text-[10px] sm:text-xs font-mono mt-3 font-bold tracking-widest uppercase ${tourFullscreen ? 'text-blue-300' : 'text-slate-500'}`}>
+                        <span className="hidden sm:inline">{isEn ? "Solution" : "Solution"}</span> {frameIndex + 1} / {totalFrames}
                       </span>
                     </div>
 
                     <button 
                       onClick={() => setFrameIndex(Math.min(totalFrames - 1, frameIndex + 1))}
                       disabled={frameIndex === totalFrames - 1}
-                      className={`px-4 py-2 ${tourFullscreen ? 'bg-blue-600 text-white hover:bg-blue-500' : 'bg-blue-600 text-white hover:bg-blue-700'} disabled:opacity-30 font-bold rounded-lg transition-colors shadow-sm`}
+                      className={`px-3 py-2 sm:px-4 ${tourFullscreen ? 'bg-blue-600 text-white hover:bg-blue-500' : 'bg-blue-600 text-white hover:bg-blue-700'} disabled:opacity-30 font-bold rounded-lg transition-colors shadow-sm`}
                     >
-                      {isEn ? "Next" : "Suiv"} ➡
+                      <span className="hidden sm:inline">{isEn ? "Next" : "Suiv"} </span>➡
                     </button>
                   </div>
                 </div>
@@ -385,7 +385,7 @@ export default function GeneticOptimizer() {
             </figure>
 
             {/* Figure 3 & 4: Evolutions side-by-side (Static Generated Visuals) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 -mx-4 md:-mx-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 -mx-6 md:-mx-12">
               <figure>
                 <div 
                   className="bg-white border border-slate-200 p-2 shadow-sm rounded-lg cursor-zoom-in hover:shadow-md transition-all group relative"
@@ -398,7 +398,7 @@ export default function GeneticOptimizer() {
                     </span>
                   </div>
                 </div>
-                <figcaption className="mt-4 text-sm font-sans text-slate-500 px-2 text-justify">
+                <figcaption className="mt-4 text-sm font-sans text-slate-500 px-2 text-left md:text-justify">
                   <strong>{isEn ? "Figure 3. Spatial Evolution." : "Figure 3. Évolution Spatiale."}</strong> {isEn ? "The algorithm converges from a sparse distribution to contiguous agricultural blocks across generations." : "L'algorithme converge d'une distribution éparse vers des blocs agricoles contigus au fil des générations."}
                 </figcaption>
               </figure>
@@ -415,7 +415,7 @@ export default function GeneticOptimizer() {
                     </span>
                   </div>
                 </div>
-                <figcaption className="mt-4 text-sm font-sans text-slate-500 px-2 text-justify">
+                <figcaption className="mt-4 text-sm font-sans text-slate-500 px-2 text-left md:text-justify">
                   <strong>{isEn ? "Figure 4. Frontier Convergence." : "Figure 4. Convergence du Front."}</strong> {isEn ? "The population converges towards the true Pareto front in the objective space, escaping local minima." : "La population converge vers le véritable front de Pareto dans l'espace des objectifs, s'échappant des minima locaux."}
                 </figcaption>
               </figure>
@@ -425,7 +425,7 @@ export default function GeneticOptimizer() {
           {/* CONCLUSION / REPO */}
           <section className="bg-slate-900 text-slate-300 p-8 rounded-xl font-sans shadow-lg">
             <h3 className="text-xl font-bold text-white mb-4">{isEn ? "Quality Verification & Open Source" : "Vérification de Qualité & Open Source"}</h3>
-            <p className="text-sm mb-4 leading-relaxed text-justify">
+            <p className="text-sm mb-4 leading-relaxed text-left md:text-justify">
               {isEn 
                 ? "The pipeline executes an automated quality audit (" 
                 : "Le pipeline exécute un audit de qualité automatisé ("
