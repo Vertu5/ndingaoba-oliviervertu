@@ -5,6 +5,9 @@ import { useLang } from "@/app/lib/i18n";
 import { Database, Code2, Play, Download, Globe, Server, Check, ArrowRight } from "lucide-react";
 import CustomERD from "./CustomERD";
 import AirQualityDashboard from "./AirQualityDashboard";
+import TimeAnalytics from "./TimeAnalytics";
+import PollutantDistribution from "./PollutantDistribution";
+import AlertsTable from "./AlertsTable";
 
 // ==============================================================================
 // ⚙️ Project: Air Quality System Design (PostgreSQL / FastAPI)
@@ -388,6 +391,20 @@ export default function SystemDesign() {
               )}
             </div>
           </div>
+        </section>
+
+        {/* SECTION 3: DATA ENGINEERING USE CASES */}
+        <section className="mb-16">
+          <div className="flex flex-col md:flex-row justify-between items-baseline mb-10 border-b border-slate-200 dark:border-[var(--border)] pb-2">
+            <h2 className="text-2xl font-bold font-sans">
+              {isEn ? "3. Data Engineering Use Cases" : "3. Cas d'Usage Data Engineering"}
+            </h2>
+          </div>
+          
+          <TimeAnalytics isEn={isEn} />
+          <PollutantDistribution isEn={isEn} />
+          <AlertsTable isEn={isEn} />
+          
         </section>
         
       </main>
