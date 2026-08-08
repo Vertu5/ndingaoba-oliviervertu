@@ -2,8 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import type { Database as SupabaseDatabase } from "@/lib/database.types";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { Activity, CloudRain, AlertTriangle, Database, Code, Check } from "lucide-react";
+import { motion, Variants } from "framer-motion";
+
+const fadeUpVariant: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+};
 
 interface AirQualityDashboardProps {
   isEn?: boolean;
@@ -15,6 +22,8 @@ interface ChartData {
   quality: string;
   fill: string;
 }
+
+type MetricRow = SupabaseDatabase['public']['Views']['vw_latest_city_metrics']['Row'];
 
 const AVAILABLE_CITIES = ["Paris", "London", "Brussels", "Berlin", "Madrid"];
 
@@ -45,9 +54,9 @@ export default function AirQualityDashboard({ isEn = true }: AirQualityDashboard
 
         if (measurements && measurements.length > 0) {
           // Format for Recharts
-          const chartData: ChartData[] = measurements.map((m: any) => {
-            const city = m.city_name;
-            const val = m.value;
+          const chartData: ChartData[] = measurements.map((m: MetricRow) => {
+            const city = m.city_name || "";
+            const val = m.value || 0;
             // WHO Guideline for PM2.5 is 15 µg/m³ (24h)
             let quality = isEn ? "Good" : "Bon";
             let fill = "#10b981"; // emerald-500
@@ -106,7 +115,13 @@ WHERE pollutant_code = 'pm25'
 LIMIT 10;`;
 
   return (
-    <div className="w-full mb-12 flex flex-col gap-4">
+    <motion.div 
+      variants={fadeUpVariant}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      className="w-full mb-12 flex flex-col gap-4"
+    >
       {/* Interactive Controls */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white dark:bg-[var(--bg-elevated)] border border-slate-200 dark:border-[var(--border)] p-4 rounded-xl shadow-sm">
         <div className="flex flex-wrap gap-2 items-center">
@@ -245,7 +260,13 @@ LIMIT 10;`;
           </div>
         )}
         
-        <div className="mt-6 flex flex-wrap gap-4 items-center justify-center text-xs md:text-sm text-slate-500 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800 pt-4">
+        <motion.div 
+          variants={fadeUpVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="mt-6 flex flex-wrap gap-4 items-center justify-center text-xs md:text-sm text-slate-500 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800 pt-4"
+        >
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
             <span>{isEn ? "Good (≤ 15)" : "Bon (≤ 15)"}</span>
@@ -258,8 +279,8 @@ LIMIT 10;`;
             <div className="w-3 h-3 rounded-full bg-red-500"></div>
             <span>{isEn ? "Poor (> 35)" : "Mauvais (> 35)"}</span>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }

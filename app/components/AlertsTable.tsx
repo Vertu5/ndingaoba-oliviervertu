@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import type { Database } from "@/lib/database.types";
 import SqlShowcaseLayout from "./SqlShowcaseLayout";
 import { Activity, AlertTriangle, AlertOctagon } from "lucide-react";
 
@@ -9,8 +10,10 @@ interface Props {
   isEn?: boolean;
 }
 
+type AlertRow = Database['public']['Views']['vw_active_alerts']['Row'];
+
 export default function AlertsTable({ isEn = true }: Props) {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<AlertRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

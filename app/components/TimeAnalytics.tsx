@@ -30,6 +30,7 @@ export default function TimeAnalytics({ isEn = true }: Props) {
         const grouped: Record<string, any> = {};
         
         rawData?.forEach(row => {
+          if (!row.time_bucket || !row.city_name) return;
           // Format date to local time string (HH:MM)
           const date = new Date(row.time_bucket);
           const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });

@@ -15,6 +15,7 @@ import UrbanAirPollution from "@/app/components/UrbanAirPollution";
 import SystemDesign from "@/app/components/SystemDesign";
 import { useLang } from "@/app/lib/i18n";
 import ThemeToggle from "@/app/components/ThemeToggle";
+import { motion, AnimatePresence } from "framer-motion";
 
 const docTypeKey = {
   diplome: "docDiplome",
@@ -87,9 +88,11 @@ function StandardTileButton({
   onOpen: (id: string) => void;
 }) {
   return (
-    <button
+    <motion.button
+      whileHover={{ y: -4 }}
+      whileTap={{ scale: 0.98 }}
       onClick={() => onOpen(cat.id)}
-      className="group relative flex h-44 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40"
+      className="group relative flex h-44 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md"
     >
       <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
         <Pattern id={cat.id} />
@@ -102,7 +105,7 @@ function StandardTileButton({
         <h2 className="font-display text-xl font-medium">{cat.label[lang]}</h2>
         <p className="mt-1 text-sm text-[var(--text-muted)]">{cat.description[lang]}</p>
       </div>
-    </button>
+    </motion.button>
   );
 }
 
@@ -116,9 +119,11 @@ function ProjectTileButton({
   onOpen: (id: string) => void;
 }) {
   return (
-    <button
+    <motion.button
+      whileHover={{ y: -4 }}
+      whileTap={{ scale: 0.98 }}
       onClick={() => onOpen(cat.id)}
-      className="group relative flex h-44 flex-col justify-between overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40"
+      className="group relative flex h-44 flex-col justify-between overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md"
     >
       <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
         <Pattern id={cat.id} />
@@ -150,7 +155,7 @@ function ProjectTileButton({
           </div>
         )}
       </div>
-    </button>
+    </motion.button>
   );
 }
 
@@ -268,12 +273,17 @@ export default function Hub() {
       )}
 
       {/* Grille */}
-      <div
-        className="grid overflow-hidden transition-[grid-template-rows,opacity] duration-500"
-        style={{ gridTemplateRows: open ? "0fr" : "1fr", opacity: open ? 0 : 1 }}
-      >
-        <div className="min-h-0 space-y-10">
-          <section>
+      <AnimatePresence initial={false} mode="wait">
+        {!open && (
+          <motion.div
+            key="grid"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20, transition: { duration: 0.2 } }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="space-y-10"
+          >
+            <section>
             <p className="font-mono mb-3 text-xs tracking-[0.2em] text-[var(--text-muted)]">
               {t.sectionAbout}
             </p>
@@ -307,17 +317,21 @@ export default function Hub() {
               ))}
             </div>
           </section>
-        </div>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Contenu déplié */}
-      <div
-        className="grid overflow-hidden transition-[grid-template-rows] duration-500 ease-out"
-        style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
-      >
-        <div className="min-h-0">
-          {open && (
-            <div className="relative overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)]">
+      <AnimatePresence initial={false} mode="wait">
+        {open && (
+          <motion.div
+            key="detail"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 30, transition: { duration: 0.2 } }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="relative overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] shadow-lg">
               <div className="absolute inset-0 opacity-25">
                 <Pattern id={subOpen ? subOpen.id : open.id} />
               </div>
@@ -642,9 +656,9 @@ export default function Hub() {
                 </div>
               </div>
             </div>
-          )}
-        </div>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

@@ -27,8 +27,9 @@ export default function PollutantDistribution({ isEn = true }: Props) {
         // Let's just group all cities together for a total distribution
         const pollutantCounts: Record<string, number> = {};
         rawData?.forEach(row => {
+          if (!row.pollutant_code) return;
           const code = row.pollutant_code.toUpperCase();
-          pollutantCounts[code] = (pollutantCounts[code] || 0) + parseInt(row.measurement_count);
+          pollutantCounts[code] = (pollutantCounts[code] || 0) + parseInt((row.measurement_count || 0).toString());
         });
 
         const formatted = Object.keys(pollutantCounts).map((key, i) => ({

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useLang } from "@/app/lib/i18n";
 import { Database, Code2, Play, Download, Globe, Server, Check, ArrowRight } from "lucide-react";
+import { motion, Variants } from "framer-motion";
 import CustomERD from "./CustomERD";
 import AirQualityDashboard from "./AirQualityDashboard";
 import TimeAnalytics from "./TimeAnalytics";
@@ -272,6 +273,11 @@ export default function SystemDesign() {
   
   const [activeTab, setActiveTab] = useState<'erd' | 'sql' | 'docker' | 'advanced-sql'>('erd');
 
+  const fadeUp: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+  };
+
   return (
     <article lang={isEn ? "en" : "fr"} className="bg-[#fafafa] dark:bg-[var(--bg)] text-[#222222] dark:text-[var(--text)] font-serif selection:bg-blue-200 rounded-lg overflow-hidden border border-slate-200 dark:border-[var(--border)] shadow-xl relative">
       
@@ -322,7 +328,13 @@ export default function SystemDesign() {
         <AirQualityDashboard isEn={isEn} />
 
         {/* SECTION 1: DATABASE SCHEMA */}
-        <section className="mb-16">
+        <motion.section 
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="mb-16"
+        >
           <div className="flex flex-col md:flex-row justify-between items-baseline mb-6 border-b border-slate-200 dark:border-[var(--border)] pb-2">
             <h2 className="text-2xl font-bold font-sans">
               {isEn ? "1. Relational Database Modeling (3NF)" : "1. Modélisation de la Base de Données (3NF)"}
@@ -336,10 +348,16 @@ export default function SystemDesign() {
             }
           </p>
 
-        </section>
+        </motion.section>
 
         {/* SECTION 2: CODE IMPLEMENTATION */}
-        <section className="mb-16">
+        <motion.section 
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="mb-16"
+        >
           <div className="flex flex-col md:flex-row justify-between items-baseline mb-6 border-b border-slate-200 dark:border-[var(--border)] pb-2">
             <h2 className="text-2xl font-bold font-sans">
               {isEn ? "2. Database Schema Definition" : "2. Définition du Schéma de Base de Données"}
@@ -391,10 +409,16 @@ export default function SystemDesign() {
               )}
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* SECTION 3: DATA ENGINEERING USE CASES */}
-        <section className="mb-16">
+        <motion.section 
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="mb-16"
+        >
           <div className="flex flex-col md:flex-row justify-between items-baseline mb-10 border-b border-slate-200 dark:border-[var(--border)] pb-2">
             <h2 className="text-2xl font-bold font-sans">
               {isEn ? "3. Data Engineering Use Cases" : "3. Cas d'Usage Data Engineering"}
@@ -405,7 +429,7 @@ export default function SystemDesign() {
           <PollutantDistribution isEn={isEn} />
           <AlertsTable isEn={isEn} />
           
-        </section>
+        </motion.section>
         
       </main>
     </article>
