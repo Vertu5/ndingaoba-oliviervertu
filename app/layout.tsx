@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import { LangProvider } from "@/app/lib/i18n";
+import { ThemeProvider } from "@/app/components/ThemeProvider";
 import "katex/dist/katex.min.css";
 import "./globals.css";
 
@@ -36,9 +37,12 @@ export default function RootLayout({
     <html
       lang="fr"
       className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--text)]">
-        <LangProvider>{children}</LangProvider>
+      <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--text)] transition-colors duration-300">
+        <ThemeProvider attribute="class" defaultTheme="dark">
+          <LangProvider>{children}</LangProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

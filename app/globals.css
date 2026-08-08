@@ -1,6 +1,21 @@
 @import "tailwindcss";
 
 :root {
+  /* Light mode (default variables overridden by .dark) */
+  --bg: #fafafa;
+  --bg-elevated: #ffffff;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --accent: #0ea5e9;
+  --accent-dim: #0ea5e922;
+
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+.dark {
+  /* Dark mode */
   --bg: #15161c;
   --bg-elevated: #1b1c24;
   --border: #2a2b35;
@@ -8,9 +23,6 @@
   --text-muted: #8b8b95;
   --accent: #5eead4;
   --accent-dim: #5eead422;
-
-  --font-sans: var(--font-body);
-  --font-mono: var(--font-mono);
 }
 
 * {
