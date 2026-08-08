@@ -109,7 +109,7 @@ ndingaoba-oliviervertu/
 *Ingénieur civil en informatique · Bruxelles, Belgique*
 
 - **GitHub** : [@Vertu5](https://github.com/Vertu5)
-- **LinkedIn** : [NDINGA OBA Olivier Vertu]([https://www.linkedin.com/in/olivier-vertu-ndinga-oba](https://www.linkedin.com/in/olivier-ndinga-oba-1510101b7/))
+- **LinkedIn** : [NDINGA OBA Olivier Vertu]([https://www.linkedin.com/in/olivier-vertu-ndinga-oba](https://www.linkedin.com/in/olivier-ndinga-oba-1510101b7/)
 - **Diplômes** : ULB (Master Ingénieur Civil Informatique - Distinction) & ERM (Bachelier Polytechnique)
 
 ---
