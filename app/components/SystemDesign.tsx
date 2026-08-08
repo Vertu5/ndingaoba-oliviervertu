@@ -303,7 +303,7 @@ export default function SystemDesign() {
                 onClick={() => setActiveTab('erd')}
                 className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${activeTab === 'erd' ? 'bg-slate-800 text-blue-400 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}`}
               >
-                Diagramme Entité-Association (ERD)
+                {isEn ? "Entity-Relationship Diagram (ERD)" : "Diagramme Entité-Association (ERD)"}
               </button>
               <button 
                 onClick={() => setActiveTab('sql')}
@@ -322,7 +322,7 @@ export default function SystemDesign() {
             <div className="bg-slate-950 overflow-x-auto">
               {activeTab === 'erd' && (
                 <div className="p-4">
-                  <CustomERD />
+                  <CustomERD isEn={isEn} />
                 </div>
               )}
               {(activeTab === 'sql' || activeTab === 'docker') && (
