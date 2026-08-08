@@ -268,6 +268,27 @@ COMMENT ON TABLE stations IS 'Air quality monitoring stations (from OpenAQ)';
 COMMENT ON TABLE measurements IS 'Hourly air quality measurements (fact table)';
 COMMENT ON TABLE alerts IS 'Alerts generated when WHO thresholds are exceeded';`;
 
+const dockerComposeCode = `version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: air_quality_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
+      POSTGRES_DB: air_quality
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Automatically run init.sql on startup to create the schema and seed data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+
+volumes:
+  postgres_data:`;
+
 const DatabaseSchema = () => (
   <div className="my-12 p-6 sm:p-8 bg-slate-950 rounded-xl border border-slate-800 shadow-2xl relative overflow-x-auto">
     <h3 className="text-xl font-bold font-sans text-slate-100 mb-8 flex items-center gap-3">
@@ -282,7 +303,7 @@ export default function SystemDesign() {
   const { lang } = useLang();
   const isEn = lang === 'en';
   
-  const [activeTab, setActiveTab] = useState<'dbml' | 'sql'>('dbml');
+  const [activeTab, setActiveTab] = useState<'dbml' | 'sql' | 'docker'>('dbml');
 
   return (
     <article lang={isEn ? "en" : "fr"} className="bg-[#fafafa] dark:bg-[var(--bg)] text-[#222222] dark:text-[var(--text)] font-serif selection:bg-blue-200 rounded-lg overflow-hidden border border-slate-200 dark:border-[var(--border)] shadow-xl relative">
@@ -363,15 +384,19 @@ export default function SystemDesign() {
               >
                 init.sql (PostgreSQL)
               </button>
+              <button 
+                onClick={() => setActiveTab('docker')}
+                className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${activeTab === 'docker' ? 'bg-slate-800 text-blue-400 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}`}
+              >
+                docker-compose.yml
+              </button>
             </div>
             
             <div className="p-4 bg-slate-950 overflow-x-auto">
               <pre className="text-xs sm:text-sm font-mono leading-relaxed text-slate-300">
-                {activeTab === 'dbml' ? (
-                  <code>{dbmlCode}</code>
-                ) : (
-                  <code>{sqlCode}</code>
-                )}
+                {activeTab === 'dbml' && <code>{dbmlCode}</code>}
+                {activeTab === 'sql' && <code>{sqlCode}</code>}
+                {activeTab === 'docker' && <code>{dockerComposeCode}</code>}
               </pre>
             </div>
           </div>
