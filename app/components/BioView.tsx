@@ -78,7 +78,9 @@ export default function BioView({
             <div className="mt-4 text-center">
               <h3 className="font-display text-lg font-medium text-[var(--text)]">NDINGA OBA Olivier Vertu</h3>
               <p className="font-mono text-xs text-[var(--text-muted)] mt-1 uppercase tracking-wider">
-                Bruxelles, Belgique · Ingénieur Informatique & IA
+                {lang === "fr" 
+                  ? "Bruxelles, Belgique · Ingénieur Informatique & IA"
+                  : "Brussels, Belgium · Computer Science & AI Engineer"}
               </p>
             </div>
           </div>

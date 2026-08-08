@@ -257,7 +257,9 @@ export default function Hub() {
               NDINGA OBA Olivier Vertu
             </h1>
             <p className="font-mono text-xs text-[var(--text-muted)] mt-1.5 tracking-wider uppercase">
-              Ingénieur Informatique & IA · Systèmes Complexes & Leadership
+              {lang === "fr"
+                ? "Ingénieur Informatique & IA · Systèmes Complexes & Leadership"
+                : "Computer Science & AI Engineer · Complex Systems & Leadership"}
             </p>
           </div>
           <div className="flex items-center gap-3">
