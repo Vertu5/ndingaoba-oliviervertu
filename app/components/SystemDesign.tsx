@@ -2,7 +2,9 @@
 
 import React, { useState } from 'react';
 import { useLang } from "@/app/lib/i18n";
+import { Database, Code2, Play, Download, Globe, Server, Check, ArrowRight, Github } from "lucide-react";
 import CustomERD from "./CustomERD";
+import AirQualityDashboard from "./AirQualityDashboard";
 
 // ==============================================================================
 // ⚙️ Project: Air Quality System Design (PostgreSQL / FastAPI)
@@ -279,6 +281,9 @@ export default function SystemDesign() {
 
       <main className="max-w-4xl mx-auto px-6 pb-24 text-lg leading-relaxed text-slate-800 dark:text-[var(--text)]">
         
+        {/* DASHBOARD COMPONENT */}
+        <AirQualityDashboard isEn={isEn} />
+
         {/* SECTION 1: DATABASE SCHEMA */}
         <section className="mb-16">
           <div className="flex flex-col md:flex-row justify-between items-baseline mb-6 border-b border-slate-200 dark:border-[var(--border)] pb-2">
