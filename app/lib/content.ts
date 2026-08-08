@@ -82,6 +82,6 @@ export const content: ContentItem[] = [
       en: "End-to-end event-driven platform design: 3NF normalized relational database modeling, SQL DDL scripts with optimized indexing, real-time streaming ingestion pipeline, FastAPI REST API, and Docker containerization.",
     },
     tags: ["PostgreSQL", "SQL DDL", "FastAPI", "Data Modeling 3NF", "Docker", "DevOps"],
-    githubUrl: "https://github.com/Vertu5",
+    githubUrl: "https://github.com/Vertu5/air-quality-system-design",
   },
 ];
