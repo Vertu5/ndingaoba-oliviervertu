@@ -9,6 +9,170 @@ import { useLang } from "@/app/lib/i18n";
 // 👨💻 Author: NDINGA OBA Olivier Vertu
 // ==============================================================================
 
+// --- Visual Schemas ---
+
+const MissingDataTimeline = ({ isEn }: { isEn: boolean }) => (
+  <div className="my-10 bg-slate-50 dark:bg-[#151515] p-6 rounded-xl border border-slate-200 dark:border-[var(--border)] font-sans relative overflow-hidden">
+    <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    </div>
+    <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 mb-6 flex items-center gap-2">
+      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+      {isEn ? "The Imputation Strategy (Rolling Windows)" : "Stratégie d'Imputation (Fenêtres Glissantes)"}
+    </h3>
+    
+    <div className="flex flex-col gap-6">
+      {/* Raw Data */}
+      <div className="flex items-center gap-4">
+        <div className="w-24 text-xs font-semibold text-slate-500 uppercase tracking-wide">{isEn ? "Raw Data" : "Données Brutes"}</div>
+        <div className="flex-1 flex gap-1 sm:gap-2">
+          <div className="h-8 flex-1 bg-emerald-500 rounded flex items-center justify-center text-xs text-white font-mono">D1</div>
+          <div className="h-8 flex-1 bg-emerald-500 rounded flex items-center justify-center text-xs text-white font-mono">D2</div>
+          <div className="h-8 flex-1 bg-red-400/30 border border-red-400/50 rounded flex items-center justify-center text-xs text-red-500 font-mono pattern-diagonal-lines-sm">NaN</div>
+          <div className="h-8 flex-1 bg-red-400/30 border border-red-400/50 rounded flex items-center justify-center text-xs text-red-500 font-mono pattern-diagonal-lines-sm">NaN</div>
+          <div className="h-8 flex-1 bg-emerald-500 rounded flex items-center justify-center text-xs text-white font-mono">D5</div>
+          <div className="h-8 flex-1 bg-emerald-500 rounded flex items-center justify-center text-xs text-white font-mono">D6</div>
+        </div>
+      </div>
+      
+      {/* Arrow */}
+      <div className="flex items-center gap-4">
+        <div className="w-24"></div>
+        <div className="flex-1 border-l-2 border-b-2 border-blue-400 rounded-bl-lg h-6 ml-4"></div>
+        <div className="text-xs font-bold text-blue-500 bg-blue-100 dark:bg-blue-900/30 px-3 py-1 rounded-full whitespace-nowrap">
+          {isEn ? "23-Day Rolling Mean" : "Moyenne Glissante (23j)"}
+        </div>
+      </div>
+
+      {/* Cleaned Data */}
+      <div className="flex items-center gap-4">
+        <div className="w-24 text-xs font-semibold text-slate-500 uppercase tracking-wide">{isEn ? "Imputed" : "Imputées"}</div>
+        <div className="flex-1 flex gap-1 sm:gap-2 relative">
+          <div className="absolute inset-0 bg-blue-400/10 rounded-lg blur-md"></div>
+          <div className="h-8 flex-1 bg-blue-500 rounded flex items-center justify-center text-xs text-white font-mono z-10">D1</div>
+          <div className="h-8 flex-1 bg-blue-500 rounded flex items-center justify-center text-xs text-white font-mono z-10">D2</div>
+          <div className="h-8 flex-1 bg-blue-400 rounded flex items-center justify-center text-xs text-white font-mono z-10">µ</div>
+          <div className="h-8 flex-1 bg-blue-400 rounded flex items-center justify-center text-xs text-white font-mono z-10">µ</div>
+          <div className="h-8 flex-1 bg-blue-500 rounded flex items-center justify-center text-xs text-white font-mono z-10">D5</div>
+          <div className="h-8 flex-1 bg-blue-500 rounded flex items-center justify-center text-xs text-white font-mono z-10">D6</div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const FeatureImportanceChart = ({ isEn }: { isEn: boolean }) => {
+  const features = [
+    { name: "L3_HCHO_slant_column_mean_2", score: 95 },
+    { name: "L3_NO2_sensor_altitude_max_9", score: 82 },
+    { name: "L3_CO_column_number_density", score: 76 },
+    { name: "day_cos (Cyclic Encoding)", score: 68 },
+    { name: "precipitable_water", score: 55 },
+  ];
+  return (
+    <div className="my-10 bg-white dark:bg-[#111] p-6 sm:p-8 rounded-xl border border-slate-200 dark:border-[var(--border)] font-sans shadow-inner">
+      <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 mb-6 border-b border-slate-200 dark:border-[var(--border)] pb-2">
+        {isEn ? "Top Predictive Features (Mutual Information)" : "Meilleures Variables (Information Mutuelle)"}
+      </h3>
+      <div className="space-y-4">
+        {features.map((f, i) => (
+          <div key={i} className="flex flex-col gap-1">
+            <div className="flex justify-between text-xs font-mono text-slate-600 dark:text-slate-400">
+              <span className="truncate pr-4">{f.name}</span>
+              <span>{f.score}%</span>
+            </div>
+            <div className="w-full bg-slate-100 dark:bg-white/5 rounded-full h-2.5 overflow-hidden">
+              <div 
+                className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2.5 rounded-full transition-all duration-1000 ease-out"
+                style={{ width: `${f.score}%` }}
+              ></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const ArchitectureFlow = ({ isEn }: { isEn: boolean }) => (
+  <div className="my-10 bg-slate-900 text-white p-6 sm:p-8 rounded-xl font-sans overflow-x-auto shadow-2xl ring-1 ring-white/10">
+    <h3 className="text-lg font-bold text-slate-100 mb-8 flex items-center gap-2">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      {isEn ? "System Architecture (Ensemble)" : "Architecture Système (Ensemble)"}
+    </h3>
+    
+    <div className="min-w-[600px] flex flex-col items-center gap-6">
+      
+      {/* Layer 1: Inputs */}
+      <div className="flex gap-4 w-full justify-center">
+        <div className="bg-slate-800 border border-slate-700 px-4 py-3 rounded-lg text-center text-sm shadow-md flex-1">
+          <div className="font-bold text-blue-400">Ground Sensors</div>
+          <div className="text-xs text-slate-400 mt-1">PM2.5 Data (Noisy)</div>
+        </div>
+        <div className="bg-slate-800 border border-slate-700 px-4 py-3 rounded-lg text-center text-sm shadow-md flex-1">
+          <div className="font-bold text-indigo-400">Satellite Sentinel-5P</div>
+          <div className="text-xs text-slate-400 mt-1">NO2, HCHO, CO</div>
+        </div>
+        <div className="bg-slate-800 border border-slate-700 px-4 py-3 rounded-lg text-center text-sm shadow-md flex-1">
+          <div className="font-bold text-emerald-400">Weather API</div>
+          <div className="text-xs text-slate-400 mt-1">Temp, Wind, Humidity</div>
+        </div>
+      </div>
+
+      {/* Arrow Down */}
+      <div className="text-slate-600">↓</div>
+
+      {/* Layer 2: Feature Eng */}
+      <div className="bg-gradient-to-r from-blue-900/50 to-indigo-900/50 border border-blue-500/30 px-6 py-4 rounded-xl text-center w-full shadow-lg">
+        <div className="font-bold text-lg mb-2">Feature Engineering & Imputation</div>
+        <div className="flex justify-center gap-3 text-xs">
+          <span className="bg-blue-950 px-2 py-1 rounded border border-blue-800">Cyclic Encoding (day_cos)</span>
+          <span className="bg-indigo-950 px-2 py-1 rounded border border-indigo-800">23-Day Rolling Windows</span>
+          <span className="bg-purple-950 px-2 py-1 rounded border border-purple-800">Lag & Lead Features</span>
+        </div>
+      </div>
+
+      {/* Split Arrows */}
+      <div className="flex w-3/4 justify-between -mb-4 mt-2 px-10">
+        <div className="border-l-2 border-b-2 border-slate-600 w-full h-8 rounded-bl-lg"></div>
+        <div className="border-l-2 border-slate-600 h-10 -ml-[2px]"></div>
+        <div className="border-r-2 border-b-2 border-slate-600 w-full h-8 rounded-br-lg"></div>
+      </div>
+
+      {/* Layer 3: Ensemble */}
+      <div className="flex gap-4 w-full justify-center">
+        <div className="bg-slate-800 border-2 border-amber-500/50 px-4 py-4 rounded-lg text-center shadow-lg w-1/3">
+          <div className="font-bold text-amber-400">LightGBM</div>
+          <div className="text-xs text-slate-400 mt-1">Config A</div>
+        </div>
+        <div className="bg-slate-800 border-2 border-amber-500/50 px-4 py-4 rounded-lg text-center shadow-lg w-1/3">
+          <div className="font-bold text-amber-400">LightGBM</div>
+          <div className="text-xs text-slate-400 mt-1">Config B</div>
+        </div>
+        <div className="bg-slate-800 border-2 border-amber-500/50 px-4 py-4 rounded-lg text-center shadow-lg w-1/3">
+          <div className="font-bold text-amber-400">LightGBM</div>
+          <div className="text-xs text-slate-400 mt-1">Config C</div>
+        </div>
+      </div>
+
+      {/* Merge Arrows */}
+      <div className="flex w-3/4 justify-between mt-0 px-10">
+        <div className="border-l-2 border-t-2 border-amber-500/30 w-full h-8 rounded-tl-lg"></div>
+        <div className="border-l-2 border-amber-500/30 h-10 -ml-[2px]"></div>
+        <div className="border-r-2 border-t-2 border-amber-500/30 w-full h-8 rounded-tr-lg"></div>
+      </div>
+
+      {/* Layer 4: Output */}
+      <div className="bg-green-900/40 border border-green-500/50 px-8 py-4 rounded-full text-center shadow-[0_0_15px_rgba(34,197,94,0.2)]">
+        <div className="font-black text-xl text-green-400">PM2.5 Final Prediction</div>
+        <div className="text-xs font-mono text-green-300 mt-1 tracking-widest">RMSE: 30.05</div>
+      </div>
+
+    </div>
+  </div>
+);
+
+
 export default function UrbanAirPollution() {
   const { lang } = useLang();
   const isEn = lang === 'en';
@@ -70,15 +234,17 @@ export default function UrbanAirPollution() {
         {/* 1. PROBLEM FORMULATION */}
         <section className="mb-16">
           <h2 className="text-2xl font-bold font-sans mb-6 border-b border-slate-200 dark:border-[var(--border)] pb-2">
-            {isEn ? "1. Problem Formulation & Autocorrelation" : "1. Formulation du Problème & Autocorrélation"}
+            {isEn ? "1. The Data Sparsity Problem" : "1. Le Problème de la Rareté des Données"}
           </h2>
           <div className="space-y-6 text-left md:text-justify md:hyphens-auto">
             <p>
               {isEn 
-                ? "Air pollution causes over 4.2 million premature deaths annually. Our dataset contained historical pollution levels, wind speed, temperature, and atmospheric satellite readings. However, real-world sensor data is notoriously noisy. To decide whether to use standard regression or time-series forecasting, we analyzed the autocorrelation of our features."
-                : "La pollution de l'air cause plus de 4,2 millions de décès prématurés par an. Notre jeu de données contenait les niveaux historiques de pollution, la vitesse du vent, la température et des relevés atmosphériques par satellite. Cependant, les données de capteurs en monde réel sont notoirement bruitées. Pour décider s'il fallait utiliser une régression standard ou une prévision de séries temporelles, nous avons analysé l'autocorrélation."
+                ? "Air pollution causes over 4.2 million premature deaths annually. Our dataset contained historical pollution levels, wind speed, temperature, and atmospheric satellite readings. However, real-world sensor data is notoriously noisy with massive temporal gaps."
+                : "La pollution de l'air cause plus de 4,2 millions de décès prématurés par an. Notre jeu de données contenait les niveaux historiques de pollution, la vitesse du vent, la température et des relevés atmosphériques par satellite. Cependant, les données de capteurs en monde réel sont notoirement bruitées avec des vides temporels massifs."
               }
             </p>
+
+            <MissingDataTimeline isEn={isEn} />
             
             <p>
               {isEn 
@@ -105,7 +271,7 @@ export default function UrbanAirPollution() {
         {/* 2. FEATURE ENGINEERING & SELECTION */}
         <section className="mb-16">
           <h2 className="text-2xl font-bold font-sans mb-6 border-b border-slate-200 dark:border-[var(--border)] pb-2">
-            {isEn ? "2. Feature Engineering & Entropy" : "2. Ingénierie des Variables & Entropie"}
+            {isEn ? "2. Feature Engineering & Selection" : "2. Ingénierie des Variables & Sélection"}
           </h2>
           <div className="space-y-6 text-left md:text-justify md:hyphens-auto">
             <p>
@@ -134,6 +300,8 @@ export default function UrbanAirPollution() {
               </li>
             </ul>
 
+            <FeatureImportanceChart isEn={isEn} />
+
             {showTheory && (
               <div className="my-8 p-6 bg-slate-50 dark:bg-[#111] rounded-lg border border-slate-200 dark:border-[var(--border)]">
                 <h4 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 font-sans">
@@ -153,10 +321,8 @@ export default function UrbanAirPollution() {
                 <BlockMath math="C(X) = H(X_n|X_n^m) = \frac{1}{2}\ln 2\pi\sigma_U^2" />
                 <p className="text-sm mt-6 text-slate-600 dark:text-slate-400">
                   {isEn 
-                    ? "Evaluating the reduction between these two entropies allowed us to confirm that " : "L'évaluation de la réduction entre ces deux entropies nous a permis de confirmer que "}
-                  <code className="bg-slate-200 dark:bg-white/10 px-1 py-0.5 rounded font-mono text-xs">L3_HCHO_..._rolling_mean_2</code>
-                  {isEn 
-                    ? " was our absolute strongest predictor." : " était notre prédicteur absolu le plus fort."}
+                    ? "Evaluating the reduction between these two entropies allowed us to confirm that the rolling means of HCHO and NO2 were our absolute strongest predictors." 
+                    : "L'évaluation de la réduction entre ces deux entropies nous a permis de confirmer que les moyennes glissantes de HCHO et NO2 étaient nos prédicteurs absolus les plus forts."}
                 </p>
               </div>
             )}
@@ -166,64 +332,21 @@ export default function UrbanAirPollution() {
         {/* 3. MODEL SELECTION */}
         <section className="mb-16">
           <h2 className="text-2xl font-bold font-sans mb-6 border-b border-slate-200 dark:border-[var(--border)] pb-2">
-            {isEn ? "3. Model Selection Architecture" : "3. Architecture & Modélisation"}
+            {isEn ? "3. The Winning Strategy: LightGBM Ensembling" : "3. La Stratégie Gagnante : Ensemble LightGBM"}
           </h2>
           <div className="space-y-6 text-left md:text-justify md:hyphens-auto">
             <p>
               {isEn 
-                ? "We benchmarked multiple architectures, starting from linear robust models to deep recurrent networks:"
-                : "Nous avons comparé plusieurs architectures, allant des modèles linéaires robustes aux réseaux récurrents profonds :"}
+                ? "We benchmarked multiple architectures, starting from linear robust models (Ridge Regression) to deep recurrent networks (LSTM). Surprisingly, despite being the state-of-the-art for time series, LSTM performed poorly due to our dataset's extensive missingness."
+                : "Nous avons comparé plusieurs architectures, allant des modèles linéaires (Régression Ridge) aux réseaux récurrents profonds (LSTM). Étonnamment, bien qu'étant l'état de l'art pour les séries temporelles, le LSTM a mal performé en raison de l'extrême rareté de nos données."}
             </p>
+            
+            <ArchitectureFlow isEn={isEn} />
 
-            <ul className="list-disc pl-5 space-y-4 font-sans text-base">
-              <li>
-                <strong className="text-slate-900 dark:text-white">{isEn ? "Ridge Regression:" : "Régression Ridge :"}</strong> {isEn 
-                ? "Used to counter multicollinearity in meteorological satellite data. By adding a degree of bias to the regression estimates, it reduces standard errors." 
-                : "Utilisée pour contrer la multicolinéarité dans les données satellitaires. En ajoutant un degré de biais aux estimations de régression, elle réduit les erreurs standards."}
-              </li>
-              <li>
-                <strong className="text-slate-900 dark:text-white">{isEn ? "LSTM Networks:" : "Réseaux LSTM :"}</strong> {isEn 
-                ? "Despite being the state-of-the-art for time series, LSTM performed poorly. The network struggled heavily with our dataset's extensive missingness and discontinuous temporal gaps, leading to severe overfitting."
-                : "Bien qu'étant l'état de l'art pour les séries temporelles, le LSTM a mal performé. Le réseau a lourdement échoué face à l'extrême rareté de nos données et aux sauts temporels, entraînant un sur-apprentissage massif."}
-              </li>
-            </ul>
-
-            {showTheory && (
-              <div className="my-8 p-6 bg-slate-50 dark:bg-[#111] rounded-lg border border-slate-200 dark:border-[var(--border)]">
-                <h4 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 font-sans">
-                  {isEn ? "Bias-Variance Tradeoff (MSE Decomposition)" : "Compromis Biais-Variance (Décomposition du MSE)"}
-                </h4>
-                <p className="text-sm mb-4 text-slate-600 dark:text-slate-400">
-                  {isEn 
-                    ? "In Ridge Regression, we optimize the balance between the variance of the estimator and its squared bias to minimize the overall Mean Squared Error:"
-                    : "Dans la régression Ridge, nous optimisons l'équilibre entre la variance de l'estimateur et son biais au carré pour minimiser l'erreur quadratique moyenne globale :"}
-                </p>
-                <BlockMath math="\text{MSE}(\hat{\theta}) = \mathbb{E}[(\hat{\theta} - \theta)^2] = \text{Var}(\hat{\theta}) + [\text{Bias}(\hat{\theta})]^2" />
-                <p className="text-sm mt-6 text-slate-600 dark:text-slate-400">
-                  {isEn 
-                    ? "By accepting a slight deliberate bias, Ridge regression significantly reduces the variance caused by highly correlated spatial weather features, producing a much more stable model than standard OLS."
-                    : "En acceptant un léger biais délibéré, la régression Ridge réduit considérablement la variance causée par des caractéristiques météorologiques spatiales hautement corrélées, produisant un modèle beaucoup plus stable que les moindres carrés ordinaires (OLS)."}
-                </p>
-              </div>
-            )}
-          </div>
-        </section>
-
-        {/* 4. LIGHTGBM & ENSEMBLING */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold font-sans mb-6 border-b border-slate-200 dark:border-[var(--border)] pb-2">
-            {isEn ? "4. The Winning Strategy: LightGBM Ensembling" : "4. La Stratégie Gagnante : Ensemble LightGBM"}
-          </h2>
-          <div className="space-y-6 text-left md:text-justify md:hyphens-auto">
             <p>
               {isEn 
-                ? "For the final predictive thrust, we abandoned Deep Learning in favor of LightGBM. It was chosen for its efficiency, scalability, and crucial native ability to handle missing values without massive imputation bias."
-                : "Pour la phase prédictive finale, nous avons abandonné le Deep Learning en faveur de LightGBM. Il a été choisi pour son efficacité, sa scalabilité, et sa capacité native cruciale à traiter les valeurs manquantes sans imposer un biais d'imputation massif."}
-            </p>
-            <p>
-              {isEn 
-                ? "To ensure extreme robustness against the noisy validation sets, the final predictions were aggregated (ensembled) across 3 distinct LightGBM configurations. We computed the mean of these three predictions to find the best possible result."
-                : "Pour garantir une robustesse extrême face aux ensembles de validation bruités, les prédictions finales ont été agrégées (Ensemble) à partir de 3 configurations distinctes de LightGBM. Nous avons calculé la moyenne de ces trois prédictions pour trouver le meilleur résultat possible."}
+                ? "For the final predictive thrust, we abandoned Deep Learning in favor of LightGBM. It was chosen for its efficiency and native ability to handle missing values without massive imputation bias. To ensure extreme robustness against the noisy validation sets, the final predictions were aggregated across 3 distinct configurations."
+                : "Pour la phase prédictive finale, nous avons abandonné le Deep Learning en faveur de LightGBM. Il a été choisi pour son efficacité et sa capacité native à traiter les valeurs manquantes. Pour garantir une robustesse extrême, les prédictions finales ont été agrégées à partir de 3 configurations distinctes."}
             </p>
 
             {showTheory && (
@@ -237,6 +360,16 @@ export default function UrbanAirPollution() {
                     ? "The model's final evaluation was strictly based on RMSE, severely penalizing large deviation errors on dangerous PM2.5 pollution spikes."
                     : "L'évaluation finale du modèle était strictement basée sur le RMSE, pénalisant sévèrement les grandes erreurs de déviation lors des dangereux pics de pollution aux PM2.5."}
                 </p>
+                <div className="my-6 h-px bg-slate-200 dark:bg-[var(--border)]"></div>
+                <h4 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 font-sans">
+                  {isEn ? "Bias-Variance Tradeoff (MSE Decomposition)" : "Compromis Biais-Variance (Décomposition du MSE)"}
+                </h4>
+                <BlockMath math="\text{MSE}(\hat{\theta}) = \mathbb{E}[(\hat{\theta} - \theta)^2] = \text{Var}(\hat{\theta}) + [\text{Bias}(\hat{\theta})]^2" />
+                <p className="text-sm mt-4 text-slate-600 dark:text-slate-400">
+                  {isEn 
+                    ? "In Ensembling, aggregating multiple models drastically reduces the variance component without increasing the bias, producing a much more stable generalization."
+                    : "Dans l'approche d'Ensemble, l'agrégation de plusieurs modèles réduit drastiquement la composante de variance sans augmenter le biais, produisant une généralisation beaucoup plus stable."}
+                </p>
               </div>
             )}
           </div>
@@ -245,7 +378,7 @@ export default function UrbanAirPollution() {
         {/* CONCLUSION */}
         <section>
           <h2 className="text-2xl font-bold font-sans mb-6 border-b border-slate-200 dark:border-[var(--border)] pb-2">
-            {isEn ? "5. Conclusion" : "5. Conclusion"}
+            {isEn ? "4. Conclusion" : "4. Conclusion"}
           </h2>
           <div className="text-left md:text-justify md:hyphens-auto">
             <p>
