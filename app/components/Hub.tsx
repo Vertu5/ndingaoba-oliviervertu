@@ -610,7 +610,7 @@ export default function Hub() {
                       className="w-1/3 flex justify-start items-center gap-1 sm:gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-1 sm:p-2 rounded hover:bg-[var(--bg)] text-left group"
                     >
                       <svg className="shrink-0 transition-transform group-hover:-translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                      <span className="truncate font-semibold hidden sm:inline">{prevProject.label[lang]}</span>
+                      <span className="truncate font-semibold">{prevProject.label[lang]}</span>
                     </button>
                   ) : (
                     <div className="w-1/3"></div>
@@ -647,7 +647,7 @@ export default function Hub() {
                       }}
                       className="w-1/3 flex justify-end items-center gap-1 sm:gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-1 sm:p-2 rounded hover:bg-[var(--bg)] text-right group"
                     >
-                      <span className="truncate font-semibold hidden sm:inline">{nextProject.label[lang]}</span>
+                      <span className="truncate font-semibold">{nextProject.label[lang]}</span>
                       <svg className="shrink-0 transition-transform group-hover:translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                     </button>
                   ) : (
