@@ -33,6 +33,7 @@ const tabs: { type: ContentType; key: "tabProjets" | "tabPapiers" | "tabDemos" }
 const personalTiles: Category[] = [bio, interests, contact];
 
 const projectTiles: (Category & { tags?: string[] })[] = [
+  /* 
   {
     id: "swarm-tda-iridia",
     index: "01.TDA",
@@ -43,6 +44,7 @@ const projectTiles: (Category & { tags?: string[] })[] = [
     },
     tags: ["TDA", "Python", "C++", "Wasserstein"],
   },
+  */
   {
     id: "nsga2-promethee2-agricultural",
     index: "02.GA",
@@ -76,7 +78,7 @@ const projectTiles: (Category & { tags?: string[] })[] = [
 ];
 
 const superTiles: Category[] = superDomains.map((s) => ({ id: s.id, index: "LAB", label: s.label, description: s.description }));
-const tiles: Category[] = [...personalTiles, ...projectTiles, ...superTiles];
+const tiles: Category[] = [...personalTiles, ...projectTiles]; // ...superTiles removed for now
 
 function StandardTileButton({
   cat,
