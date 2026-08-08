@@ -253,18 +253,25 @@ export default function SystemDesign() {
             {isEn ? "Relational Data Modeling (3NF)" : "Modélisation Relationnelle (3NF)"}
           </div>
           <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
-            <span className="bg-slate-100 dark:bg-[var(--bg-elevated)] px-2 py-1 rounded border border-slate-200 dark:border-[var(--border)] whitespace-nowrap">PostgreSQL</span>
-            <span className="bg-slate-100 dark:bg-[var(--bg-elevated)] px-2 py-1 rounded border border-slate-200 dark:border-[var(--border)] whitespace-nowrap">Data Engineering</span>
+            <span className="bg-slate-100 dark:bg-[var(--bg-elevated)] px-2 py-1 rounded border border-slate-200 dark:border-[var(--border)] whitespace-nowrap">Supabase (PostgreSQL)</span>
+            <span className="bg-slate-100 dark:bg-[var(--bg-elevated)] px-2 py-1 rounded border border-slate-200 dark:border-[var(--border)] whitespace-nowrap">Python</span>
+            <span className="bg-slate-100 dark:bg-[var(--bg-elevated)] px-2 py-1 rounded border border-slate-200 dark:border-[var(--border)] whitespace-nowrap">GitHub Actions (CI/CD)</span>
             <span className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-2 py-1 rounded border border-blue-200 dark:border-blue-800 whitespace-nowrap">SQL DDL</span>
           </div>
         </div>
 
         {/* ABSTRACT */}
         <section className="text-base md:text-xl leading-relaxed text-slate-700 dark:text-slate-200 mb-12 text-left md:text-justify md:hyphens-auto">
-          <p>
+          <p className="mb-4">
             <strong>{isEn ? "Project Goal:" : "Le but du projet :"}</strong> {isEn 
               ? "Design an end-to-end event-driven data platform for monitoring global air quality. It leverages the OpenAQ API to ingest real-time data into a highly optimized, 3NF normalized PostgreSQL database, handling millions of measurements with strategic indexing."
               : "Concevoir une plateforme de données événementielle de A à Z pour surveiller la qualité de l'air mondial. Elle utilise l'API OpenAQ pour ingérer des données en temps réel dans une base PostgreSQL hautement optimisée (norme 3NF), capable de gérer des millions de mesures grâce à une indexation stratégique."
+            }
+          </p>
+          <p className="text-sm md:text-base border-l-4 border-blue-500 pl-4 text-slate-600 dark:text-slate-400">
+            <strong>{isEn ? "☁️ Cloud & Serverless Architecture:" : "☁️ Architecture Cloud & Serverless :"}</strong> {isEn
+              ? "To ensure a fully autonomous and free data pipeline, the database is hosted on Supabase and the Python data ingestion script runs automatically via GitHub Actions CI/CD cron jobs."
+              : "Pour garantir un flux de données (Data Pipeline) 100% autonome, la base de données est hébergée sur Supabase et le script Python d'ingestion est exécuté automatiquement par les serveurs CI/CD de GitHub Actions."
             }
           </p>
         </section>
