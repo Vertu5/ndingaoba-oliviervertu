@@ -82,8 +82,8 @@ Indexes {
 
 const mermaidCode = `erDiagram
     CITIES ||--o{ STATIONS : "has"
-    STATIONS ||--o{ MEASUREMENTS : "produces"
     POLLUTANTS ||--o{ MEASUREMENTS : "measured_in"
+    STATIONS ||--o{ MEASUREMENTS : "produces"
     MEASUREMENTS ||--o| ALERTS : "can_generate"
 
     CITIES {
