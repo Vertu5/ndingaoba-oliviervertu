@@ -404,6 +404,12 @@ export default function UrbanAirPollution() {
               }
             </p>
           </div>
+          
+          <div className="mt-12 text-center">
+            <a href="https://github.com/Vertu5/urban-air-pollution-ml" target="_blank" rel="noopener noreferrer" className="inline-block bg-white dark:bg-[var(--bg-elevated)] text-slate-900 dark:text-[var(--text)] font-bold px-6 py-2.5 rounded shadow hover:bg-slate-100 dark:bg-[var(--bg-elevated)] transition-colors">
+              {isEn ? "View Source Code (Python) on GitHub" : "Voir le code source complet (Python) sur GitHub"}
+            </a>
+          </div>
         </section>
       </main>
     </article>

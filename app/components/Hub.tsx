@@ -311,6 +311,7 @@ export default function Hub() {
             </div>
           </section>
 
+          {/*
           <section>
             <p className="font-mono mb-3 text-xs tracking-[0.2em] text-[var(--text-muted)]">
               {t.sectionDomains}
@@ -321,6 +322,7 @@ export default function Hub() {
               ))}
             </div>
           </section>
+          */}
           </motion.div>
         )}
       </AnimatePresence>
