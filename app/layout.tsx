@@ -26,7 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://ndingaoba-oliviervertu.vercel.app'),
   title: "Olivier Vertu NDINGA OBA | Ingénieur Logiciel & Data",
-  description: "Portfolio d'Olivier Vertu NDINGA OBA : Ingénieur Informatique & IA, Systèmes Complexes & Leadership. Découvrez mes projets en Data Engineering, Machine Learning et Architecture Système.",
+  description: "Based in Brussels, I am seeking challenging opportunities as a Software Developer, aiming to grow into Project Management.",
   keywords: ["Ingénieur", "Informatique", "Data Engineer", "Machine Learning", "Software Engineer", "ULB", "Bruxelles", "Portfolio", "Supabase", "React", "Next.js"],
   authors: [{ name: "Olivier Vertu NDINGA OBA" }],
   openGraph: {
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     locale: "fr_BE",
     url: "https://ndingaoba-oliviervertu.vercel.app/",
     title: "Olivier Vertu NDINGA OBA | Ingénieur Logiciel & Data",
-    description: "Écosystème numérique — parcours, projets d'ingénierie, recherche en IA et Data.",
+    description: "Based in Brussels, I am seeking challenging opportunities as a Software Developer, aiming to grow into Project Management.",
     siteName: "Portfolio Olivier Vertu",
     images: [
       {
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Olivier Vertu NDINGA OBA | Ingénieur Logiciel & Data",
-    description: "Écosystème numérique — parcours, projets d'ingénierie, recherche en IA et Data.",
+    description: "Based in Brussels, I am seeking challenging opportunities as a Software Developer, aiming to grow into Project Management.",
     images: ["/images/profile.jpeg"],
   }
 };
