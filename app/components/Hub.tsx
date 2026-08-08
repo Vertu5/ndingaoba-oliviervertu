@@ -322,10 +322,36 @@ export default function Hub() {
               </div>
               <div className="relative p-6 md:p-10">
                 {/* Header du panneau déplié avec langue et bouton RETOUR en haut */}
-                <div className="flex items-center justify-between gap-4 mb-3">
-                  <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--accent)] font-semibold">
-                    {subOpen ? "LAB" : open.index}
-                  </span>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-3">
+                  <div className="flex items-center gap-4">
+                    <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--accent)] font-semibold">
+                      {subOpen ? "LAB" : open.index}
+                    </span>
+                    
+                    {/* Top Prev/Next Navigation (only for projectTiles) */}
+                    {currentProjectIndex !== -1 && (
+                      <div className="flex items-center bg-[var(--bg)] border border-[var(--border)] rounded font-mono text-xs overflow-hidden">
+                        <button 
+                          disabled={!prevProject}
+                          onClick={() => { if(prevProject) navigate(prevProject.id, null, "projet", "push"); }}
+                          className="px-3 py-1 text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--bg-elevated)] transition-colors disabled:opacity-20 disabled:hover:bg-transparent disabled:cursor-not-allowed"
+                          title={prevProject ? prevProject.label[lang] : ""}
+                        >
+                          ←
+                        </button>
+                        <div className="w-px h-3 bg-[var(--border)]"></div>
+                        <button 
+                          disabled={!nextProject}
+                          onClick={() => { if(nextProject) navigate(nextProject.id, null, "projet", "push"); }}
+                          className="px-3 py-1 text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--bg-elevated)] transition-colors disabled:opacity-20 disabled:hover:bg-transparent disabled:cursor-not-allowed"
+                          title={nextProject ? nextProject.label[lang] : ""}
+                        >
+                          →
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
                   <div className="flex items-center gap-3">
                     <ThemeToggle />
                     <button
