@@ -142,6 +142,132 @@ const mermaidCode = `erDiagram
         timestamptz created_at
     }`;
 
+const sqlCode = `-- =============================================
+-- Air Quality Monitoring System
+-- PostgreSQL Schema - Complete Script
+-- =============================================
+
+-- 1. CITIES
+CREATE TABLE cities (
+    city_id         SERIAL PRIMARY KEY,
+    name            VARCHAR(100) NOT NULL,
+    country_code    CHAR(2) NOT NULL,                  -- ISO 3166-1 alpha-2
+    timezone        VARCHAR(50) NOT NULL,
+    latitude        DECIMAL(9,6),
+    longitude       DECIMAL(9,6),
+    created_at      TIMESTAMPTZ DEFAULT NOW(),
+
+    CONSTRAINT uq_cities_name_country UNIQUE (name, country_code)
+);
+
+-- 2. POLLUTANTS
+CREATE TABLE pollutants (
+    pollutant_id            SERIAL PRIMARY KEY,
+    code                    VARCHAR(20) NOT NULL UNIQUE,   -- pm25, no2, pm10...
+    display_name            VARCHAR(50) NOT NULL,
+    unit                    VARCHAR(20) NOT NULL,
+    description             TEXT,
+    who_annual_guideline    DECIMAL(8,2),
+    who_24h_guideline       DECIMAL(8,2),
+    who_1h_guideline        DECIMAL(8,2)
+);
+
+-- 3. STATIONS
+CREATE TABLE stations (
+    station_id              SERIAL PRIMARY KEY,
+    openaq_location_id      INTEGER NOT NULL UNIQUE,       -- OpenAQ location ID
+    city_id                 INTEGER NOT NULL REFERENCES cities(city_id),
+    name                    VARCHAR(200) NOT NULL,
+    locality                VARCHAR(150),
+    latitude                DECIMAL(9,6) NOT NULL,
+    longitude               DECIMAL(9,6) NOT NULL,
+    is_mobile               BOOLEAN DEFAULT FALSE,
+    is_monitor              BOOLEAN DEFAULT TRUE,
+    provider_name           VARCHAR(150),
+    timezone                VARCHAR(50),
+    last_seen_at            TIMESTAMPTZ,
+    created_at              TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 4. MEASUREMENTS (fact table)
+CREATE TABLE measurements (
+    measurement_id          BIGSERIAL PRIMARY KEY,
+    station_id              INTEGER NOT NULL REFERENCES stations(station_id),
+    pollutant_id            INTEGER NOT NULL REFERENCES pollutants(pollutant_id),
+    value                   DECIMAL(10,3) NOT NULL,
+    measured_at             TIMESTAMPTZ NOT NULL,          -- UTC
+    measured_at_local       TIMESTAMPTZ,
+    source                  VARCHAR(50) DEFAULT 'openaq',
+    created_at              TIMESTAMPTZ DEFAULT NOW(),
+
+    CONSTRAINT uq_measurement UNIQUE (station_id, pollutant_id, measured_at)
+);
+
+-- 5. ALERTS
+CREATE TABLE alerts (
+    alert_id                BIGSERIAL PRIMARY KEY,
+    measurement_id          BIGINT NOT NULL REFERENCES measurements(measurement_id) ON DELETE CASCADE,
+    threshold_type          VARCHAR(30) NOT NULL,
+    threshold_value         DECIMAL(8,2) NOT NULL,
+    created_at              TIMESTAMPTZ DEFAULT NOW(),
+
+    CONSTRAINT chk_threshold_type 
+        CHECK (threshold_type IN ('who_24h', 'who_annual', 'who_1h', 'custom')),
+    
+    CONSTRAINT uq_alert_measurement_type 
+        UNIQUE (measurement_id, threshold_type)
+);
+
+-- =============================================
+-- INDEXES (performance)
+-- =============================================
+
+CREATE INDEX idx_stations_city 
+    ON stations (city_id);
+
+CREATE INDEX idx_meas_station_time 
+    ON measurements (station_id, measured_at DESC);
+
+CREATE INDEX idx_meas_pollutant_time 
+    ON measurements (pollutant_id, measured_at DESC);
+
+CREATE INDEX idx_meas_time 
+    ON measurements (measured_at DESC);
+
+CREATE INDEX idx_alerts_measurement 
+    ON alerts (measurement_id);
+
+CREATE INDEX idx_alerts_created 
+    ON alerts (created_at DESC);
+
+-- =============================================
+-- SEED DATA
+-- =============================================
+
+-- Cities
+INSERT INTO cities (name, country_code, timezone, latitude, longitude) VALUES
+('Brussels', 'BE', 'Europe/Brussels', 50.8503, 4.3517),
+('Paris',    'FR', 'Europe/Paris',    48.8566, 2.3522),
+('London',   'GB', 'Europe/London',   51.5074, -0.1278);
+
+-- Pollutants + WHO 2021 guidelines
+INSERT INTO pollutants (code, display_name, unit, who_annual_guideline, who_24h_guideline, who_1h_guideline) VALUES
+('pm25', 'PM2.5', 'µg/m³', 5,   15,  NULL),
+('pm10', 'PM10',  'µg/m³', 15,  45,  NULL),
+('no2',  'NO₂',   'µg/m³', 10,  25,  NULL),
+('o3',   'O₃',    'µg/m³', NULL, 100, NULL),   -- 8-hour mean
+('so2',  'SO₂',   'µg/m³', NULL, 40,  NULL);
+
+-- =============================================
+-- Useful comments
+-- =============================================
+
+COMMENT ON TABLE cities IS 'Monitored cities';
+COMMENT ON TABLE pollutants IS 'Pollutants and WHO 2021 air quality guidelines';
+COMMENT ON TABLE stations IS 'Air quality monitoring stations (from OpenAQ)';
+COMMENT ON TABLE measurements IS 'Hourly air quality measurements (fact table)';
+COMMENT ON TABLE alerts IS 'Alerts generated when WHO thresholds are exceeded';`;
+
 const DatabaseSchema = () => (
   <div className="my-12 p-6 sm:p-8 bg-slate-950 rounded-xl border border-slate-800 shadow-2xl relative overflow-x-auto">
     <h3 className="text-xl font-bold font-sans text-slate-100 mb-8 flex items-center gap-3">
@@ -244,9 +370,7 @@ export default function SystemDesign() {
                 {activeTab === 'dbml' ? (
                   <code>{dbmlCode}</code>
                 ) : (
-                  <code className="text-slate-500 italic">
-                    {isEn ? "-- Waiting for the PostgreSQL DDL script..." : "-- En attente du script SQL de création complet (CREATE TABLE, contraintes, index)..."}
-                  </code>
+                  <code>{sqlCode}</code>
                 )}
               </pre>
             </div>
