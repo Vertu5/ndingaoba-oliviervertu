@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useLang } from "@/app/lib/i18n";
-import MermaidDiagram from "./MermaidDiagram";
+import CustomERD from "./CustomERD";
 
 // ==============================================================================
 // ⚙️ Project: Air Quality System Design (PostgreSQL / FastAPI)
@@ -79,68 +79,6 @@ Indexes {
   (measurements.measured_at) [name: 'idx_meas_time']
   (alerts.measurement_id) [name: 'idx_alerts_measurement']
 }`;
-
-const mermaidCode = `erDiagram
-    CITIES ||--o{ STATIONS : "has"
-    POLLUTANTS ||--o{ MEASUREMENTS : "measured_in"
-    STATIONS ||--o{ MEASUREMENTS : "produces"
-    MEASUREMENTS ||--o| ALERTS : "can_generate"
-
-    CITIES {
-        serial city_id PK
-        varchar name
-        char country_code
-        varchar timezone
-        decimal latitude
-        decimal longitude
-        timestamptz created_at
-    }
-
-    STATIONS {
-        serial station_id PK
-        integer openaq_location_id UK
-        integer city_id FK
-        varchar name
-        varchar locality
-        decimal latitude
-        decimal longitude
-        boolean is_mobile
-        boolean is_monitor
-        varchar provider_name
-        varchar timezone
-        timestamptz last_seen_at
-        timestamptz created_at
-    }
-
-    POLLUTANTS {
-        serial pollutant_id PK
-        varchar code UK
-        varchar display_name
-        varchar unit
-        text description
-        decimal who_annual_guideline
-        decimal who_24h_guideline
-        decimal who_1h_guideline
-    }
-
-    MEASUREMENTS {
-        bigserial measurement_id PK
-        integer station_id FK
-        integer pollutant_id FK
-        decimal value
-        timestamptz measured_at
-        timestamptz measured_at_local
-        varchar source
-        timestamptz created_at
-    }
-
-    ALERTS {
-        bigserial alert_id PK
-        bigint measurement_id FK
-        varchar threshold_type
-        decimal threshold_value
-        timestamptz created_at
-    }`;
 
 const sqlCode = `-- =============================================
 -- Air Quality Monitoring System
@@ -289,21 +227,11 @@ services:
 volumes:
   postgres_data:`;
 
-const DatabaseSchema = () => (
-  <div className="my-12 p-6 sm:p-8 bg-slate-950 rounded-xl border border-slate-800 shadow-2xl relative overflow-x-auto">
-    <h3 className="text-xl font-bold font-sans text-slate-100 mb-8 flex items-center gap-3">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
-      3NF Relational Data Model (PostgreSQL)
-    </h3>
-    <MermaidDiagram chart={mermaidCode} />
-  </div>
-);
-
 export default function SystemDesign() {
   const { lang } = useLang();
   const isEn = lang === 'en';
   
-  const [activeTab, setActiveTab] = useState<'dbml' | 'sql' | 'docker'>('dbml');
+  const [activeTab, setActiveTab] = useState<'erd' | 'sql' | 'docker'>('erd');
 
   return (
     <article lang={isEn ? "en" : "fr"} className="bg-[#fafafa] dark:bg-[var(--bg)] text-[#222222] dark:text-[var(--text)] font-serif selection:bg-blue-200 rounded-lg overflow-hidden border border-slate-200 dark:border-[var(--border)] shadow-xl relative">
@@ -359,7 +287,6 @@ export default function SystemDesign() {
             }
           </p>
 
-          <DatabaseSchema />
         </section>
 
         {/* SECTION 2: CODE IMPLEMENTATION */}
@@ -371,12 +298,12 @@ export default function SystemDesign() {
           </div>
 
           <div className="bg-slate-950 rounded-xl border border-slate-800 shadow-xl overflow-hidden mt-8 font-sans">
-            <div className="flex items-center border-b border-slate-800 bg-slate-900 px-4 pt-3 gap-2">
+            <div className="flex bg-slate-900 border-b border-slate-800">
               <button 
-                onClick={() => setActiveTab('dbml')}
-                className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${activeTab === 'dbml' ? 'bg-slate-800 text-blue-400 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}`}
+                onClick={() => setActiveTab('erd')}
+                className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${activeTab === 'erd' ? 'bg-slate-800 text-blue-400 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}`}
               >
-                schema.dbml
+                Diagramme Entité-Association (ERD)
               </button>
               <button 
                 onClick={() => setActiveTab('sql')}
@@ -392,12 +319,20 @@ export default function SystemDesign() {
               </button>
             </div>
             
-            <div className="p-4 bg-slate-950 overflow-x-auto">
-              <pre className="text-xs sm:text-sm font-mono leading-relaxed text-slate-300">
-                {activeTab === 'dbml' && <code>{dbmlCode}</code>}
-                {activeTab === 'sql' && <code>{sqlCode}</code>}
-                {activeTab === 'docker' && <code>{dockerComposeCode}</code>}
-              </pre>
+            <div className="bg-slate-950 overflow-x-auto">
+              {activeTab === 'erd' && (
+                <div className="p-4">
+                  <CustomERD />
+                </div>
+              )}
+              {(activeTab === 'sql' || activeTab === 'docker') && (
+                <div className="p-4">
+                  <pre className="text-xs sm:text-sm font-mono leading-relaxed text-slate-300">
+                    {activeTab === 'sql' && <code>{sqlCode}</code>}
+                    {activeTab === 'docker' && <code>{dockerComposeCode}</code>}
+                  </pre>
+                </div>
+              )}
             </div>
           </div>
         </section>
