@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useLang } from "@/app/lib/i18n";
+import MermaidDiagram from "./MermaidDiagram";
 
 // ==============================================================================
 // ⚙️ Project: Air Quality System Design (PostgreSQL / FastAPI)
@@ -79,25 +80,67 @@ Indexes {
   (alerts.measurement_id) [name: 'idx_alerts_measurement']
 }`;
 
-const TableNode = ({ name, columns, isCenter = false }: { name: string, columns: {name: string, type: string, pk?: boolean, fk?: boolean}[], isCenter?: boolean }) => (
-  <div className={`flex flex-col bg-slate-900 border ${isCenter ? 'border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)]' : 'border-slate-700'} rounded-lg overflow-hidden text-xs font-mono w-full sm:w-64`}>
-    <div className={`px-3 py-2 font-bold text-center ${isCenter ? 'bg-blue-900 text-blue-100' : 'bg-slate-800 text-slate-200'} border-b border-slate-700`}>
-      {name.toUpperCase()}
-    </div>
-    <div className="flex flex-col p-2 gap-1 bg-slate-900/50">
-      {columns.map((col, idx) => (
-        <div key={idx} className="flex justify-between items-center group hover:bg-slate-800/50 px-1 rounded transition-colors">
-          <span className={`flex items-center gap-1.5 ${col.pk ? 'text-amber-400 font-bold' : col.fk ? 'text-purple-400' : 'text-slate-300'}`}>
-            {col.pk && <span title="Primary Key">🔑</span>}
-            {col.fk && <span title="Foreign Key">🔗</span>}
-            {col.name}
-          </span>
-          <span className="text-slate-500 text-[10px]">{col.type}</span>
-        </div>
-      ))}
-    </div>
-  </div>
-);
+const mermaidCode = `erDiagram
+    CITIES ||--o{ STATIONS : "has"
+    STATIONS ||--o{ MEASUREMENTS : "produces"
+    POLLUTANTS ||--o{ MEASUREMENTS : "measured_in"
+    MEASUREMENTS ||--o| ALERTS : "can_generate"
+
+    CITIES {
+        serial city_id PK
+        varchar name
+        char country_code
+        varchar timezone
+        decimal latitude
+        decimal longitude
+        timestamptz created_at
+    }
+
+    STATIONS {
+        serial station_id PK
+        integer openaq_location_id UK
+        integer city_id FK
+        varchar name
+        varchar locality
+        decimal latitude
+        decimal longitude
+        boolean is_mobile
+        boolean is_monitor
+        varchar provider_name
+        varchar timezone
+        timestamptz last_seen_at
+        timestamptz created_at
+    }
+
+    POLLUTANTS {
+        serial pollutant_id PK
+        varchar code UK
+        varchar display_name
+        varchar unit
+        text description
+        decimal who_annual_guideline
+        decimal who_24h_guideline
+        decimal who_1h_guideline
+    }
+
+    MEASUREMENTS {
+        bigserial measurement_id PK
+        integer station_id FK
+        integer pollutant_id FK
+        decimal value
+        timestamptz measured_at
+        timestamptz measured_at_local
+        varchar source
+        timestamptz created_at
+    }
+
+    ALERTS {
+        bigserial alert_id PK
+        bigint measurement_id FK
+        varchar threshold_type
+        decimal threshold_value
+        timestamptz created_at
+    }`;
 
 const DatabaseSchema = () => (
   <div className="my-12 p-6 sm:p-8 bg-slate-950 rounded-xl border border-slate-800 shadow-2xl relative overflow-x-auto">
@@ -105,63 +148,7 @@ const DatabaseSchema = () => (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
       3NF Relational Data Model (PostgreSQL)
     </h3>
-    
-    <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 min-w-[800px]">
-      
-      {/* Left Column */}
-      <div className="flex flex-col gap-12">
-        <TableNode name="cities" columns={[
-          {name: 'city_id', type: 'serial', pk: true},
-          {name: 'name', type: 'varchar'},
-          {name: 'country_code', type: 'char(2)'},
-          {name: 'timezone', type: 'varchar'},
-          {name: 'latitude', type: 'decimal'},
-          {name: 'longitude', type: 'decimal'},
-        ]} />
-        <TableNode name="pollutants" columns={[
-          {name: 'pollutant_id', type: 'serial', pk: true},
-          {name: 'code', type: 'varchar'},
-          {name: 'display_name', type: 'varchar'},
-          {name: 'unit', type: 'varchar'},
-          {name: 'who_annual_guideline', type: 'decimal'},
-        ]} />
-      </div>
-
-      {/* Center Column */}
-      <div className="flex flex-col gap-12 relative">
-        <TableNode name="stations" columns={[
-          {name: 'station_id', type: 'serial', pk: true},
-          {name: 'openaq_location_id', type: 'integer'},
-          {name: 'city_id', type: 'integer', fk: true},
-          {name: 'name', type: 'varchar'},
-          {name: 'latitude', type: 'decimal'},
-          {name: 'longitude', type: 'decimal'},
-          {name: 'is_monitor', type: 'boolean'},
-        ]} />
-        
-        {/* The core fact table */}
-        <TableNode name="measurements" isCenter={true} columns={[
-          {name: 'measurement_id', type: 'bigserial', pk: true},
-          {name: 'station_id', type: 'integer', fk: true},
-          {name: 'pollutant_id', type: 'integer', fk: true},
-          {name: 'value', type: 'decimal'},
-          {name: 'measured_at', type: 'timestamptz'},
-          {name: 'source', type: 'varchar'},
-        ]} />
-      </div>
-
-      {/* Right Column */}
-      <div className="flex flex-col gap-12">
-        <TableNode name="alerts" columns={[
-          {name: 'alert_id', type: 'bigserial', pk: true},
-          {name: 'measurement_id', type: 'bigint', fk: true},
-          {name: 'threshold_type', type: 'varchar'},
-          {name: 'threshold_value', type: 'decimal'},
-          {name: 'created_at', type: 'timestamptz'},
-        ]} />
-      </div>
-      
-    </div>
+    <MermaidDiagram chart={mermaidCode} />
   </div>
 );
 
