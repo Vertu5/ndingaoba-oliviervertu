@@ -38,8 +38,9 @@ export default function CustomERD({ isEn = false }: { isEn?: boolean }) {
   }, []);
 
   return (
-    <div className="w-full overflow-x-auto flex flex-col justify-center items-center p-8 bg-slate-950 rounded-xl border border-slate-800 shadow-inner min-h-[400px]">
-      <Xwrapper>
+    <div className="w-full overflow-x-auto bg-slate-950 rounded-xl border border-slate-800 shadow-inner min-h-[400px]">
+      <div className="flex flex-col items-center p-4 md:p-8 min-w-[800px] mx-auto">
+        <Xwrapper>
         
         {/* ROW 1: Pollutants & Cities */}
         <div className="flex justify-center gap-16 md:gap-32 mb-16 w-full max-w-4xl">
@@ -103,8 +104,8 @@ export default function CustomERD({ isEn = false }: { isEn?: boolean }) {
             <Xarrow start="node_measurements" end="node_alerts" color="#ef4444" strokeWidth={2} path="straight" />
           </>
         )}
-        
       </Xwrapper>
+      </div>
     </div>
   );
 }

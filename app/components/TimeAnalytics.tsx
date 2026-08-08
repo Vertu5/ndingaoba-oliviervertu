@@ -72,7 +72,7 @@ ORDER BY time_bucket ASC;`;
         : "Agrégation efficace. La base de données regroupe les mesures par heure via DATE_TRUNC() et calcule la moyenne."}
       sqlQuery={sqlQuery}
     >
-      <div className="h-[300px] w-full">
+      <div className="h-[300px] w-full min-w-0">
         {loading ? (
           <div className="w-full h-full flex items-center justify-center animate-pulse"><Activity className="w-8 h-8 text-blue-500 animate-spin" /></div>
         ) : error ? (
@@ -81,7 +81,7 @@ ORDER BY time_bucket ASC;`;
           <div className="w-full h-full flex items-center justify-center text-slate-500">Not enough historical data points gathered yet.</div>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data} margin={{ top: 20, right: 30, left: -20, bottom: 5 }}>
+            <LineChart data={data} margin={{ top: 20, right: 10, left: -10, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" className="opacity-10" />
               <XAxis dataKey="time" axisLine={false} tickLine={false} className="text-slate-500 text-xs" dy={10} />
               <YAxis axisLine={false} tickLine={false} className="text-slate-500 text-xs" />

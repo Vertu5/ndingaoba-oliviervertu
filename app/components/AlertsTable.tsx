@@ -85,23 +85,23 @@ FOR EACH ROW EXECUTE FUNCTION trg_check_thresholds();`;
             <table className="w-full text-sm text-left">
               <thead className="text-xs text-slate-500 uppercase bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
                 <tr>
-                  <th className="px-4 py-3">{isEn ? "City" : "Ville"}</th>
-                  <th className="px-4 py-3">{isEn ? "Station" : "Station"}</th>
-                  <th className="px-4 py-3">{isEn ? "Pollutant" : "Polluant"}</th>
-                  <th className="px-4 py-3">{isEn ? "Value" : "Valeur"}</th>
-                  <th className="px-4 py-3">{isEn ? "Limit" : "Limite"}</th>
-                  <th className="px-4 py-3">{isEn ? "Status" : "Statut"}</th>
+                  <th className="px-4 py-3 whitespace-nowrap">{isEn ? "City" : "Ville"}</th>
+                  <th className="px-4 py-3 whitespace-nowrap">{isEn ? "Station" : "Station"}</th>
+                  <th className="px-4 py-3 whitespace-nowrap">{isEn ? "Pollutant" : "Polluant"}</th>
+                  <th className="px-4 py-3 whitespace-nowrap">{isEn ? "Value" : "Valeur"}</th>
+                  <th className="px-4 py-3 whitespace-nowrap">{isEn ? "Limit" : "Limite"}</th>
+                  <th className="px-4 py-3 whitespace-nowrap">{isEn ? "Status" : "Statut"}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
                 {data.map((alert, i) => (
                   <tr key={i} className="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
-                    <td className="px-4 py-3 font-medium">{alert.city_name}</td>
-                    <td className="px-4 py-3 text-slate-500">{alert.station_name}</td>
-                    <td className="px-4 py-3 uppercase">{alert.pollutant_code}</td>
-                    <td className="px-4 py-3 text-red-500 font-semibold">{alert.value}</td>
-                    <td className="px-4 py-3 text-slate-500">{alert.threshold}</td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-3 font-medium whitespace-nowrap">{alert.city_name}</td>
+                    <td className="px-4 py-3 text-slate-500 whitespace-nowrap">{alert.station_name}</td>
+                    <td className="px-4 py-3 uppercase whitespace-nowrap">{alert.pollutant_code}</td>
+                    <td className="px-4 py-3 text-red-500 font-semibold whitespace-nowrap">{alert.value}</td>
+                    <td className="px-4 py-3 text-slate-500 whitespace-nowrap">{alert.threshold}</td>
+                    <td className="px-4 py-3 whitespace-nowrap">
                       <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-xs font-semibold">
                         <AlertOctagon className="w-3 h-3" />
                         {isEn ? "EXCEEDED" : "DÉPASSÉ"}

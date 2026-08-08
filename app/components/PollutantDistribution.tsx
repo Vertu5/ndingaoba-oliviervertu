@@ -68,7 +68,7 @@ GROUP BY city_name, pollutant_code;`;
         : "Utilisation de COUNT() et GROUP BY pour analyser la répartition des données. Notez la performance de l'agrégation sur 4 tables jointes."}
       sqlQuery={sqlQuery}
     >
-      <div className="h-[300px] w-full flex items-center justify-center">
+      <div className="h-[300px] w-full flex items-center justify-center min-w-0">
         {loading ? (
           <Activity className="w-8 h-8 text-blue-500 animate-spin" />
         ) : error ? (
