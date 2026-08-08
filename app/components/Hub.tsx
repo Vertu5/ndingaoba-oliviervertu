@@ -12,6 +12,7 @@ import ContactView from "@/app/components/ContactView";
 import InterestsView from "@/app/components/InterestsView";
 import GeneticOptimizer from "@/app/components/GeneticOptimizer";
 import UrbanAirPollution from "@/app/components/UrbanAirPollution";
+import SystemDesign from "@/app/components/SystemDesign";
 import { useLang } from "@/app/lib/i18n";
 import ThemeToggle from "@/app/components/ThemeToggle";
 
@@ -399,6 +400,13 @@ export default function Hub() {
                     return (
                       <div className="mt-4">
                         <UrbanAirPollution />
+                      </div>
+                    );
+                  }
+                  if (open.id === "air-quality-system-design") {
+                    return (
+                      <div className="mt-4">
+                        <SystemDesign />
                       </div>
                     );
                   }
