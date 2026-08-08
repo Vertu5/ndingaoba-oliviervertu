@@ -98,25 +98,25 @@ FOR EACH ROW EXECUTE FUNCTION trg_check_thresholds();`;
                   <tr key={i} className="block md:table-row mb-4 md:mb-0 border border-slate-200 dark:border-slate-800 md:border-none rounded-lg bg-white dark:bg-slate-900 md:bg-transparent md:hover:bg-slate-50 md:dark:hover:bg-slate-800/20 transition-colors shadow-sm md:shadow-none">
                     <td className="flex justify-between md:table-cell px-4 py-3 font-medium border-b border-slate-100 dark:border-slate-800 md:border-none">
                       <span className="md:hidden font-semibold text-slate-500">{isEn ? "City" : "Ville"}</span>
-                      <span>{alert.city_name}</span>
+                      <span className="text-right truncate max-w-[60%]">{alert.city_name}</span>
                     </td>
                     <td className="flex justify-between md:table-cell px-4 py-3 text-slate-500 border-b border-slate-100 dark:border-slate-800 md:border-none">
                       <span className="md:hidden font-semibold text-slate-500">{isEn ? "Station" : "Station"}</span>
-                      <span>{alert.station_name}</span>
+                      <span className="text-right truncate max-w-[60%]">{alert.station_name}</span>
                     </td>
                     <td className="flex justify-between md:table-cell px-4 py-3 uppercase border-b border-slate-100 dark:border-slate-800 md:border-none">
                       <span className="md:hidden font-semibold text-slate-500 capitalize">{isEn ? "Pollutant" : "Polluant"}</span>
-                      <span>{alert.pollutant_code}</span>
+                      <span className="text-right truncate max-w-[60%]">{alert.pollutant_code}</span>
                     </td>
                     <td className="flex justify-between md:table-cell px-4 py-3 text-red-500 font-semibold border-b border-slate-100 dark:border-slate-800 md:border-none">
                       <span className="md:hidden font-semibold text-slate-500">{isEn ? "Value" : "Valeur"}</span>
-                      <span>{alert.value}</span>
+                      <span className="text-right">{alert.value}</span>
                     </td>
                     <td className="flex justify-between md:table-cell px-4 py-3 text-slate-500 border-b border-slate-100 dark:border-slate-800 md:border-none">
                       <span className="md:hidden font-semibold text-slate-500">{isEn ? "Limit" : "Limite"}</span>
-                      <span>{alert.threshold}</span>
+                      <span className="text-right">{alert.threshold}</span>
                     </td>
-                    <td className="flex justify-between md:table-cell px-4 py-3">
+                    <td className="flex justify-between items-center md:table-cell px-4 py-3">
                       <span className="md:hidden font-semibold text-slate-500">{isEn ? "Status" : "Statut"}</span>
                       <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-xs font-semibold">
                         <AlertOctagon className="w-3 h-3" />
