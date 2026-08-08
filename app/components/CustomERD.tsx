@@ -38,12 +38,12 @@ export default function CustomERD({ isEn = false }: { isEn?: boolean }) {
   }, []);
 
   return (
-    <div className="w-full overflow-x-auto bg-slate-950 rounded-xl border border-slate-800 shadow-inner min-h-[400px]">
-      <div className="flex flex-col items-center p-4 md:p-8 min-w-[800px] mx-auto">
+    <div className="w-full bg-slate-950 rounded-xl border border-slate-800 shadow-inner min-h-[400px]">
+      <div className="flex flex-col items-center p-4 md:p-8 w-full mx-auto">
         <Xwrapper>
         
         {/* ROW 1: Pollutants & Cities */}
-        <div className="flex justify-center gap-16 md:gap-32 mb-16 w-full max-w-4xl">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-32 mb-8 md:mb-16 w-full max-w-4xl">
           <TableNode id="node_pollutants" name="pollutants" isEn={isEn} columns={[
             {name: 'pollutant_id', type: 'serial', pk: true},
             {name: 'code', type: 'varchar'},
@@ -63,7 +63,7 @@ export default function CustomERD({ isEn = false }: { isEn?: boolean }) {
         </div>
 
         {/* ROW 2: Measurements & Stations */}
-        <div className="flex justify-center gap-16 md:gap-32 mb-16 w-full max-w-4xl">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-32 mb-8 md:mb-16 w-full max-w-4xl">
           <TableNode id="node_measurements" name="measurements" isCenter={true} isEn={isEn} columns={[
             {name: 'measurement_id', type: 'bigserial', pk: true},
             {name: 'station_id', type: 'integer', fk: true},
@@ -85,7 +85,7 @@ export default function CustomERD({ isEn = false }: { isEn?: boolean }) {
         </div>
 
         {/* ROW 3: Alerts */}
-        <div className="flex justify-start w-full max-w-4xl px-4 md:px-0">
+        <div className="flex flex-col md:flex-row justify-start items-center w-full max-w-4xl px-4 md:px-0">
           <TableNode id="node_alerts" name="alerts" isEn={isEn} columns={[
             {name: 'alert_id', type: 'bigserial', pk: true},
             {name: 'measurement_id', type: 'bigint', fk: true},
