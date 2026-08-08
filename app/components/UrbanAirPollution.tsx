@@ -176,53 +176,6 @@ const ArchitectureFlow = ({ isEn }: { isEn: boolean }) => (
   </div>
 );
 
-const ScoreComparison = ({ isEn, baseline, ourScore, topScore }: { isEn: boolean, baseline: number, ourScore: number, topScore: number }) => {
-  // Lower is better for RMSE, so we calculate width relative to the baseline (worst score shown)
-  const maxScore = baseline * 1.1; 
-  
-  return (
-    <div className="my-8 bg-slate-900 rounded-xl p-5 sm:p-6 font-sans shadow-xl border border-slate-700/50">
-      <h4 className="text-sm font-bold text-slate-300 mb-5 uppercase tracking-wider flex items-center gap-2">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V8"/><path d="M22 4v16"/></svg>
-        {isEn ? "Zindi Leaderboard Context (RMSE)" : "Contexte du Classement Zindi (RMSE)"}
-      </h4>
-      <div className="flex flex-col gap-4">
-        
-        {/* Baseline */}
-        <div className="flex items-center gap-3">
-          <div className="w-24 sm:w-32 text-[10px] sm:text-xs text-slate-400 font-medium">Zindi Baseline</div>
-          <div className="flex-1 bg-slate-800 rounded-full h-3 sm:h-4 overflow-hidden relative">
-            <div className="bg-slate-600 h-full rounded-full transition-all duration-1000" style={{ width: `${(baseline / maxScore) * 100}%` }}></div>
-          </div>
-          <div className="w-10 sm:w-12 text-right text-[10px] sm:text-xs font-mono text-slate-400">{baseline.toFixed(2)}</div>
-        </div>
-        
-        {/* Our Score */}
-        <div className="flex items-center gap-3">
-          <div className="w-24 sm:w-32 text-[10px] sm:text-xs font-bold text-green-400">Our Ensemble</div>
-          <div className="flex-1 bg-slate-800 rounded-full h-3 sm:h-4 overflow-hidden relative">
-            <div className="bg-green-500 h-full rounded-full shadow-[0_0_10px_rgba(34,197,94,0.4)] transition-all duration-1000" style={{ width: `${(ourScore / maxScore) * 100}%` }}></div>
-          </div>
-          <div className="w-10 sm:w-12 text-right text-[10px] sm:text-xs font-bold font-mono text-green-400">{ourScore.toFixed(2)}</div>
-        </div>
-        
-        {/* Top 1 */}
-        <div className="flex items-center gap-3">
-          <div className="w-24 sm:w-32 text-[10px] sm:text-xs text-amber-400 font-medium">Top 1 Leaderboard</div>
-          <div className="flex-1 bg-slate-800 rounded-full h-3 sm:h-4 overflow-hidden relative">
-            <div className="bg-amber-500 h-full rounded-full transition-all duration-1000" style={{ width: `${(topScore / maxScore) * 100}%` }}></div>
-          </div>
-          <div className="w-10 sm:w-12 text-right text-[10px] sm:text-xs font-mono text-amber-400">{topScore.toFixed(2)}</div>
-        </div>
-        
-      </div>
-      <p className="mt-5 text-[10px] text-slate-500 font-mono">
-        * {isEn ? "Lower RMSE indicates better predictive accuracy." : "Un RMSE plus bas indique une meilleure précision prédictive."}
-      </p>
-    </div>
-  );
-};
-
 export default function UrbanAirPollution() {
   const { lang } = useLang();
   const isEn = lang === 'en';
@@ -446,17 +399,9 @@ export default function UrbanAirPollution() {
                 ? "This rigorous feature engineering and ensemble approach yielded a highly competitive RMSE score of " : "Cette ingénierie rigoureuse et l'approche d'Ensemble ont permis d'obtenir un score RMSE très compétitif de "}
                 <strong className="text-green-600 dark:text-green-400 font-mono">30.05</strong> 
               {isEn 
-                ? " on the Zindi challenge platform."
-                : " sur la plateforme de compétition Zindi."
+                ? " on the Zindi challenge platform. This performance proved that thoughtfully designed, tree-based models can outperform complex deep recurrent networks when dealing with fractured, real-world environmental datasets."
+                : " sur la plateforme de compétition Zindi. Cette performance prouve que des modèles basés sur les arbres de décision, lorsqu'ils sont bien conçus, peuvent surpasser les réseaux récurrents profonds complexes face à des jeux de données environnementaux fragmentés."
               }
-            </p>
-
-            <ScoreComparison isEn={isEn} baseline={45.00} ourScore={30.05} topScore={22.50} />
-
-            <p>
-              {isEn
-                ? "This performance proved that thoughtfully designed, tree-based models can outperform complex deep recurrent networks when dealing with fractured, real-world environmental datasets."
-                : "Cette performance prouve que des modèles basés sur les arbres de décision, lorsqu'ils sont bien conçus, peuvent surpasser les réseaux récurrents profonds complexes face à des jeux de données environnementaux fragmentés."}
             </p>
           </div>
         </section>
