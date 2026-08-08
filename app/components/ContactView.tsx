@@ -5,13 +5,6 @@ import { useState } from "react";
 export default function ContactView({ lang }: { lang: "fr" | "en" }) {
   const [copied, setCopied] = useState(false);
 
-  // Form states
-  const [name, setName] = useState("");
-  const [emailInput, setEmailInput] = useState("");
-  const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [errorMsg, setErrorMsg] = useState("");
-
   const directEmail = "obavertu@gmail.com";
   const phone = "+32 497 21 21 37";
   const phoneClean = "+32497212137";
@@ -23,43 +16,7 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!message.trim()) {
-      setErrorMsg(lang === "fr" ? "Veuillez saisir un message." : "Please enter a message.");
-      setStatus("error");
-      return;
-    }
 
-    setStatus("loading");
-    setErrorMsg("");
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: name || "Visiteur",
-          email: emailInput || "Non renseigné",
-          message,
-        }),
-      });
-
-      const data = await res.json();
-      if (res.ok && data.success) {
-        setStatus("success");
-        setMessage("");
-        setName("");
-        setEmailInput("");
-      } else {
-        setErrorMsg(data.error || "Erreur d'envoi");
-        setStatus("error");
-      }
-    } catch {
-      setErrorMsg(lang === "fr" ? "Erreur réseau, réessayez." : "Network error, try again.");
-      setStatus("error");
-    }
-  };
 
   return (
     <div className="mt-6 space-y-8">
@@ -73,105 +30,6 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
             ? "Disponible pour des opportunités en Software Development, Ingénierie IA ou projets complexes. Écrivez-moi directement ci-dessous ou via mes coordonnées."
             : "Available for Software Development, AI Engineering opportunities, or complex projects. Send a message below or reach out directly."}
         </p>
-      </div>
-
-      {/* Formulaire de contact classique & élégant */}
-      <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)]/60 p-6 md:p-8 shadow-sm">
-        <div className="flex items-center gap-2 mb-6">
-          <span className="text-xl">💬</span>
-          <h4 className="font-mono text-xs font-semibold text-[var(--accent)] uppercase tracking-wider">
-            {lang === "fr" ? "Envoyer un message direct" : "Send a direct message"}
-          </h4>
-        </div>
-
-        {status === "success" ? (
-          <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-6 text-center space-y-3">
-            <span className="text-3xl">🎉</span>
-            <h5 className="font-display text-base font-semibold text-emerald-400">
-              {lang === "fr" ? "Message transmis avec succès !" : "Message sent successfully!"}
-            </h5>
-            <p className="text-xs text-[var(--text-muted)] max-w-md mx-auto">
-              {lang === "fr"
-                ? "Merci pour votre message ! Je recevrai une notification et y répondrai dans les plus brefs délais."
-                : "Thank you for your message! I will be notified and respond as soon as possible."}
-            </p>
-            <button
-              onClick={() => setStatus("idle")}
-              className="font-mono text-xs text-[var(--accent)] underline hover:no-underline mt-2 inline-block"
-            >
-              {lang === "fr" ? "Envoyer un autre message" : "Send another message"}
-            </button>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block font-mono text-[11px] text-[var(--text-muted)] mb-1.5">
-                  {lang === "fr" ? "Votre nom / entreprise" : "Your name / company"}
-                </label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder={lang === "fr" ? "Ex: Jean Dupont" : "E.g. Alex Smith"}
-                  className="w-full rounded-md border border-[var(--border)] bg-[var(--bg)] px-3.5 py-2 text-xs text-[var(--text)] placeholder-[var(--text-muted)]/50 focus:border-[var(--accent)] focus:outline-none"
-                />
-              </div>
-              <div>
-                <label className="block font-mono text-[11px] text-[var(--text-muted)] mb-1.5">
-                  {lang === "fr" ? "Votre adresse email" : "Your email address"}
-                </label>
-                <input
-                  type="email"
-                  value={emailInput}
-                  onChange={(e) => setEmailInput(e.target.value)}
-                  placeholder="email@domaine.com"
-                  className="w-full rounded-md border border-[var(--border)] bg-[var(--bg)] px-3.5 py-2 text-xs text-[var(--text)] placeholder-[var(--text-muted)]/50 focus:border-[var(--accent)] focus:outline-none"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block font-mono text-[11px] text-[var(--text-muted)] mb-1.5">
-                {lang === "fr" ? "Votre message *" : "Your message *"}
-              </label>
-              <textarea
-                rows={4}
-                required
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder={
-                  lang === "fr"
-                    ? "Bonjour Olivier, je souhaite vous contacter concernant..."
-                    : "Hello Olivier, I would like to reach out regarding..."
-                }
-                className="w-full rounded-md border border-[var(--border)] bg-[var(--bg)] p-3.5 text-xs text-[var(--text)] placeholder-[var(--text-muted)]/50 focus:border-[var(--accent)] focus:outline-none resize-y"
-              />
-            </div>
-
-            {status === "error" && (
-              <p className="font-mono text-xs text-red-400 font-medium">
-                ⚠️ {errorMsg}
-              </p>
-            )}
-
-            <div className="flex items-center justify-between pt-2">
-              <span className="font-mono text-[10px] text-[var(--text-muted)]">
-                📩 Notification envoyée à <span className="text-[var(--accent)]">obavertu@gmail.com</span>
-              </span>
-
-              <button
-                type="submit"
-                disabled={status === "loading"}
-                className="font-mono rounded bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-black transition-opacity hover:opacity-90 disabled:opacity-50"
-              >
-                {status === "loading"
-                  ? (lang === "fr" ? "Envoi en cours..." : "Sending...")
-                  : (lang === "fr" ? "Envoyer le message 🚀" : "Send Message 🚀")}
-              </button>
-            </div>
-          </form>
-        )}
       </div>
 
       {/* Cards Coordonnées Directes */}

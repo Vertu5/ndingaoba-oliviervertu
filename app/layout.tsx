@@ -25,7 +25,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ndingaoba-oliviervertu.vercel.app'),
-  title: "Olivier Vertu NDINGA OBA | Software & Data Engineer",
+  title: "Olivier Vertu NDINGA OBA | Software Developer",
   description: "Based in Brussels, I am seeking challenging opportunities as a Software Developer, aiming to grow into Project Management.",
   keywords: ["Ingénieur", "Informatique", "Data Engineer", "Machine Learning", "Software Engineer", "ULB", "Bruxelles", "Portfolio", "Supabase", "React", "Next.js"],
   authors: [{ name: "Olivier Vertu NDINGA OBA" }],
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_BE",
     url: "https://ndingaoba-oliviervertu.vercel.app/",
-    title: "Olivier Vertu NDINGA OBA | Software & Data Engineer",
+    title: "Olivier Vertu NDINGA OBA | Software Developer",
     description: "Based in Brussels, I am seeking challenging opportunities as a Software Developer, aiming to grow into Project Management.",
     siteName: "Portfolio Olivier Vertu",
     images: [
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Olivier Vertu NDINGA OBA | Software & Data Engineer",
+    title: "Olivier Vertu NDINGA OBA | Software Developer",
     description: "Based in Brussels, I am seeking challenging opportunities as a Software Developer, aiming to grow into Project Management.",
     images: ["/images/profile.jpeg"],
   }
