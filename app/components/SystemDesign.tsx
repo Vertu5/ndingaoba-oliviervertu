@@ -365,30 +365,32 @@ export default function SystemDesign() {
           </div>
 
           <div className="bg-slate-950 rounded-xl border border-slate-800 shadow-xl overflow-hidden mt-8 font-sans">
-            <div className="flex bg-slate-900 border-b border-slate-800">
+            <div className="flex overflow-x-auto bg-slate-900 border-b border-slate-800">
               <button 
                 onClick={() => setActiveTab('erd')}
-                className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${activeTab === 'erd' ? 'bg-slate-800 text-blue-400 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}`}
+                className={`whitespace-nowrap px-4 py-3 sm:py-2 text-sm font-medium transition-colors ${activeTab === 'erd' ? 'bg-slate-800 text-blue-400 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}`}
               >
-                {isEn ? "Entity-Relationship Diagram (ERD)" : "Diagramme Entité-Association (ERD)"}
+                <span className="md:hidden">ERD</span>
+                <span className="hidden md:inline">{isEn ? "Entity-Relationship Diagram (ERD)" : "Diagramme Entité-Association (ERD)"}</span>
               </button>
               <button 
                 onClick={() => setActiveTab('sql')}
-                className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${activeTab === 'sql' ? 'bg-slate-800 text-blue-400 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}`}
+                className={`whitespace-nowrap px-4 py-3 sm:py-2 text-sm font-medium transition-colors ${activeTab === 'sql' ? 'bg-slate-800 text-blue-400 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}`}
               >
-                init.sql (PostgreSQL)
+                init.sql <span className="hidden sm:inline">(PostgreSQL)</span>
               </button>
               <button 
                 onClick={() => setActiveTab('docker')}
-                className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${activeTab === 'docker' ? 'bg-slate-800 text-blue-400 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}`}
+                className={`whitespace-nowrap px-4 py-3 sm:py-2 text-sm font-medium transition-colors ${activeTab === 'docker' ? 'bg-slate-800 text-blue-400 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}`}
               >
-                docker-compose.yml
+                docker-compose<span className="hidden sm:inline">.yml</span>
               </button>
               <button 
                 onClick={() => setActiveTab('advanced-sql')}
-                className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${activeTab === 'advanced-sql' ? 'bg-slate-800 text-blue-400 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}`}
+                className={`whitespace-nowrap px-4 py-3 sm:py-2 text-sm font-medium transition-colors ${activeTab === 'advanced-sql' ? 'bg-slate-800 text-blue-400 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}`}
               >
-                Advanced SQL (Views)
+                <span className="md:hidden">SQL Views</span>
+                <span className="hidden md:inline">Advanced SQL (Views)</span>
               </button>
             </div>
             
