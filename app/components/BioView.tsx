@@ -237,9 +237,11 @@ export default function BioView({
                     href={institutionalLinks.iridia}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 underline underline-offset-2 hover:no-underline"
+                    className="inline-flex items-center gap-1.5 font-medium underline underline-offset-2 hover:no-underline text-[var(--text)] transition-colors"
                   >
-                    🔬 Laboratoire IRIDIA (Swarm Intelligence) ↗
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>
+                    Laboratoire IRIDIA (Swarm Intelligence)
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
                   </a>
                 </div>
               )}
@@ -258,9 +260,11 @@ export default function BioView({
             href="https://coursera.org/share/d5eeb18371dd4b2f2d16a616beded9b8"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono text-[11px] text-[var(--accent)] underline hover:no-underline"
+            className="flex items-center gap-2 rounded border border-[var(--border)] px-3 py-1.5 font-mono text-[11px] text-[var(--text)] transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent)]/10 hover:text-[var(--accent)]"
           >
-            🔗 7 Certifications Vérifiées ↗
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            7 Certifications Vérifiées
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
           </a>
         </div>
 
@@ -369,9 +373,11 @@ export default function BioView({
                         href={link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[var(--accent)] underline hover:no-underline"
+                        className="inline-flex items-center gap-2 rounded border border-[var(--border)] px-3 py-1.5 font-mono text-[11px] text-[var(--text)] transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent)]/10 hover:text-[var(--accent)] mt-2"
                       >
-                        🔗 Voir le programme académique officiel ↗
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                        Voir le programme académique officiel
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
                       </a>
                     </div>
                   )}
