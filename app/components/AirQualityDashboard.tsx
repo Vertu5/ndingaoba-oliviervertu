@@ -25,36 +25,19 @@ export default function AirQualityDashboard({ isEn = true }: AirQualityDashboard
     async function fetchData() {
       try {
         setLoading(true);
-        // Fetch the latest PM2.5 measurements for our cities
+        // Fetch directly from our advanced PostgreSQL view!
         const { data: measurements, error: supabaseError } = await supabase
-          .from("measurements")
-          .select(`
-            value,
-            pollutants!inner(code),
-            stations!inner(
-              cities!inner(name)
-            )
-          `)
-          .eq("pollutants.code", "pm25")
-          .order("measured_at", { ascending: false })
-          .limit(200);
+          .from("vw_latest_city_metrics")
+          .select("*")
+          .eq("pollutant_code", "pm25");
 
         if (supabaseError) throw supabaseError;
 
         if (measurements && measurements.length > 0) {
-          // Aggregate the latest value per city
-          const latestPerCity: Record<string, number> = {};
-          
-          measurements.forEach((m: { value: number; stations?: { cities?: { name: string } } | null }) => {
-            const cityName = m.stations?.cities?.name;
-            if (cityName && !latestPerCity[cityName]) {
-              latestPerCity[cityName] = m.value;
-            }
-          });
-
           // Format for Recharts
-          const chartData: ChartData[] = Object.keys(latestPerCity).map((city) => {
-            const val = latestPerCity[city];
+          const chartData: ChartData[] = measurements.map((m: any) => {
+            const city = m.city_name;
+            const val = m.value;
             // WHO Guideline for PM2.5 is 15 µg/m³ (24h)
             let quality = isEn ? "Good" : "Bon";
             let fill = "#10b981"; // emerald-500

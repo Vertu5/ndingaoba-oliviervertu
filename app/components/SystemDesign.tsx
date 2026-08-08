@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useLang } from "@/app/lib/i18n";
-import { Database, Code2, Play, Download, Globe, Server, Check, ArrowRight, Github } from "lucide-react";
+import { Database, Code2, Play, Download, Globe, Server, Check, ArrowRight } from "lucide-react";
 import CustomERD from "./CustomERD";
 import AirQualityDashboard from "./AirQualityDashboard";
 
@@ -229,11 +229,45 @@ services:
 volumes:
   postgres_data:`;
 
+const advancedSqlCode = `-- =============================================
+-- ADVANCED ANALYTICS VIEWS
+-- =============================================
+
+-- Using Window Functions to find the latest measurement per city and pollutant.
+-- This offloads the heavy aggregation from the frontend to the database.
+CREATE OR REPLACE VIEW vw_latest_city_metrics AS
+WITH RankedMeasurements AS (
+    SELECT 
+        c.name AS city_name,
+        p.code AS pollutant_code,
+        m.value,
+        m.measured_at,
+        ROW_NUMBER() OVER (
+            PARTITION BY c.city_id, p.pollutant_id 
+            ORDER BY m.measured_at DESC
+        ) as rn
+    FROM measurements m
+    INNER JOIN stations s ON m.station_id = s.station_id
+    INNER JOIN cities c ON s.city_id = c.city_id
+    INNER JOIN pollutants p ON m.pollutant_id = p.pollutant_id
+)
+SELECT 
+    city_name,
+    pollutant_code,
+    value,
+    measured_at
+FROM RankedMeasurements
+WHERE rn = 1;
+
+-- Grant public read access to the view
+GRANT SELECT ON vw_latest_city_metrics TO anon;
+GRANT SELECT ON vw_latest_city_metrics TO authenticated;`;
+
 export default function SystemDesign() {
   const { lang } = useLang();
   const isEn = lang === 'en';
   
-  const [activeTab, setActiveTab] = useState<'erd' | 'sql' | 'docker'>('erd');
+  const [activeTab, setActiveTab] = useState<'erd' | 'sql' | 'docker' | 'advanced-sql'>('erd');
 
   return (
     <article lang={isEn ? "en" : "fr"} className="bg-[#fafafa] dark:bg-[var(--bg)] text-[#222222] dark:text-[var(--text)] font-serif selection:bg-blue-200 rounded-lg overflow-hidden border border-slate-200 dark:border-[var(--border)] shadow-xl relative">
@@ -329,6 +363,12 @@ export default function SystemDesign() {
               >
                 docker-compose.yml
               </button>
+              <button 
+                onClick={() => setActiveTab('advanced-sql')}
+                className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${activeTab === 'advanced-sql' ? 'bg-slate-800 text-blue-400 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}`}
+              >
+                Advanced SQL (Views)
+              </button>
             </div>
             
             <div className="bg-slate-950 overflow-x-auto">
@@ -337,11 +377,12 @@ export default function SystemDesign() {
                   <CustomERD isEn={isEn} />
                 </div>
               )}
-              {(activeTab === 'sql' || activeTab === 'docker') && (
+              {(activeTab === 'sql' || activeTab === 'docker' || activeTab === 'advanced-sql') && (
                 <div className="p-4">
                   <pre className="text-xs sm:text-sm font-mono leading-relaxed text-slate-300">
                     {activeTab === 'sql' && <code>{sqlCode}</code>}
                     {activeTab === 'docker' && <code>{dockerComposeCode}</code>}
+                    {activeTab === 'advanced-sql' && <code>{advancedSqlCode}</code>}
                   </pre>
                 </div>
               )}
