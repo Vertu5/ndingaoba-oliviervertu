@@ -338,13 +338,13 @@ export default function Hub() {
               <div className="relative p-6 md:p-10">
                 {/* Header du panneau déplié avec langue et bouton RETOUR en haut */}
                 <div className="flex flex-row items-center justify-between border-b border-[var(--border)] pb-3 md:pb-5 mb-4 md:mb-8 sticky top-0 bg-[var(--bg)]/95 backdrop-blur z-20 gap-2">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono text-[10px] sm:text-xs font-bold tracking-[0.1em] sm:tracking-[0.2em] text-[var(--accent)] uppercase shrink-0">
+                  <div className="w-auto md:flex-1 flex items-center justify-start">
+                    <span className="font-mono text-[10px] md:text-xs font-bold tracking-[0.1em] md:tracking-[0.2em] text-[var(--accent)] uppercase shrink-0">
                       {subOpen ? "LAB" : open.index}
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-center shrink-0">
+                  <div className="w-auto md:flex-1 flex items-center justify-center shrink-0">
                     {currentProjectIndex !== -1 && (
                       <div className="flex items-center bg-[var(--bg)] border border-[var(--border)] rounded font-mono text-xs overflow-hidden">
                         <button 
@@ -368,20 +368,20 @@ export default function Hub() {
                     )}
                   </div>
 
-                  <div className="flex items-center justify-end gap-1.5 sm:gap-3 shrink-0">
+                  <div className="w-auto md:flex-1 flex items-center justify-end gap-1.5 md:gap-3 shrink-0">
                     <ThemeToggle />
                     <button
                       onClick={toggle}
-                      className="font-mono rounded border border-[var(--border)] px-1.5 sm:px-2.5 py-1 text-[10px] sm:text-xs tracking-[0.1em] text-[var(--text-muted)] transition-colors hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
+                      className="font-mono rounded border border-[var(--border)] px-1.5 md:px-2.5 py-1 text-[10px] md:text-xs tracking-[0.1em] text-[var(--text-muted)] transition-colors hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
                     >
                       {t.langToggle}
                     </button>
                     <button
                       onClick={() => navigate(null, null, "projet", "push")}
-                      className="flex items-center gap-1 sm:gap-1.5 font-mono text-[10px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] text-[var(--accent)] border border-[var(--accent)]/30 rounded px-2 sm:px-3 py-1 bg-[var(--accent)]/10 transition-colors hover:bg-[var(--accent)] hover:text-black"
+                      className="flex items-center gap-1 md:gap-1.5 font-mono text-[10px] md:text-xs tracking-[0.1em] md:tracking-[0.15em] text-[var(--accent)] border border-[var(--accent)]/30 rounded px-2 md:px-3 py-1 bg-[var(--accent)]/10 transition-colors hover:bg-[var(--accent)] hover:text-black"
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                      <span className="hidden sm:inline">{lang === "fr" ? "FERMER" : "CLOSE"}</span>
+                      <span className="hidden md:inline">{lang === "fr" ? "FERMER" : "CLOSE"}</span>
                     </button>
                   </div>
                 </div>
