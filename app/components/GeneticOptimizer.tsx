@@ -85,10 +85,10 @@ export default function GeneticOptimizer() {
               <strong>Framework</strong><br/>
               {isEn ? "Multi-Objective Evolutionary Optimization" : "Optimisation Évolutive Multi-Objectifs"}
             </div>
-            <div className="flex flex-wrap gap-2">
-              <span className="bg-slate-100 dark:bg-[var(--bg-elevated)] px-2 py-1 rounded border border-slate-200 dark:border-[var(--border)]">NSGA-II</span>
-              <span className="bg-slate-100 dark:bg-[var(--bg-elevated)] px-2 py-1 rounded border border-slate-200 dark:border-[var(--border)]">PROMETHEE II</span>
-              <span className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-2 py-1 rounded border border-blue-200 dark:border-blue-800">Python 3.8+</span>
+            <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
+              <span className="bg-slate-100 dark:bg-[var(--bg-elevated)] px-2 py-1 rounded border border-slate-200 dark:border-[var(--border)] whitespace-nowrap">NSGA-II</span>
+              <span className="bg-slate-100 dark:bg-[var(--bg-elevated)] px-2 py-1 rounded border border-slate-200 dark:border-[var(--border)] whitespace-nowrap">PROMETHEE II</span>
+              <span className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-2 py-1 rounded border border-blue-200 dark:border-blue-800 whitespace-nowrap">Python 3.8+</span>
             </div>
           </div>
 
