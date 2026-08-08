@@ -395,7 +395,7 @@ export default function Hub() {
                     <h2 className="font-display text-2xl font-medium sm:text-4xl md:text-5xl">
                       {subOpen ? subOpen.label[lang] : open.label[lang]}
                     </h2>
-                    <p className="mt-1 sm:mt-3 max-w-lg text-xs sm:text-sm text-[var(--text-muted)]">
+                    <p className="mt-1 sm:mt-3 max-w-lg text-xs sm:text-sm text-[var(--text-muted)] sm:text-justify">
                       {subOpen ? subOpen.description[lang] : open.description[lang]}
                     </p>
                   </>
@@ -444,7 +444,7 @@ export default function Hub() {
                         )}
                       </div>
 
-                      <p className="text-sm sm:text-base text-[var(--text-muted)] leading-relaxed">{item.summary[lang]}</p>
+                      <p className="text-sm sm:text-base text-[var(--text-muted)] leading-relaxed sm:text-justify">{item.summary[lang]}</p>
 
                       {item.tags && item.tags.length > 0 && (
                         <div className="flex flex-wrap gap-1.5 font-mono text-[11px] pt-2">
@@ -541,7 +541,7 @@ export default function Hub() {
                             )}
                           </div>
 
-                          <p className="text-sm text-[var(--text-muted)] leading-relaxed">{item.summary[lang]}</p>
+                          <p className="text-sm text-[var(--text-muted)] leading-relaxed sm:text-justify">{item.summary[lang]}</p>
 
                           {item.tags && item.tags.length > 0 && (
                             <div className="flex flex-wrap gap-1.5 font-mono text-[10px] pt-1">

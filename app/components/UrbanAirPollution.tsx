@@ -221,7 +221,7 @@ export default function UrbanAirPollution() {
       </header>
 
       {/* BODY */}
-      <main className="max-w-3xl mx-auto px-5 sm:px-6 pb-20 sm:pb-24 text-base sm:text-lg leading-relaxed text-slate-800 dark:text-[var(--text)]">
+      <main className="max-w-3xl mx-auto px-5 sm:px-6 pb-20 sm:pb-24 text-base sm:text-lg leading-relaxed sm:text-justify text-slate-800 dark:text-[var(--text)]">
         
         <div className="flex justify-start sm:justify-end mb-8">
           <button 
@@ -263,7 +263,7 @@ export default function UrbanAirPollution() {
                 <div className="overflow-x-auto pb-4">
                   <BlockMath math="R(\tau) = \frac{\mathbb{E}[(X_t - \mu)(X_{t+\tau} - \mu)]}{\sigma^2}" />
                 </div>
-                <p className="text-xs sm:text-sm mt-2 text-slate-600 dark:text-slate-400 leading-relaxed">
+                <p className="text-xs sm:text-sm mt-2 text-slate-600 dark:text-slate-400 leading-relaxed sm:text-justify">
                   {isEn 
                     ? "By measuring how a variable correlates with a delayed copy of itself (lag \\(\\tau\\)), we confirmed the necessity of introducing temporal engineering."
                     : "En mesurant comment une variable est corrélée à une copie retardée d'elle-même (décalage \\(\\tau\\)), nous avons confirmé la nécessité d'introduire une ingénierie temporelle."}
@@ -328,7 +328,7 @@ export default function UrbanAirPollution() {
                 <div className="overflow-x-auto pb-4">
                   <BlockMath math="C(X) = H(X_n|X_n^m) = \frac{1}{2}\ln 2\pi\sigma_U^2" />
                 </div>
-                <p className="text-xs sm:text-sm mt-4 text-slate-600 dark:text-slate-400 leading-relaxed">
+                <p className="text-xs sm:text-sm mt-4 text-slate-600 dark:text-slate-400 leading-relaxed sm:text-justify">
                   {isEn 
                     ? "Evaluating the reduction between these two entropies allowed us to confirm that the rolling means of HCHO and NO2 were our absolute strongest predictors." 
                     : "L'évaluation de la réduction entre ces deux entropies nous a permis de confirmer que les moyennes glissantes de HCHO et NO2 étaient nos prédicteurs absolus les plus forts."}
@@ -366,7 +366,7 @@ export default function UrbanAirPollution() {
                 <div className="overflow-x-auto pb-4">
                   <BlockMath math="\text{RMSE} = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}" />
                 </div>
-                <p className="text-xs sm:text-sm mt-2 text-slate-600 dark:text-slate-400 leading-relaxed">
+                <p className="text-xs sm:text-sm mt-2 text-slate-600 dark:text-slate-400 leading-relaxed sm:text-justify">
                   {isEn 
                     ? "The model's final evaluation was strictly based on RMSE, severely penalizing large deviation errors on dangerous PM2.5 pollution spikes."
                     : "L'évaluation finale du modèle était strictement basée sur le RMSE, pénalisant sévèrement les grandes erreurs de déviation lors des dangereux pics de pollution aux PM2.5."}
@@ -378,7 +378,7 @@ export default function UrbanAirPollution() {
                 <div className="overflow-x-auto pb-4">
                   <BlockMath math="\text{MSE}(\hat{\theta}) = \mathbb{E}[(\hat{\theta} - \theta)^2] = \text{Var}(\hat{\theta}) + [\text{Bias}(\hat{\theta})]^2" />
                 </div>
-                <p className="text-xs sm:text-sm mt-2 text-slate-600 dark:text-slate-400 leading-relaxed">
+                <p className="text-xs sm:text-sm mt-2 text-slate-600 dark:text-slate-400 leading-relaxed sm:text-justify">
                   {isEn 
                     ? "In Ensembling, aggregating multiple models drastically reduces the variance component without increasing the bias, producing a much more stable generalization."
                     : "Dans l'approche d'Ensemble, l'agrégation de plusieurs modèles réduit drastiquement la composante de variance sans augmenter le biais, produisant une généralisation beaucoup plus stable."}

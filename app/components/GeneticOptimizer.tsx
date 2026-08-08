@@ -104,7 +104,7 @@ export default function GeneticOptimizer() {
         </header>
 
         {/* CORPS DE L'ARTICLE */}
-        <main className="max-w-3xl mx-auto px-6 pb-24 text-lg leading-relaxed text-slate-800 dark:text-[var(--text)]">
+        <main className="max-w-3xl mx-auto px-6 pb-24 text-lg leading-relaxed sm:text-justify text-slate-800 dark:text-[var(--text)]">
           
           {/* PROBLEM FORMULATION */}
           <section className="mb-16">

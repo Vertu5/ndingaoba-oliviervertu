@@ -322,7 +322,7 @@ export default function SystemDesign() {
         </section>
       </header>
 
-      <main className="max-w-4xl mx-auto px-6 pb-24 text-lg leading-relaxed text-slate-800 dark:text-[var(--text)]">
+      <main className="max-w-4xl mx-auto px-6 pb-24 text-lg leading-relaxed sm:text-justify text-slate-800 dark:text-[var(--text)]">
         
         {/* DASHBOARD COMPONENT */}
         <AirQualityDashboard isEn={isEn} />

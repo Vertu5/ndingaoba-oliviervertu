@@ -68,7 +68,7 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
         <h3 className="font-display text-xl font-medium text-[var(--accent)] md:text-2xl">
           {lang === "fr" ? "Me contacter" : "Get in Touch"}
         </h3>
-        <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)] max-w-xl">
+        <p className="mt-2 text-sm leading-relaxed sm:text-justify text-[var(--text-muted)] max-w-xl">
           {lang === "fr"
             ? "Disponible pour des opportunités en Software Development, Ingénierie IA ou projets complexes. Écrivez-moi directement ci-dessous ou via mes coordonnées."
             : "Available for Software Development, AI Engineering opportunities, or complex projects. Send a message below or reach out directly."}

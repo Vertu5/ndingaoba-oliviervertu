@@ -11,7 +11,7 @@ export default function InterestsView({ lang }: { lang: "fr" | "en" }) {
           <span>✨</span>
           <span>{interestsVision.title[lang]}</span>
         </div>
-        <p className="text-sm md:text-base leading-relaxed text-[var(--text)] font-medium max-w-2xl">
+        <p className="text-sm md:text-base leading-relaxed sm:text-justify text-[var(--text)] font-medium max-w-2xl">
           {interestsVision.intro[lang]}
         </p>
       </div>
@@ -40,7 +40,7 @@ export default function InterestsView({ lang }: { lang: "fr" | "en" }) {
               </div>
 
               {/* Body text */}
-              <p className="text-xs md:text-sm leading-relaxed text-[var(--text-muted)] mt-2">
+              <p className="text-xs md:text-sm leading-relaxed sm:text-justify text-[var(--text-muted)] mt-2">
                 {pillar.text[lang]}
               </p>
             </div>

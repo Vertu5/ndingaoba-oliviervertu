@@ -119,7 +119,7 @@ export default function BioView({
               <span>{bioNarrative.headlineTag[lang]}</span>
             </div>
 
-            <p className="text-xs sm:text-sm md:text-base leading-relaxed text-[var(--text)]">
+            <p className="text-xs sm:text-sm md:text-base leading-relaxed sm:text-justify text-[var(--text)]">
               {bioNarrative.intro[lang]}
             </p>
 
@@ -205,7 +205,7 @@ export default function BioView({
                 )}
               </div>
 
-              <p className="text-xs md:text-sm leading-relaxed text-[var(--text-muted)]">
+              <p className="text-xs md:text-sm leading-relaxed sm:text-justify text-[var(--text-muted)]">
                 {sec.content[lang]}
               </p>
 
@@ -326,7 +326,7 @@ export default function BioView({
         <p className="mt-2 text-xs md:text-sm italic text-[var(--text)] border-l-2 border-[var(--accent)] pl-3 py-1">
           &quot;{bioNarrative.vision.philosophy[lang]}&quot;
         </p>
-        <p className="mt-3 text-xs md:text-sm leading-relaxed text-[var(--text-muted)]">
+        <p className="mt-3 text-xs md:text-sm leading-relaxed sm:text-justify text-[var(--text-muted)]">
           {bioNarrative.vision.roadmap[lang]}
         </p>
       </div>
@@ -361,7 +361,7 @@ export default function BioView({
                     </div>
                     <p className="font-mono text-[11px] text-[var(--text-muted)] mt-1">{doc.issuer}</p>
                     {doc.detail && (
-                      <p className="mt-2 text-xs text-[var(--text-muted)] leading-relaxed">
+                      <p className="mt-2 text-xs text-[var(--text-muted)] leading-relaxed sm:text-justify">
                         {doc.detail[lang]}
                       </p>
                     )}
