@@ -35,11 +35,20 @@ export const metadata: Metadata = {
     title: "Olivier Vertu NDINGA OBA | Ingénieur Logiciel & Data",
     description: "Écosystème numérique — parcours, projets d'ingénierie, recherche en IA et Data.",
     siteName: "Portfolio Olivier Vertu",
+    images: [
+      {
+        url: "/images/profile.jpeg",
+        width: 800,
+        height: 600,
+        alt: "Olivier Vertu NDINGA OBA",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Olivier Vertu NDINGA OBA | Ingénieur Logiciel & Data",
     description: "Écosystème numérique — parcours, projets d'ingénierie, recherche en IA et Data.",
+    images: ["/images/profile.jpeg"],
   }
 };
 
