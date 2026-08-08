@@ -33,28 +33,35 @@ export default function AlertsTable({ isEn = true }: Props) {
     fetchData();
   }, []);
 
-  const sqlQuery = `SELECT 
-    c.name AS city_name,
-    s.name AS station_name,
-    p.code AS pollutant_code,
-    m.value,
-    m.measured_at,
-    p.who_24h_guideline AS threshold
-FROM measurements m
-JOIN stations s ON m.station_id = s.station_id
-JOIN cities c ON s.city_id = c.city_id
-JOIN pollutants p ON m.pollutant_id = p.pollutant_id
-WHERE p.who_24h_guideline IS NOT NULL 
-  AND m.value > p.who_24h_guideline
-ORDER BY m.measured_at DESC;`;
+  const sqlQuery = `-- 1. The PostgreSQL Trigger Function
+CREATE OR REPLACE FUNCTION trg_check_thresholds()
+RETURNS TRIGGER AS $$
+DECLARE
+    v_who_24h DECIMAL(8,2);
+BEGIN
+    SELECT who_24h_guideline INTO v_who_24h FROM pollutants WHERE pollutant_id = NEW.pollutant_id;
+
+    IF v_who_24h IS NOT NULL AND NEW.value > v_who_24h THEN
+        INSERT INTO alerts (measurement_id, threshold_type, threshold_value, created_at)
+        VALUES (NEW.measurement_id, 'who_24h', v_who_24h, NOW())
+        ON CONFLICT DO NOTHING;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 2. Attaching the trigger to the table
+CREATE TRIGGER trg_measurement_alert
+AFTER INSERT ON measurements
+FOR EACH ROW EXECUTE FUNCTION trg_check_thresholds();`;
 
   return (
     <SqlShowcaseLayout 
       isEn={isEn}
       title={isEn ? "Health Alerts (WHO Guidelines)" : "Alertes Sanitaires (Directives OMS)"}
       description={isEn 
-        ? "Finding anomalies. This query joins the measurements table with the pollutants table to dynamically compare live values against WHO threshold guidelines."
-        : "Recherche d'anomalies. Cette requête joint la table des mesures avec celle des polluants pour comparer dynamiquement les valeurs en direct aux seuils de l'OMS."}
+        ? "Database Automation. Instead of checking thresholds manually, a PostgreSQL Trigger automatically inserts a row into the 'alerts' table whenever a new measurement exceeds the WHO limits."
+        : "Automatisation Base de Données. Au lieu de vérifier les seuils manuellement, un Trigger PostgreSQL insère automatiquement une alerte dès qu'une nouvelle mesure dépasse les limites de l'OMS."}
       sqlQuery={sqlQuery}
     >
       <div className="w-full">
