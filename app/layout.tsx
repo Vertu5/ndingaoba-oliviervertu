@@ -24,6 +24,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://ndingaoba-oliviervertu.vercel.app'),
   title: "Olivier Vertu NDINGA OBA | Ingénieur Logiciel & Data",
   description: "Portfolio d'Olivier Vertu NDINGA OBA : Ingénieur Informatique & IA, Systèmes Complexes & Leadership. Découvrez mes projets en Data Engineering, Machine Learning et Architecture Système.",
   keywords: ["Ingénieur", "Informatique", "Data Engineer", "Machine Learning", "Software Engineer", "ULB", "Bruxelles", "Portfolio", "Supabase", "React", "Next.js"],
