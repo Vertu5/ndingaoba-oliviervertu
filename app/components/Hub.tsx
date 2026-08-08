@@ -322,6 +322,7 @@ export default function Hub() {
                     {subOpen ? "LAB" : open.index}
                   </span>
                   <div className="flex items-center gap-3">
+                    <ThemeToggle />
                     <button
                       onClick={toggle}
                       className="font-mono rounded border border-[var(--border)] px-2.5 py-1 text-xs tracking-[0.1em] text-[var(--text-muted)] transition-colors hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
