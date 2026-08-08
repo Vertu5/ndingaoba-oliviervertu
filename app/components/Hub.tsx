@@ -337,31 +337,32 @@ export default function Hub() {
               </div>
               <div className="relative p-6 md:p-10">
                 {/* Header du panneau déplié avec langue et bouton RETOUR en haut */}
-                <div className="flex items-center justify-between border-b border-[var(--border)] pb-3 md:pb-5 mb-4 md:mb-8 sticky top-0 bg-[var(--bg)]/95 backdrop-blur z-20 gap-2">
+                <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-3">
                   
                   {/* Left: Index */}
-                  <div className="flex-1 flex items-center justify-start min-w-0">
-                    <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--accent)] font-semibold truncate">
+                  <div className="flex-1 flex items-center justify-start">
+                    <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--accent)] font-semibold">
                       {subOpen ? "LAB" : open.index}
                     </span>
                   </div>
                     
                   {/* Center: Top Prev/Next Navigation (only for projectTiles) */}
-                  <div className="shrink-0 flex items-center justify-center px-2">
+                  <div className="flex-1 flex items-center justify-start sm:justify-center">
                     {currentProjectIndex !== -1 && (
-                      <div className="flex items-center gap-4 font-mono text-xs">
+                      <div className="flex items-center bg-[var(--bg)] border border-[var(--border)] rounded font-mono text-xs overflow-hidden">
                         <button 
                           disabled={!prevProject}
                           onClick={() => { if(prevProject) navigate(prevProject.id, null, "projet", "push"); }}
-                          className="text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors disabled:opacity-20 disabled:hover:bg-transparent disabled:cursor-not-allowed flex items-center justify-center p-1"
+                          className="px-2 py-1 text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--bg-elevated)] transition-colors disabled:opacity-20 disabled:hover:bg-transparent disabled:cursor-not-allowed flex items-center justify-center"
                           title={prevProject ? prevProject.label[lang] : ""}
                         >
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                         </button>
+                        <div className="w-px h-3 bg-[var(--border)]"></div>
                         <button 
                           disabled={!nextProject}
                           onClick={() => { if(nextProject) navigate(nextProject.id, null, "projet", "push"); }}
-                          className="text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors disabled:opacity-20 disabled:hover:bg-transparent disabled:cursor-not-allowed flex items-center justify-center p-1"
+                          className="px-2 py-1 text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--bg-elevated)] transition-colors disabled:opacity-20 disabled:hover:bg-transparent disabled:cursor-not-allowed flex items-center justify-center"
                           title={nextProject ? nextProject.label[lang] : ""}
                         >
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
@@ -371,20 +372,20 @@ export default function Hub() {
                   </div>
 
                   {/* Right: Theme, Lang, Close */}
-                  <div className="flex-1 flex items-center justify-end gap-2 sm:gap-3 min-w-0">
+                  <div className="flex-1 flex items-center justify-start sm:justify-end gap-3">
                     <ThemeToggle />
                     <button
                       onClick={toggle}
-                      className="font-mono rounded border border-[var(--border)] px-2.5 py-1 text-xs tracking-[0.1em] text-[var(--text-muted)] transition-colors hover:border-[var(--accent)]/40 hover:text-[var(--accent)] shrink-0"
+                      className="font-mono rounded border border-[var(--border)] px-2.5 py-1 text-xs tracking-[0.1em] text-[var(--text-muted)] transition-colors hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
                     >
                       {t.langToggle}
                     </button>
                     <button
                       onClick={() => navigate(null, null, "projet", "push")}
-                      className="flex items-center gap-1.5 font-mono text-xs tracking-[0.15em] text-[var(--accent)] border border-[var(--accent)]/30 rounded px-2 sm:px-3 py-1 bg-[var(--accent)]/10 transition-colors hover:bg-[var(--accent)] hover:text-black shrink-0"
+                      className="flex items-center gap-1.5 font-mono text-xs tracking-[0.15em] text-[var(--accent)] border border-[var(--accent)]/30 rounded px-3 py-1 bg-[var(--accent)]/10 transition-colors hover:bg-[var(--accent)] hover:text-black"
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                      <span className="hidden sm:inline">{lang === "fr" ? "FERMER" : "CLOSE"}</span>
+                      {lang === "fr" ? "FERMER" : "CLOSE"}
                     </button>
                   </div>
                 </div>
@@ -597,8 +598,10 @@ export default function Hub() {
                 )}
 
                 {/* Barre de navigation inférieure : Précédent, Haut, Retour, Suivant */}
-                <div className="mt-12 pt-6 border-t border-[var(--border)] flex flex-row items-center justify-between gap-2 font-mono text-xs">
-                  
+                {/* ========================================= */}
+                {/* DESKTOP FOOTER (Original, intact) */}
+                {/* ========================================= */}
+                <div className="hidden sm:flex mt-12 pt-6 border-t border-[var(--border)] flex-row items-center justify-between gap-4 font-mono text-xs">
                   {/* Previous Project */}
                   {prevProject ? (
                     <button
@@ -606,17 +609,17 @@ export default function Hub() {
                         window.scrollTo({ top: 0, behavior: "smooth" });
                         navigate(prevProject.id, null, "projet", "push");
                       }}
-                      className="w-1/3 flex justify-start items-center gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-2 rounded hover:bg-[var(--bg)] text-left group min-w-0"
+                      className="w-1/3 flex justify-start items-center gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-2 rounded hover:bg-[var(--bg)] text-left group"
                     >
                       <svg className="shrink-0 transition-transform group-hover:-translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                      <span className="truncate font-semibold hidden sm:inline">{prevProject.label[lang]}</span>
+                      <span className="truncate font-semibold">{prevProject.label[lang]}</span>
                     </button>
                   ) : (
                     <div className="w-1/3"></div>
                   )}
 
                   {/* Scroll to Top & Back */}
-                  <div className="w-1/3 flex justify-center items-center gap-4 shrink-0">
+                  <div className="w-1/3 flex justify-center items-center gap-4">
                     <button
                       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                       className="flex flex-col items-center gap-1 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors p-2 rounded hover:bg-[var(--bg)]"
@@ -644,15 +647,72 @@ export default function Hub() {
                         window.scrollTo({ top: 0, behavior: "smooth" });
                         navigate(nextProject.id, null, "projet", "push");
                       }}
-                      className="w-1/3 flex justify-end items-center gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-2 rounded hover:bg-[var(--bg)] text-right group min-w-0"
+                      className="w-1/3 flex justify-end items-center gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-2 rounded hover:bg-[var(--bg)] text-right group"
                     >
-                      <span className="truncate font-semibold hidden sm:inline">{nextProject.label[lang]}</span>
+                      <span className="truncate font-semibold">{nextProject.label[lang]}</span>
                       <svg className="shrink-0 transition-transform group-hover:translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                     </button>
                   ) : (
                     <div className="w-1/3"></div>
                   )}
                 </div>
+
+                {/* ========================================= */}
+                {/* MOBILE FOOTER (Customized for single line) */}
+                {/* ========================================= */}
+                <div className="flex sm:hidden mt-12 pt-6 border-t border-[var(--border)] flex-row items-center justify-between gap-1 font-mono text-xs">
+                  {/* Previous Project (Icon only) */}
+                  {prevProject ? (
+                    <button
+                      onClick={() => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                        navigate(prevProject.id, null, "projet", "push");
+                      }}
+                      className="w-1/3 flex justify-start items-center gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-2 rounded hover:bg-[var(--bg)] group"
+                    >
+                      <svg className="shrink-0 transition-transform group-hover:-translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    </button>
+                  ) : (
+                    <div className="w-1/3"></div>
+                  )}
+
+                  {/* Scroll to Top & Back */}
+                  <div className="w-1/3 flex justify-center items-center gap-4">
+                    <button
+                      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                      className="flex flex-col items-center gap-1 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors p-2 rounded hover:bg-[var(--bg)]"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+                    </button>
+                    <div className="w-px h-4 bg-[var(--border)]"></div>
+                    <button
+                      onClick={() => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                        navigate(null, null, "projet", "push");
+                      }}
+                      className="flex flex-col items-center gap-1 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-2 rounded hover:bg-[var(--bg)]"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+                    </button>
+                  </div>
+
+                  {/* Next Project (Icon only) */}
+                  {nextProject ? (
+                    <button
+                      onClick={() => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                        navigate(nextProject.id, null, "projet", "push");
+                      }}
+                      className="w-1/3 flex justify-end items-center gap-2 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors p-2 rounded hover:bg-[var(--bg)] group"
+                    >
+                      <svg className="shrink-0 transition-transform group-hover:translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                  ) : (
+                    <div className="w-1/3"></div>
+                  )}
+                </div>
+
+
               </div>
             </div>
           </motion.div>
