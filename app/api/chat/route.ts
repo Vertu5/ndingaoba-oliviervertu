@@ -54,13 +54,21 @@ export async function POST(req: NextRequest) {
       `- Résumé / Summary : ${singleProject.summary[lang]}\n` +
       (singleProject.tags ? `- Technologies / Tags : ${singleProject.tags.join(', ')}\n` : "");
   } else {
-    // 2. Or is it a Domain / Category?
-    const domainProjects = content.filter((c) => c.domains.includes(sectionId));
-    if (domainProjects.length > 0) {
+    // 2. Is it the Bio section?
+    if (sectionId === "bio" && bio.documents) {
       projectsCtx = (lang === "fr" 
-        ? `\n\nVoici les projets réels de Olivier dans ce domaine (utilisez ces informations pour répondre de manière experte) :\n` 
-        : `\n\nHere are Olivier's actual projects in this domain (use this information to answer expertly):\n`) + 
-        domainProjects.map(p => `- ${p.title[lang]} : ${p.summary[lang]}`).join("\n");
+        ? `\n\nVoici le parcours et les documents (diplômes, certificats, lettres de recommandation) d'Olivier :\n` 
+        : `\n\nHere are Olivier's background and documents (diplomas, certificates, recommendation letters):\n`) + 
+        bio.documents.map(d => `- [${d.type.toUpperCase()}] ${d.title[lang]} (${d.issuer}, ${d.date}) : ${d.detail?.[lang] ?? ""}`).join("\n");
+    } else {
+      // 3. Or is it a Domain / Category?
+      const domainProjects = content.filter((c) => c.domains.includes(sectionId));
+      if (domainProjects.length > 0) {
+        projectsCtx = (lang === "fr" 
+          ? `\n\nVoici les projets réels de Olivier dans ce domaine (utilisez ces informations pour répondre de manière experte) :\n` 
+          : `\n\nHere are Olivier's actual projects in this domain (use this information to answer expertly):\n`) + 
+          domainProjects.map(p => `- ${p.title[lang]} : ${p.summary[lang]}`).join("\n");
+      }
     }
   }
 
