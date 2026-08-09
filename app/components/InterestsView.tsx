@@ -10,9 +10,8 @@ export default function InterestsView({ lang }: { lang: "fr" | "en" }) {
     <div className="mt-6 space-y-8">
       {/* Header Vision */}
       <div className="rounded-xl border border-[var(--accent)]/30 bg-gradient-to-br from-[var(--bg-elevated)] via-[var(--bg-elevated)]/70 to-[var(--bg)] p-6 md:p-8">
-        <div className="inline-flex max-w-full flex-wrap items-center gap-2 rounded-lg border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-2 font-mono text-[11px] sm:text-xs font-semibold text-[var(--accent)] mb-3 leading-tight">
-          <span>✨</span>
-          <span>{interestsVision.title[lang]}</span>
+        <div className="inline-block max-w-full rounded-lg border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-2 font-mono text-[11px] sm:text-xs font-semibold text-[var(--accent)] mb-3 leading-tight">
+          ✨ {interestsVision.title[lang]}
         </div>
         <p className="text-sm md:text-base leading-relaxed sm:text-justify text-[var(--text)] font-medium max-w-2xl">
           {interestsVision.intro[lang]}
