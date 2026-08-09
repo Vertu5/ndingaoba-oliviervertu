@@ -180,8 +180,8 @@ export const bioNarrative = {
       en: "What connects all steps of my journey is this core mindset: understand a system deeply before modeling it, and always dare to break new ground.",
     },
     roadmap: {
-      fr: "Aujourd'hui, mon objectif est d'évoluer en tant que Software Developer pour me confronter à la réalité du code, de l'architecture et de la mise en production sur des projets ambitieux. À plus long terme, fort de mes expériences de commandement à l'ERM et de ma vision transversale des systèmes, j'ambitionne d'évoluer vers le Project Management, afin d'orchestrer la complexité non plus seulement à l'échelle du code, mais à l'échelle humaine et organisationnelle.",
-      en: "Today, my goal is to thrive as a Software Developer to tackle real-world code, architecture, and production delivery on ambitious projects. Long-term, building on my command experience at RMA and my systems vision, I aim to transition into Project Management to orchestrate complexity at both technical and human scales.",
+      fr: "Aujourd'hui, mon objectif est d'évoluer en tant que Software Developer pour me confronter à la réalité du code, de l'architecture et de la mise en production sur des projets ambitieux. À plus long terme, fort de mes expériences de leadership à l'ERM et de ma vision transversale des systèmes, j'ambitionne d'évoluer vers le Project Management, afin d'orchestrer la complexité non plus seulement à l'échelle du code, mais à l'échelle humaine et organisationnelle.",
+      en: "Today, my goal is to thrive as a Software Developer to tackle real-world code, architecture, and production delivery on ambitious projects. Long-term, building on my leadership experience at RMA and my systems vision, I aim to transition into Project Management to orchestrate complexity at both technical and human scales.",
     },
   },
 };

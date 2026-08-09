@@ -58,8 +58,8 @@ export const bio: Category = {
       issuer: "École Royale Militaire de Belgique (ERM) — Faculté Polytechnique",
       date: "ERM",
       detail: {
-        fr: "Faculté Polytechnique. Rigueur académique et formation intensive au leadership et commandement d'un peloton.",
-        en: "Faculty of Engineering. Academic rigor combined with intensive leadership training and platoon command.",
+        fr: "Faculté Polytechnique. Rigueur académique et formation intensive au leadership et au management d'équipe.",
+        en: "Faculty of Engineering. Academic rigor combined with intensive leadership and team management training.",
       },
     },
     {
