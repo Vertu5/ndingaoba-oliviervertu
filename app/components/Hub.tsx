@@ -610,8 +610,7 @@ export default function Hub() {
                   </div>
                 )}
 
-                {/* Chat assistant : disponible pour tous les domaines */}
-                <SectionChat sectionId={subOpen ? subOpen.id : open.id} />
+                {/* Chat assistant a été déplacé en bas du composant */}
 
                 {/* Barre de navigation inférieure : Précédent, Haut, Retour, Suivant */}
                 <div className="mt-12 pt-6 border-t border-[var(--border)] flex flex-row items-center justify-between gap-2 sm:gap-4 font-mono text-xs">
@@ -675,6 +674,9 @@ export default function Hub() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Chat assistant : disponible globalement sur toute l'application */}
+      <SectionChat sectionId={open ? (subOpen ? subOpen.id : open.id) : "global"} />
     </main>
   );
 }
