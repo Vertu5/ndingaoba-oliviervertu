@@ -48,12 +48,12 @@ const projectTiles: (Category & { tags?: string[] })[] = [
   {
     id: "nsga2-promethee2-agricultural",
     index: "02.GA",
-    label: { fr: "NSGA-II & MCDA", en: "NSGA-II & MCDA" },
+    label: { fr: "Optimisation Génétique", en: "Genetic Optimization" },
     description: {
-      fr: "Optimisation évolutive spatiale (NSGA-II + PROMETHEE II).",
-      en: "Multi-objective spatial evolutionary optimization.",
+      fr: "Modélisation POO & Algorithme génétique multi-objectifs (NSGA-II).",
+      en: "OOP Modeling & Multi-objective genetic algorithm (NSGA-II).",
     },
-    tags: ["NSGA-II", "Python", "PROMETHEE II", "Plotly 3D"],
+    tags: ["POO", "Python", "NSGA-II", "Optimisation"],
   },
   {
     id: "urban-air-pollution-ml",

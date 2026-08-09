@@ -203,14 +203,21 @@ export default function GeneticOptimizer() {
             <h2 className="text-2xl font-bold font-sans mb-6 border-b border-slate-200 dark:border-[var(--border)] pb-2">
               {isEn ? "How the Genetic Algorithm Works" : "Comment fonctionne l'Algorithme Génétique ?"}
             </h2>
-            <p className="mb-8 text-sm sm:text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto line-clamp-4 sm:line-clamp-none">
-              {isEn 
-                ? "To solve this complex equation, we use an AI inspired by Darwin's theory of evolution. Instead of testing all billions of possibilities, the algorithm \"evolves\" solutions over generations."
-                : "Pour résoudre cette équation complexe, nous utilisons une IA inspirée par la théorie de l'évolution de Darwin. Au lieu de tester les milliards de possibilités une par une, l'algorithme fait \"évoluer\" les solutions sur plusieurs générations."
-              }
+            <p className="mb-8 text-sm sm:text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto">
+              {isEn ? (
+                <>
+                  To solve this complex equation, we use an AI inspired by Darwin's theory of evolution.
+                  <span className="hidden sm:inline"> Instead of testing all billions of possibilities, the algorithm "evolves" solutions over generations.</span>
+                </>
+              ) : (
+                <>
+                  Pour résoudre cette équation complexe, nous utilisons une IA inspirée par la théorie de l'évolution de Darwin.
+                  <span className="hidden sm:inline"> Au lieu de tester les milliards de possibilités une par une, l'algorithme fait "évoluer" les solutions sur plusieurs générations.</span>
+                </>
+              )}
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4 relative">
               {/* Desktop Connecting Line */}
               <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-slate-200 -z-10 -translate-y-1/2"></div>
               
@@ -243,7 +250,7 @@ export default function GeneticOptimizer() {
               </div>
 
               {/* Step 5 */}
-              <div className="bg-white dark:bg-[var(--bg-elevated)] p-4 rounded-xl border border-slate-200 dark:border-[var(--border)] shadow-sm text-center relative z-10 flex flex-col items-center">
+              <div className="col-span-2 md:col-span-1 bg-white dark:bg-[var(--bg-elevated)] p-4 rounded-xl border border-slate-200 dark:border-[var(--border)] shadow-sm text-center relative z-10 flex flex-col items-center">
                 <div className="w-10 h-10 bg-red-100 text-red-700 rounded-full flex items-center justify-center font-bold mb-3 border-2 border-white shadow">5</div>
                 <strong className="text-sm text-slate-900 dark:text-[var(--text)] block mb-1">{isEn ? "Mutation" : "Mutation"}</strong>
                 <p className="text-xs text-slate-500 dark:text-[var(--text-muted)]">{isEn ? "Random tweaks to explore new ideas." : "Petits changements aléatoires (innovations)."}</p>
