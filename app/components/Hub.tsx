@@ -84,17 +84,21 @@ function StandardTileButton({
   cat,
   lang,
   onOpen,
+  isWide,
 }: {
   cat: Category;
   lang: "fr" | "en";
   onOpen: (id: string) => void;
+  isWide?: boolean;
 }) {
+  const heightClass = isWide ? "h-[5.5rem] sm:h-44" : "h-[7rem] sm:h-44";
+
   return (
     <motion.button
       whileHover={{ y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={() => onOpen(cat.id)}
-      className="group relative flex h-[7rem] sm:h-44 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md w-full"
+      className={`group relative flex ${heightClass} flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md w-full`}
     >
       <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
         <Pattern id={cat.id} />
@@ -115,17 +119,21 @@ function ProjectTileButton({
   cat,
   lang,
   onOpen,
+  isWide,
 }: {
   cat: Category & { tags?: string[] };
   lang: "fr" | "en";
   onOpen: (id: string) => void;
+  isWide?: boolean;
 }) {
+  const heightClass = isWide ? "h-[6rem] sm:h-44" : "h-[7.5rem] sm:h-44";
+
   return (
     <motion.button
       whileHover={{ y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={() => onOpen(cat.id)}
-      className="group relative flex h-[7.5rem] sm:h-44 flex-col justify-between overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md w-full"
+      className={`group relative flex ${heightClass} flex-col justify-between overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md w-full`}
     >
       <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
         <Pattern id={cat.id} />
@@ -294,7 +302,7 @@ export default function Hub() {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {personalTiles.map((cat, i) => (
                 <div key={cat.id} className={i === 2 ? "col-span-2 sm:col-span-1" : ""}>
-                  <StandardTileButton cat={cat} lang={lang} onOpen={openTile} />
+                  <StandardTileButton cat={cat} lang={lang} onOpen={openTile} isWide={i === 2} />
                 </div>
               ))}
             </div>
@@ -309,7 +317,7 @@ export default function Hub() {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {projectTiles.map((cat, i) => (
                 <div key={cat.id} className={i === 2 ? "col-span-2 sm:col-span-1" : ""}>
-                  <ProjectTileButton cat={cat} lang={lang} onOpen={openTile} />
+                  <ProjectTileButton cat={cat} lang={lang} onOpen={openTile} isWide={i === 2} />
                 </div>
               ))}
             </div>
