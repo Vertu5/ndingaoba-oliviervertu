@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
 Identité : NDINGA OBA Olivier Vertu
 Formation principale : Ingénieur civil en informatique (ULB & ERM), avec un fort bagage en leadership.
 Certifications : Google AI, IBM Data Engineering, Reinforcement Learning, Git/GitHub, etc.
-Domaines d'expertise : C/C++, Python, Intelligence Artificielle, Machine Learning, Robotique en Essaim, Data Engineering, Conception de Systèmes.
+Domaines d'expertise : C/C++, Python, PostgreSQL, Programmation Orientée Objet (POO), Structures de Données, Intelligence Artificielle, Machine Learning, Robotique en Essaim, Data Engineering, Conception de Systèmes.
 Contact : Pour contacter Olivier, il faut se rendre dans la section "Contact" du site.
 -------------------------------
 
@@ -97,7 +97,7 @@ ${deepKnowledgeFR}` : `
 Identity: NDINGA OBA Olivier Vertu
 Education: Computer Science Engineer (ULB & ERM), with strong leadership background.
 Certifications: Google AI, IBM Data Engineering, Reinforcement Learning, Git/GitHub, etc.
-Expertise: C/C++, Python, Artificial Intelligence, Machine Learning, Swarm Robotics, Data Engineering, System Design.
+Expertise: C/C++, Python, PostgreSQL, Object-Oriented Programming (OOP), Data Structures, Artificial Intelligence, Machine Learning, Swarm Robotics, Data Engineering, System Design.
 Contact: To contact Olivier, you must go to the "Contact" section of the site.
 --------------------------------
 
