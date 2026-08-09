@@ -1,119 +1,114 @@
-# ⚡ NDINGA OBA Olivier Vertu — Personal Portfolio & Interactive Hub
+# ⚡ Olivier Vertu NDINGA OBA — Personal Portfolio & Interactive Hub
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.2-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-> **Ingénieur civil en informatique (ULB, Distinction) · Bachelier de l'École Royale Militaire (ERM) · Software Developer · Ambition Project Management**
+> **Computer Science Engineer (ULB, Distinction) · Royal Military Academy Bachelor (RMA) · Software Developer · Aspiring Project Manager**
 
 ---
 
-## 🎯 Aperçu du Projet
+## 🎯 Project Overview
 
-Ce dépôt contient le code source du site web et portfolio interactif de **NDINGA OBA Olivier Vertu**. Conçu avec les technologies web les plus récentes (**Next.js 16 App Router**, **React 19**, **TypeScript** et **Tailwind CSS 4**), ce site adopte une esthétique sombre moderniste (*glassmorphism*, typographie d'ingénierie et micro-animations fluides).
+This repository contains the source code for the interactive portfolio and website of **Olivier Vertu NDINGA OBA**. Built with modern web technologies (**Next.js 16 App Router**, **React 19**, **TypeScript**, and **Tailwind CSS 4**), this site features a sleek dark mode, modernist glassmorphism aesthetics, engineering-grade typography, and fluid micro-animations.
 
-### 🌟 Fonctionnalités Clés
+### 🌟 Key Features
 
-- **⚡ Présentation Synthétique & Vue Dépliable** : Résumé exécutif en 4 piliers au premier écran (lisible sans scroller sur mobile), et bouton d'expansion *"Voir le parcours complet"* pour accéder aux détails académiques (ERM, ULB / IRIDIA) et aux **7 certifications vérifiées** (Google AI, IBM Data Eng, RL, Agile Management).
-- **🌍 Support Bilingue Natif (FR / EN)** : Commutateur de langue dynamique en temps réel sur l'ensemble de la plateforme.
-- **🤖 Assistant IA Intégré (`/api/chat`)** : Agent conversationnel personnalisé basé sur RAG capable de répondre aux questions des recruteurs sur le parcours, la philosophie (Nietzsche & Charles Pépin) et les compétences techniques d'Olivier.
-- **🔍 Hub Interactif des Domaines** : Exploration modulaire des projets logicielles, démos interactives et papiers de recherche.
-- **📱 Ultra-Responsive & Accessibilité** : Grille 2x2 optimisée pour smartphone sans césure arbitraire de mots, lightbox photo HD cliquable et navigation fluide avec rembobinage (*Scroll to Top*).
-- **✉️ Formulaire de Contact Sécurisé (`/api/contact`)** : API Serverless de prise de contact directe.
+- **⚡ Synthetic Presentation & Expandable Views**: A 4-pillar executive summary right on the first screen (readable without scrolling on mobile), and an "Explore full background" expansion button to access academic details (RMA, ULB / IRIDIA) and **7 verified certifications** (Google AI, IBM Data Eng, RL, Agile Management).
+- **🌍 Native Bilingual Support (EN / FR)**: Real-time dynamic language toggling across the entire platform.
+- **🤖 Integrated AI Assistant (`/api/chat`)**: A custom RAG-based conversational agent capable of answering recruiters' questions regarding Olivier's background, philosophy (Nietzsche & Charles Pépin), and technical skills.
+- **🔍 Interactive Domains Hub**: Modular exploration of software engineering projects, interactive demos, and research papers.
+- **📱 Ultra-Responsive & Accessible**: A 2x2 grid optimized for smartphones, HD clickable photo lightboxes, and smooth navigation.
+- **✉️ Secure Contact Form (`/api/contact`)**: Serverless API for direct contact.
 
 ---
 
-## 🛠️ Stack Technique
+## 🛠️ Tech Stack
 
-| Domaine | Technologie |
+| Domain | Technology |
 | :--- | :--- |
-| **Framework Web** | [Next.js 16](https://nextjs.org/) (App Router & Turbopack) |
-| **Langage** | [TypeScript 5](https://www.typescriptlang.org/) |
+| **Web Framework** | [Next.js 16](https://nextjs.org/) (App Router & Turbopack) |
+| **Language** | [TypeScript 5](https://www.typescriptlang.org/) |
 | **UI & Styling** | Vanilla CSS Tokens & [Tailwind CSS 4](https://tailwindcss.com/) (Dark Mode Glassmorphism) |
-| **Intelligence Artificielle** | API Chat Router / Stream IA |
-| **Gestionnaire de Paquets** | `npm` (Node.js >= 20.9.0) |
-| **Hébergement & CI/CD** | Vercel / GitHub Actions |
+| **Artificial Intelligence** | API Chat Router / Stream AI |
+| **Package Manager** | `npm` (Node.js >= 20.9.0) |
+| **Hosting & CI/CD** | Vercel / GitHub Actions |
 
 ---
 
-## 📂 Architecture du Codebase
+## 📂 Codebase Architecture
 
 ```text
 ndingaoba-oliviervertu/
 ├── app/
 │   ├── api/
-│   │   ├── chat/           # Route API pour l'Assistant IA
-│   │   └── contact/        # Route API pour le formulaire de contact
+│   │   ├── chat/           # AI Assistant API route
+│   │   └── contact/        # Contact form API route
 │   ├── components/
-│   │   ├── BioView.tsx     # Vue détaillée de la Bio & Certifications
-│   │   ├── ContactView.tsx # Formulaire de contact interactif
-│   │   ├── Hub.tsx         # Hub principal et navigation modulaire
-│   │   ├── InterestsView.tsx # 5 Piliers d'intérêts (Philomathie, Sport, Créativité, Cuisine, Sérénité)
-│   │   └── SectionChat.tsx # Widget de Chat Assistant IA
+│   │   ├── BioView.tsx     # Detailed Bio & Certifications View
+│   │   ├── ContactView.tsx # Interactive contact form
+│   │   ├── Hub.tsx         # Main hub and modular navigation
+│   │   ├── InterestsView.tsx # 5 Interest pillars
+│   │   └── SectionChat.tsx # AI Assistant Chat widget
 │   ├── lib/
-│   │   ├── bio.ts          # Données du parcours narratif et certifications
-│   │   ├── categories.ts   # Structure des catégories et diplômes
-│   │   └── interests.ts    # Définitions des piliers de passions & vision
-│   ├── layout.tsx          # Layout racine, Fonts & Métadonnées SEO
-│   ├── page.tsx            # Page d'accueil principale
-│   └── globals.css         # Design system CSS & variables de thèmes
+│   │   ├── bio.ts          # Narrative background data & certifications
+│   │   ├── categories.ts   # Categories & diplomas structure
+│   │   └── interests.ts    # Passions & vision definitions
+│   ├── layout.tsx          # Root layout, Fonts & SEO Metadata
+│   ├── page.tsx            # Main landing page
+│   └── globals.css         # CSS Design system & theme variables
 ├── public/
-│   └── images/             # Actifs visuels (profile.jpeg, etc.)
+│   └── images/             # Visual assets (profile.jpeg, etc.)
 └── README.md
 ```
 
 ---
 
-## 🚀 Installation & Lancement Local
+## 🚀 Installation & Local Setup
 
-### Prérequis
+### Prerequisites
 
-- **Node.js** >= `20.9.0` (Recommandé : Node `v20.20.2`)
+- **Node.js** >= `20.9.0` (Recommended: Node `v20.20.2`)
 - **npm** >= `10.0.0`
 
-### Guide Pas à Pas
+### Step-by-Step Guide
 
-1. **Cloner le dépôt Git :**
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/Vertu5/ndingaoba-oliviervertu.git
    cd ndingaoba-oliviervertu
    ```
 
-2. **Utiliser la bonne version de Node (via NVM) :**
-   ```bash
-   source ~/.nvm/nvm.sh && nvm use 20
-   ```
-
-3. **Installer les dépendances :**
+2. **Install dependencies:**
    ```bash
    npm install
    ```
 
-4. **Lancer le serveur de développement :**
+3. **Run the development server:**
    ```bash
    npm run dev
    ```
-   Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur pour visualiser le site.
+   Open [http://localhost:3000](http://localhost:3000) in your browser to view the site.
 
-5. **Compiler pour la production :**
+4. **Build for production:**
    ```bash
    npm run build
    ```
 
 ---
 
-## 👤 Auteur
+## 👤 Author
 
-**NDINGA OBA Olivier Vertu**  
-*Software Developer & Ingénieur civil en informatique · Bruxelles, Belgique*
+**Olivier Vertu NDINGA OBA**  
+*Software Developer & Computer Science Engineer · Brussels, Belgium*
 
 - **GitHub** : [@Vertu5](https://github.com/Vertu5)
-- **LinkedIn** : [NDINGA OBA Olivier Vertu](https://www.linkedin.com/in/olivier-ndinga-oba-1510101b7/)
-- **Diplômes** : ULB (Master Ingénieur Civil Informatique - Distinction) & ERM (Bachelier Polytechnique)
+- **LinkedIn** : [Olivier Vertu NDINGA OBA](https://www.linkedin.com/in/olivier-ndinga-oba-1510101b7/)
+- **Degrees** : ULB (MSc Computer Science Engineering - Distinction) & RMA (BSc Engineering Sciences)
 
 ---
 
-## 📜 Licence
+## 📜 License
 
-Ce projet est sous licence [MIT](LICENSE).
+This project is licensed under the [MIT License](LICENSE).
