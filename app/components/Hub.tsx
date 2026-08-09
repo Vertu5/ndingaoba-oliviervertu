@@ -100,12 +100,12 @@ function StandardTileButton({
         <Pattern id={cat.id} />
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-elevated)] via-[var(--bg-elevated)]/40 to-transparent" />
-      <div className="relative p-5">
-        <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.15em] text-[var(--text-muted)] line-clamp-1">
+      <div className="relative p-3 sm:p-5">
+        <span className="font-mono text-[9px] sm:text-[11px] tracking-[0.15em] text-[var(--text-muted)] line-clamp-1">
           {cat.index}
         </span>
-        <h2 className="font-display text-lg sm:text-xl font-medium line-clamp-1 leading-tight sm:leading-normal">{cat.label[lang]}</h2>
-        <p className="mt-1 text-xs sm:text-sm text-[var(--text-muted)] line-clamp-1 sm:line-clamp-2">{cat.description[lang]}</p>
+        <h2 className="font-display text-sm sm:text-xl font-medium line-clamp-1 leading-tight sm:leading-normal">{cat.label[lang]}</h2>
+        <p className="mt-1 text-[10px] sm:text-sm text-[var(--text-muted)] line-clamp-2 sm:line-clamp-2 hidden sm:block">{cat.description[lang]}</p>
       </div>
     </motion.button>
   );
@@ -131,15 +131,15 @@ function ProjectTileButton({
         <Pattern id={cat.id} />
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-elevated)] via-[var(--bg-elevated)]/40 to-transparent" />
-      <div className="relative p-5 flex flex-col justify-between h-full w-full">
+      <div className="relative p-3 sm:p-5 flex flex-col justify-between h-full w-full">
         <div>
-          <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.15em] text-[var(--accent)] font-semibold line-clamp-1">
+          <span className="font-mono text-[8px] sm:text-[11px] tracking-[0.15em] text-[var(--accent)] font-semibold line-clamp-1">
             {cat.index}
           </span>
-          <h2 className="font-display text-sm sm:text-base font-medium text-[var(--text)] mt-0.5 group-hover:text-[var(--accent)] transition-colors leading-tight sm:leading-snug line-clamp-2 sm:line-clamp-1">
+          <h2 className="font-display text-xs sm:text-base font-medium text-[var(--text)] mt-0.5 sm:mt-0.5 group-hover:text-[var(--accent)] transition-colors leading-tight sm:leading-snug line-clamp-2 sm:line-clamp-1">
             {cat.label[lang]}
           </h2>
-          <p className="mt-0.5 text-[10px] sm:text-xs text-[var(--text-muted)] line-clamp-2 sm:line-clamp-1 leading-normal">
+          <p className="mt-1 sm:mt-0.5 text-[10px] sm:text-xs text-[var(--text-muted)] line-clamp-2 sm:line-clamp-1 leading-normal hidden sm:block">
             {cat.description[lang]}
           </p>
         </div>
@@ -253,18 +253,18 @@ export default function Hub() {
     <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-16 md:py-24">
       {/* Header principal (affiché uniquement sur la grille d'accueil) */}
       {!open && (
-        <header className="mb-10 flex items-center justify-between md:mb-16">
-          <div>
-            <h1 className="font-display text-3xl font-medium tracking-tight sm:text-5xl md:text-6xl text-[var(--text)]">
-              NDINGA OBA Olivier Vertu
+        <header className="mb-10 flex items-start sm:items-center justify-between gap-2 md:mb-16">
+          <div className="flex-1 pr-2">
+            <h1 className="font-display text-3xl font-medium tracking-tight sm:text-5xl md:text-6xl text-[var(--text)] leading-[1.1] sm:leading-tight">
+              NDINGA OBA<br className="block sm:hidden" /> Olivier Vertu
             </h1>
-            <p className="font-mono text-xs text-[var(--text-muted)] mt-1.5 tracking-wider uppercase">
+            <p className="font-mono text-[10px] sm:text-xs text-[var(--text-muted)] mt-2.5 sm:mt-1.5 tracking-wider uppercase leading-snug">
               {lang === "fr"
                 ? "Ingénieur Informatique & IA · Systèmes Complexes & Leadership"
                 : "Computer Science & AI Engineer · Complex Systems & Leadership"}
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 mt-1 sm:mt-0 shrink-0">
             <ThemeToggle />
             <button
               onClick={toggle}
@@ -291,9 +291,9 @@ export default function Hub() {
             <p className="font-mono mb-3 text-xs tracking-[0.2em] text-[var(--text-muted)]">
               {t.sectionAbout}
             </p>
-            <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 sm:grid sm:grid-cols-3 pb-2 sm:pb-0 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
-              {personalTiles.map((cat) => (
-                <div key={cat.id} className="snap-center shrink-0 w-[75vw] sm:w-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {personalTiles.map((cat, i) => (
+                <div key={cat.id} className={i === 2 ? "col-span-2 sm:col-span-1" : ""}>
                   <StandardTileButton cat={cat} lang={lang} onOpen={openTile} />
                 </div>
               ))}
@@ -306,9 +306,9 @@ export default function Hub() {
               <span>⭐</span>
               <span>{t.sectionFeaturedProjects}</span>
             </p>
-            <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 sm:grid sm:grid-cols-3 pb-2 sm:pb-0 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
-              {projectTiles.map((cat) => (
-                <div key={cat.id} className="snap-center shrink-0 w-[75vw] sm:w-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {projectTiles.map((cat, i) => (
+                <div key={cat.id} className={i === 2 ? "col-span-2 sm:col-span-1" : ""}>
                   <ProjectTileButton cat={cat} lang={lang} onOpen={openTile} />
                 </div>
               ))}
