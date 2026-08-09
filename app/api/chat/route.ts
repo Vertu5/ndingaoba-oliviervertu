@@ -3,7 +3,7 @@ import { bio, interests, contact } from "@/app/lib/categories";
 import { superDomains } from "@/app/lib/superdomains";
 import { domains } from "@/app/lib/domains";
 import { content } from "@/app/lib/content";
-import { deepKnowledgeFR, deepKnowledgeEN } from "@/app/lib/deepKnowledge";
+import { globalKnowledgeFR, globalKnowledgeEN, projectDetailsFR, projectDetailsEN } from "@/app/lib/deepKnowledge";
 
 export const runtime = "nodejs";
 
@@ -45,6 +45,8 @@ export async function POST(req: NextRequest) {
   let ctx = sectionContext[sectionId]?.[lang] ?? "";
   let projectsCtx = "";
 
+  const isProjectOrDomain = sectionId !== "global" && sectionId !== "bio" && sectionId !== "contact" && sectionId !== "interets";
+
   // 1. Is it a single project?
   const singleProject = content.find(c => c.id === sectionId);
   if (singleProject) {
@@ -83,6 +85,11 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // Inject deep mathematical project details ONLY if we are exploring a project or domain
+  if (isProjectOrDomain) {
+    projectsCtx += "\n\n" + (lang === "fr" ? projectDetailsFR : projectDetailsEN);
+  }
+
   const globalProfile = lang === "fr" ? `
 --- PROFIL GLOBAL D'OLIVIER ---
 Identité : NDINGA OBA Olivier Vertu
@@ -92,7 +99,7 @@ Domaines d'expertise : C/C++, Python, PostgreSQL, Programmation Orientée Objet 
 Contact : Pour contacter Olivier, il faut se rendre dans la section "Contact" du site.
 -------------------------------
 
-${deepKnowledgeFR}` : `
+${globalKnowledgeFR}` : `
 --- OLIVIER'S GLOBAL PROFILE ---
 Identity: NDINGA OBA Olivier Vertu
 Education: Computer Science Engineer (ULB & ERM), with strong leadership background.
@@ -101,7 +108,7 @@ Expertise: C/C++, Python, PostgreSQL, Object-Oriented Programming (OOP), Data St
 Contact: To contact Olivier, you must go to the "Contact" section of the site.
 --------------------------------
 
-${deepKnowledgeEN}`;
+${globalKnowledgeEN}`;
 
   const systemPrompt =
     lang === "fr"
