@@ -124,12 +124,11 @@ export default function BioView({
             <p className="text-xs sm:text-sm md:text-base leading-relaxed sm:text-justify text-[var(--text)]">
               {bioNarrative.intro[lang]}
             </p>
-
           </div>
         </div>
 
         {/* Quick Links Header (Full Width Below) */}
-        <div className="mt-4 sm:mt-5 pt-3 border-t border-[var(--border)]/50 flex flex-col gap-2 font-mono text-xs sm:text-sm text-[var(--text-muted)]">
+        <div className="mt-3 sm:mt-5 pt-2 sm:pt-3 border-t border-[var(--border)]/50 flex flex-col gap-1.5 sm:gap-2 font-mono text-xs sm:text-sm text-[var(--text-muted)]">
           <div>
             {cvUrl ? (
               <a
@@ -138,22 +137,23 @@ export default function BioView({
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 text-[var(--accent)] underline underline-offset-4 hover:no-underline font-medium"
               >
-                📄 {t.bioIntroLink} ↗
+                📄 {lang === "fr" ? "Mon CV" : "My Resume"} ↗
               </a>
             ) : (
               <span className="text-[var(--text-muted)]">
-                📄 {t.bioIntroLink} ({t.cvMissing})
+                📄 {lang === "fr" ? "Mon CV" : "My Resume"} ({t.cvMissing})
               </span>
             )}
           </div>
-          <div className="flex flex-col gap-1.5 sm:gap-2">
+          <div className="flex flex-col gap-1 sm:gap-2">
             <a
               href="/Recommendation_Bontempi.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-[var(--text-muted)] hover:text-[var(--accent)] underline underline-offset-4 hover:no-underline transition-colors"
             >
-              📜 {lang === "fr" ? "Lettre de recommandation - Pr. Gianluca Bontempi (ULB)" : "Recommendation letter - Pr. Gianluca Bontempi (ULB)"} ↗
+              <span className="sm:hidden">📜 Pr. Gianluca (ULB) ↗</span>
+              <span className="hidden sm:inline">📜 {lang === "fr" ? "Lettre de recommandation - Pr. Gianluca Bontempi (ULB)" : "Recommendation letter - Pr. Gianluca Bontempi (ULB)"} ↗</span>
             </a>
             <a
               href="/Recommendation_Legarda.pdf"
@@ -161,30 +161,31 @@ export default function BioView({
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-[var(--text-muted)] hover:text-[var(--accent)] underline underline-offset-4 hover:no-underline transition-colors"
             >
-              📜 {lang === "fr" ? "Lettre de recommandation - Guillermo Legarda (IRIDIA)" : "Recommendation letter - Guillermo Legarda (IRIDIA)"} ↗
+              <span className="sm:hidden">📜 Guillermo (IRIDIA) ↗</span>
+              <span className="hidden sm:inline">📜 {lang === "fr" ? "Lettre de recommandation - Guillermo Legarda (IRIDIA)" : "Recommendation letter - Guillermo Legarda (IRIDIA)"} ↗</span>
             </a>
           </div>
         </div>
       </div>
 
       {/* 🎯 Première lecture : Résumé Exécutif en 4 piliers (Grille 2x2 propre sur mobile, 4 en ligne sur desktop) */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-3">
         {bioNarrative.executiveSummary.map((pill, idx) => (
           <div
             key={idx}
-            className="rounded-lg border border-[var(--border)] bg-[var(--bg)]/40 p-2.5 sm:p-4 transition-all hover:border-[var(--accent)]/40 hover:bg-[var(--bg-elevated)] flex flex-col justify-between"
+            className="rounded-lg border border-[var(--border)] bg-[var(--bg)]/40 p-2 sm:p-4 transition-all hover:border-[var(--accent)]/40 hover:bg-[var(--bg-elevated)] flex flex-col justify-center sm:justify-between"
           >
             <div>
               <div className="flex items-center gap-1.5 sm:gap-2">
-                <span className="text-base sm:text-lg shrink-0">{pill.icon}</span>
-                <h4 className="font-display text-[11px] sm:text-xs font-semibold tracking-wide text-[var(--accent)] uppercase leading-tight hyphens-none break-normal">
+                <span className="text-sm sm:text-lg shrink-0">{pill.icon}</span>
+                <h4 className="font-display text-[10px] sm:text-xs font-semibold tracking-wide text-[var(--accent)] uppercase leading-tight hyphens-none break-normal">
                   {pill.title[lang]}
                 </h4>
               </div>
-              <p className="mt-1.5 sm:mt-2 text-[11px] sm:text-xs font-medium text-[var(--text)] leading-snug hyphens-none break-normal">
-                {pill.desc[lang]}
-              </p>
             </div>
+            <p className="hidden sm:block mt-2 sm:mt-3 font-mono text-[10px] sm:text-[11px] leading-relaxed text-[var(--text-muted)] group-hover:text-[var(--text)] transition-colors">
+              {pill.desc[lang]}
+            </p>
           </div>
         ))}
       </div>
