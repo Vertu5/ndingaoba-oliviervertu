@@ -45,7 +45,7 @@ export const interestPillars: InterestPillar[] = [
     },
     badge: {
       fr: "Héritage ERM & UFC/MMA",
-      en: "ERM Legacy & UFC/MMA",
+      en: "RMA Legacy & UFC/MMA",
     },
     text: {
       fr: "Héritage direct de mon passage à l'École Royale Militaire, le sport est pour moi une nécessité absolue. Je pratique assidûment la musculation et le CrossFit. Je suis également fasciné par l'exigence des sports de combat : je suis l'actualité du MMA de très près (notamment les événements de l'UFC chaque samedi) avec l'objectif de commencer moi-même la pratique sur les tatamis. En parallèle, je reste un amateur attentif du monde du football.",

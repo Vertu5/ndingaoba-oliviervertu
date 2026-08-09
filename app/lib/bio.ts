@@ -31,13 +31,13 @@ export const bioNarrative = {
   },
   intro: {
     fr: "Ingénieur civil en informatique (ULB, Distinction) et Bachelier de l'École Royale Militaire (ERM), je combine une expertise pointue en Intelligence Artificielle et Systèmes Complexes (IRIDIA) avec une solide expérience en Management d'équipe et Leadership. Based in Brussels, I am seeking challenging opportunities as a Software Developer, aiming to grow into Project Management.",
-    en: "Computer Science Engineer (ULB, Distinction) and Royal Military Academy Bachelor (ERM), I bridge advanced technical expertise in Artificial Intelligence and Complex Systems (IRIDIA) with strong Team Management and Leadership skills. Based in Brussels, I am seeking challenging opportunities as a Software Developer, aiming to grow into Project Management.",
+    en: "Computer Science Engineer (ULB, Distinction) and Royal Military Academy Bachelor (RMA), I bridge advanced technical expertise in Artificial Intelligence and Complex Systems (IRIDIA) with strong Team Management and Leadership skills. Based in Brussels, I am seeking challenging opportunities as a Software Developer, aiming to grow into Project Management.",
   },
   executiveSummary: [
     {
       icon: "🎓",
       title: { fr: "Excellence Académique", en: "Academic Excellence" },
-      desc: { fr: "Ingénieur civil en informatique ULB + Bachelier ERM", en: "Computer Science Engineering ULB + ERM Bachelor" },
+      desc: { fr: "Ingénieur civil en informatique ULB + Bachelier ERM", en: "Computer Science Engineering ULB + RMA Bachelor" },
     },
     {
       icon: "🛡️",
@@ -72,12 +72,12 @@ export const bioNarrative = {
       id: "erm-leadership",
       title: {
         fr: "Excellence académique et apprentissage du Leadership à l'ERM",
-        en: "Academic Excellence & Leadership Training at ERM",
+        en: "Academic Excellence & Leadership Training at RMA",
       },
-      badge: { fr: "École Royale Militaire (ERM)", en: "Royal Military Academy (ERM)" },
+      badge: { fr: "École Royale Militaire (ERM)", en: "Royal Military Academy (RMA)" },
       content: {
         fr: "Ressentant le besoin de franchir un cap scientifique, j'ai intégré la faculté Polytechnique de l'École Royale Militaire de Belgique (ERM). J'y ai obtenu un Bachelier en Sciences de l'Ingénieur dans un environnement extrêmement exigeant. Au-delà de la rigueur mathématique, c'est à l'ERM que j'ai forgé mon esprit d'équipe et mon leadership, apprenant à encadrer et diriger des équipes de travail, développant ainsi un sens aigu du management d'équipe, de la cohésion et de la gestion de crise.",
-        en: "Driven to reach higher scientific standards, I entered the Faculty of Engineering at the Royal Military Academy of Belgium (ERM). I earned a Bachelor of Science in Engineering Sciences in an exceptionally demanding environment. Beyond mathematical rigor, ERM is where I forged my teamwork and leadership—learning to manage and lead project teams, developing a strong sense of team management, cohesion, and crisis handling.",
+        en: "Driven to reach higher scientific standards, I entered the Faculty of Engineering at the Royal Military Academy of Belgium (RMA). I earned a Bachelor of Science in Engineering Sciences in an exceptionally demanding environment. Beyond mathematical rigor, RMA is where I forged my teamwork and leadership—learning to manage and lead project teams, developing a strong sense of team management, cohesion, and crisis handling.",
       },
     },
     {
@@ -181,7 +181,7 @@ export const bioNarrative = {
     },
     roadmap: {
       fr: "Aujourd'hui, mon objectif est d'évoluer en tant que Software Developer pour me confronter à la réalité du code, de l'architecture et de la mise en production sur des projets ambitieux. À plus long terme, fort de mes expériences de commandement à l'ERM et de ma vision transversale des systèmes, j'ambitionne d'évoluer vers le Project Management, afin d'orchestrer la complexité non plus seulement à l'échelle du code, mais à l'échelle humaine et organisationnelle.",
-      en: "Today, my goal is to thrive as a Software Developer to tackle real-world code, architecture, and production delivery on ambitious projects. Long-term, building on my command experience at ERM and my systems vision, I aim to transition into Project Management to orchestrate complexity at both technical and human scales.",
+      en: "Today, my goal is to thrive as a Software Developer to tackle real-world code, architecture, and production delivery on ambitious projects. Long-term, building on my command experience at RMA and my systems vision, I aim to transition into Project Management to orchestrate complexity at both technical and human scales.",
     },
   },
 };
