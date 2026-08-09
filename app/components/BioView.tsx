@@ -161,10 +161,10 @@ export default function BioView({
           </div>
           <div className="flex flex-col gap-1.5">
             <a href="/Recommendation_Bontempi.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--text-muted)] hover:text-[var(--accent)] underline underline-offset-4 hover:no-underline transition-colors">
-              📜 {lang === "fr" ? "Lettre de recommandation - Pr. Gianluca Bontempi (ULB)" : "Recommendation letter - Pr. Gianluca Bontempi (ULB)"} ↗
+              📜 Pr. Gianluca (ULB) ↗
             </a>
             <a href="/Recommendation_Legarda.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--text-muted)] hover:text-[var(--accent)] underline underline-offset-4 hover:no-underline transition-colors">
-              📜 {lang === "fr" ? "Lettre de recommandation - Guillermo Legarda (IRIDIA)" : "Recommendation letter - Guillermo Legarda (IRIDIA)"} ↗
+              📜 Guillermo (IRIDIA) ↗
             </a>
           </div>
         </div>
