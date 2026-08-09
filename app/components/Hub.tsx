@@ -409,11 +409,11 @@ export default function Hub() {
                 </div>
 
                 {open.id !== "nsga2-promethee2-agricultural" && open.id !== "urban-air-pollution-ml" && (
-                  <div className="mb-2 sm:mb-4 leading-tight sm:leading-normal">
-                    <h2 className="font-display text-2xl font-medium sm:text-4xl md:text-5xl inline mr-2 sm:mr-3 align-bottom">
+                  <div className="mb-2 sm:mb-4">
+                    <h2 className="font-display text-2xl font-medium sm:text-4xl md:text-5xl">
                       {subOpen ? subOpen.label[lang] : open.label[lang]}
                     </h2>
-                    <p className="inline text-xs sm:text-sm text-[var(--text-muted)] align-bottom">
+                    <p className="mt-1 sm:mt-3 max-w-lg text-xs sm:text-sm text-[var(--text-muted)] sm:text-justify">
                       {subOpen ? subOpen.description[lang] : open.description[lang]}
                     </p>
                   </div>

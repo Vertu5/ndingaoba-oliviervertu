@@ -42,7 +42,7 @@ export const bioNarrative = {
     {
       icon: "🛡️",
       title: { fr: "Leadership & Management", en: "Leadership & Management" },
-      desc: { fr: "Management d'équipe & Rigueur à l'École Royale Militaire", en: "Team Management & Rigor at the Royal Military Academy" },
+      desc: { fr: "Management d'équipe à l'École Royale Militaire", en: "Team Management at the Royal Military Academy" },
     },
     {
       icon: "⚡",
