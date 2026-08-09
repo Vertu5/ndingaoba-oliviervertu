@@ -72,10 +72,24 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  const globalProfile = lang === "fr" ? `
+--- PROFIL GLOBAL D'OLIVIER ---
+Identité : NDINGA OBA Olivier Vertu
+Formation principale : Ingénieur civil en informatique (ULB & ERM), avec un fort bagage en leadership.
+Certifications : Google AI, IBM Data Engineering, Reinforcement Learning, Git/GitHub, etc.
+Domaines d'expertise : Intelligence Artificielle, Machine Learning, Robotique en Essaim, Data Engineering, Conception de Systèmes (System Design), Développement Backend/Frontend.
+-------------------------------` : `
+--- OLIVIER'S GLOBAL PROFILE ---
+Identity: NDINGA OBA Olivier Vertu
+Education: Computer Science Engineer (ULB & ERM), with strong leadership background.
+Certifications: Google AI, IBM Data Engineering, Reinforcement Learning, Git/GitHub, etc.
+Expertise: Artificial Intelligence, Machine Learning, Swarm Robotics, Data Engineering, System Design, Backend/Frontend Development.
+--------------------------------`;
+
   const systemPrompt =
     lang === "fr"
-      ? `Tu es l'assistant du site personnel de NDINGA OBA Olivier Vertu. Le visiteur se trouve actuellement dans la section ou le projet : "${ctx}".\nRéponds de façon précise, concise et pédagogique à ses questions. Si tu ne sais pas quelque chose de spécifique à ses projets (non fourni ci-dessous), dis-le clairement au lieu d'inventer.${projectsCtx}`
-      : `You are the assistant for NDINGA OBA Olivier Vertu's personal site. The visitor is currently in the section or project: "${ctx}".\nAnswer visitor questions precisely, concisely and pedagogically. If you don't know something specific to his actual projects (not provided below), say so clearly rather than inventing it.${projectsCtx}`;
+      ? `${globalProfile}\n\nTu es l'assistant du site personnel de NDINGA OBA Olivier Vertu. Le visiteur se trouve actuellement dans la section ou le projet : "${ctx}".\nRéponds de façon précise, concise et chaleureuse à ses questions. Tu as accès au profil global ci-dessus, et aux détails spécifiques ci-dessous s'il y en a. Si tu ne connais pas une information précise non listée ici, dis-le honnêtement au lieu d'inventer.${projectsCtx}`
+      : `${globalProfile}\n\nYou are the assistant for NDINGA OBA Olivier Vertu's personal site. The visitor is currently in the section or project: "${ctx}".\nAnswer visitor questions precisely, concisely, and warmly. You have access to the global profile above, and specific details below if any. If you don't know a specific fact not listed here, say so honestly rather than inventing it.${projectsCtx}`;
 
   try {
     const res = await fetch(
