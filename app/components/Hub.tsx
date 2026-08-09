@@ -94,7 +94,7 @@ function StandardTileButton({
       whileHover={{ y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={() => onOpen(cat.id)}
-      className="group relative flex h-[6.5rem] sm:h-44 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md w-full"
+      className="group relative flex h-[7rem] sm:h-44 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md w-full"
     >
       <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
         <Pattern id={cat.id} />
@@ -105,7 +105,7 @@ function StandardTileButton({
           {cat.index}
         </span>
         <h2 className="font-display text-xs sm:text-xl font-medium line-clamp-1 leading-tight sm:leading-normal">{cat.label[lang]}</h2>
-        <p className="mt-1 text-[10px] sm:text-sm text-[var(--text-muted)] line-clamp-2 sm:line-clamp-2 hidden sm:block">{cat.description[lang]}</p>
+        <p className="mt-0.5 text-[9px] sm:text-sm text-[var(--text-muted)] line-clamp-2 sm:line-clamp-2 leading-tight">{cat.description[lang]}</p>
       </div>
     </motion.button>
   );
@@ -125,7 +125,7 @@ function ProjectTileButton({
       whileHover={{ y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={() => onOpen(cat.id)}
-      className="group relative flex h-[6.5rem] sm:h-44 flex-col justify-between overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md w-full"
+      className="group relative flex h-[7.5rem] sm:h-44 flex-col justify-between overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md w-full"
     >
       <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
         <Pattern id={cat.id} />
@@ -139,17 +139,17 @@ function ProjectTileButton({
           <h2 className="font-display text-xs sm:text-base font-medium text-[var(--text)] mt-0.5 sm:mt-0.5 group-hover:text-[var(--accent)] transition-colors leading-tight sm:leading-snug line-clamp-2 sm:line-clamp-1">
             {cat.label[lang]}
           </h2>
-          <p className="mt-1 sm:mt-0.5 text-[10px] sm:text-xs text-[var(--text-muted)] line-clamp-2 sm:line-clamp-1 leading-normal hidden sm:block">
+          <p className="mt-0.5 sm:mt-0.5 text-[9px] sm:text-xs text-[var(--text-muted)] line-clamp-2 sm:line-clamp-1 leading-tight sm:leading-normal">
             {cat.description[lang]}
           </p>
         </div>
 
         {cat.tags && cat.tags.length > 0 && (
-          <div className="flex-wrap gap-1 font-mono text-[9px] mt-1 sm:mt-0 hidden sm:flex">
+          <div className="flex flex-wrap gap-0.5 sm:gap-1 font-mono text-[8px] sm:text-[9px] mt-1 sm:mt-0">
             {cat.tags.map((tg, i) => (
               <span
                 key={i}
-                className="rounded bg-[var(--accent)]/10 border border-[var(--accent)]/20 px-1.5 py-0.5 text-[var(--accent)] font-medium"
+                className="rounded bg-[var(--accent)]/10 border border-[var(--accent)]/20 px-1 sm:px-1.5 py-0.5 text-[var(--accent)] font-medium"
               >
                 #{tg}
               </span>
