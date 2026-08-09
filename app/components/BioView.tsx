@@ -196,7 +196,7 @@ export default function BioView({
       <div className="flex justify-center pt-2 pb-1">
         <button
           onClick={toggleDetails}
-          className="group inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/40 bg-[var(--bg-elevated)] px-4 sm:px-6 py-2 font-mono text-[11px] sm:text-xs font-medium text-[var(--accent)] transition-all hover:bg-[var(--accent)] hover:text-black shadow-sm cursor-pointer"
+          className="group inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/40 bg-[var(--bg-elevated)] px-4 sm:px-6 py-2 font-mono text-[11px] sm:text-xs font-medium text-[var(--accent)] transition-all hover:bg-[var(--accent)] hover:text-[var(--accent-text)] shadow-sm cursor-pointer"
         >
           <span>
             {showDetails

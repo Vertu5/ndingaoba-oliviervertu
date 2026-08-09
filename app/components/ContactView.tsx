@@ -53,7 +53,7 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
           <div className="mt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 pt-3 border-t border-dashed border-[var(--border)]">
             <a
               href={`mailto:${directEmail}`}
-              className="font-mono rounded bg-[var(--accent)] px-2 py-1.5 text-[9px] sm:text-xs font-semibold text-black transition-opacity hover:opacity-90 text-center truncate"
+              className="font-mono rounded bg-[var(--accent)] px-2 py-1.5 text-[9px] sm:text-xs font-semibold text-[var(--accent-text)] transition-opacity hover:opacity-90 text-center truncate"
             >
               {lang === "fr" ? "Écrire ↗" : "Email ↗"}
             </a>
@@ -85,7 +85,7 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
           <div className="mt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 pt-3 border-t border-dashed border-[var(--border)]">
             <a
               href={`tel:${phoneClean}`}
-              className="font-mono rounded border border-[var(--accent)]/40 bg-[var(--accent)]/10 px-2 py-1.5 text-[9px] sm:text-xs font-semibold text-[var(--accent)] transition-colors hover:bg-[var(--accent)] hover:text-black text-center truncate"
+              className="font-mono rounded border border-[var(--accent)]/40 bg-[var(--accent)]/10 px-2 py-1.5 text-[9px] sm:text-xs font-semibold text-[var(--accent)] transition-colors hover:bg-[var(--accent)] hover:text-[var(--accent-text)] text-center truncate"
             >
               {lang === "fr" ? "Appeler ↗" : "Call ↗"}
             </a>
@@ -117,7 +117,7 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
               <svg className="w-5 h-5 sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
               <span>GitHub</span>
             </span>
-            <span className="hidden sm:flex items-center justify-center w-8 h-8 rounded-full bg-[var(--bg-elevated)] border border-[var(--border)] group-hover:bg-[var(--accent)] group-hover:text-black group-hover:border-[var(--accent)] transition-all">
+            <span className="hidden sm:flex items-center justify-center w-8 h-8 rounded-full bg-[var(--bg-elevated)] border border-[var(--border)] group-hover:bg-[var(--accent)] group-hover:text-[var(--accent-text)] group-hover:border-[var(--accent)] transition-all">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
             </span>
           </a>
@@ -131,7 +131,7 @@ export default function ContactView({ lang }: { lang: "fr" | "en" }) {
               <svg className="w-5 h-5 sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
               <span>LinkedIn</span>
             </span>
-            <span className="hidden sm:flex items-center justify-center w-8 h-8 rounded-full bg-[var(--bg-elevated)] border border-[var(--border)] group-hover:bg-[var(--accent)] group-hover:text-black group-hover:border-[var(--accent)] transition-all">
+            <span className="hidden sm:flex items-center justify-center w-8 h-8 rounded-full bg-[var(--bg-elevated)] border border-[var(--border)] group-hover:bg-[var(--accent)] group-hover:text-[var(--accent-text)] group-hover:border-[var(--accent)] transition-all">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
             </span>
           </a>

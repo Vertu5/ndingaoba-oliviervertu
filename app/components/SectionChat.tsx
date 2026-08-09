@@ -60,7 +60,7 @@ export default function SectionChat({ sectionId }: { sectionId: string }) {
           className={`flex items-center justify-center w-14 h-14 rounded-full shadow-xl transition-all duration-300 ${
             isOpen 
               ? "bg-[var(--bg)] border border-[var(--border)] text-[var(--text)] rotate-90 hover:bg-[var(--border)]" 
-              : "bg-[var(--accent)] text-white hover:scale-110 shadow-[0_0_15px_rgba(var(--accent-rgb),0.5)]"
+              : "bg-[var(--accent)] text-[var(--accent-text)] hover:scale-110 shadow-[0_0_15px_rgba(var(--accent-rgb),0.5)]"
           }`}
         >
           {isOpen ? <X size={24} /> : <MessageSquare size={24} />}
@@ -114,7 +114,7 @@ export default function SectionChat({ sectionId }: { sectionId: string }) {
                   <div 
                     className={`px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
                       m.role === "user" 
-                        ? "bg-[var(--accent)] text-white rounded-br-sm" 
+                        ? "bg-[var(--accent)] text-[var(--accent-text)] rounded-br-sm" 
                         : "bg-[var(--border)]/30 text-[var(--text)] rounded-bl-sm border border-[var(--border)]"
                     }`}
                   >
@@ -164,7 +164,7 @@ export default function SectionChat({ sectionId }: { sectionId: string }) {
                 <button
                   onClick={send}
                   disabled={loading || !input.trim()}
-                  className="absolute right-2 p-2 rounded-lg text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white transition-all disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-[var(--accent)]"
+                  className="absolute right-2 p-2 rounded-lg text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--accent-text)] transition-all disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-[var(--accent)]"
                 >
                   <Send size={18} />
                 </button>

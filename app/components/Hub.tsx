@@ -400,7 +400,7 @@ export default function Hub() {
                     </button>
                     <button
                       onClick={() => navigate(null, null, "projet", "push")}
-                      className="flex items-center gap-1.5 font-mono text-xs tracking-[0.15em] text-[var(--accent)] border border-[var(--accent)]/30 rounded px-3 py-1 bg-[var(--accent)]/10 transition-colors hover:bg-[var(--accent)] hover:text-black"
+                      className="flex items-center gap-1.5 font-mono text-xs tracking-[0.15em] text-[var(--accent)] border border-[var(--accent)]/30 rounded px-3 py-1 bg-[var(--accent)]/10 transition-colors hover:bg-[var(--accent)] hover:text-[var(--accent-text)]"
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                       <span className="hidden sm:inline">{lang === "fr" ? "FERMER" : "CLOSE"}</span>
