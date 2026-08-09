@@ -60,6 +60,16 @@ export async function POST(req: NextRequest) {
         ? `\n\nVoici le parcours et les documents (diplômes, certificats, lettres de recommandation) d'Olivier :\n` 
         : `\n\nHere are Olivier's background and documents (diplomas, certificates, recommendation letters):\n`) + 
         bio.documents.map(d => `- [${d.type.toUpperCase()}] ${d.title[lang]} (${d.issuer}, ${d.date}) : ${d.detail?.[lang] ?? ""}`).join("\n");
+    } else if (sectionId === "contact") {
+      projectsCtx = (lang === "fr" 
+        ? `\n\nLe visiteur se trouve sur la page de contact. Voici les détails affichés à l'écran :\n` 
+        : `\n\nThe visitor is on the contact page. Here are the details displayed on the screen:\n`) + 
+        `- Email : obavertu@gmail.com (Réponse sous 24h)\n` +
+        `- Téléphone / WhatsApp : +32 497 21 21 37\n` +
+        `- Localisation : Bruxelles, Belgique\n` +
+        `- LinkedIn : https://www.linkedin.com/in/olivier-ndinga-oba-1510101b7/\n` +
+        `- GitHub : https://github.com/Vertu5\n` +
+        (lang === "fr" ? `Message d'intro affiché : "Disponible pour des opportunités en Software Development, Ingénierie IA ou projets complexes."` : `Intro message displayed: "Available for Software Development, AI Engineering opportunities, or complex projects."`);
     } else {
       // 3. Or is it a Domain / Category?
       const domainProjects = content.filter((c) => c.domains.includes(sectionId));
