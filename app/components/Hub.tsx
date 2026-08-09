@@ -610,10 +610,8 @@ export default function Hub() {
                   </div>
                 )}
 
-                {/* Chat assistant : réservé uniquement aux domaines de recherche/laboratoire */}
-                {isSuperDomain && (
-                  <SectionChat sectionId={subOpen ? subOpen.id : open.id} />
-                )}
+                {/* Chat assistant : disponible pour tous les domaines */}
+                <SectionChat sectionId={subOpen ? subOpen.id : open.id} />
 
                 {/* Barre de navigation inférieure : Précédent, Haut, Retour, Suivant */}
                 <div className="mt-12 pt-6 border-t border-[var(--border)] flex flex-row items-center justify-between gap-2 sm:gap-4 font-mono text-xs">
