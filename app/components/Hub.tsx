@@ -94,18 +94,18 @@ function StandardTileButton({
       whileHover={{ y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={() => onOpen(cat.id)}
-      className="group relative flex h-24 sm:h-44 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md"
+      className="group relative flex h-40 sm:h-44 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md w-full"
     >
       <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
         <Pattern id={cat.id} />
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-elevated)] via-[var(--bg-elevated)]/40 to-transparent" />
-      <div className="relative p-2.5 sm:p-5">
-        <span className="font-mono text-[9px] sm:text-[11px] tracking-[0.15em] text-[var(--text-muted)] line-clamp-1">
+      <div className="relative p-5">
+        <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.15em] text-[var(--text-muted)] line-clamp-1">
           {cat.index}
         </span>
-        <h2 className="font-display text-[11px] sm:text-xl font-medium line-clamp-1 leading-tight sm:leading-normal">{cat.label[lang]}</h2>
-        <p className="mt-1 text-[9px] sm:text-sm text-[var(--text-muted)] line-clamp-1 sm:line-clamp-2 hidden sm:block">{cat.description[lang]}</p>
+        <h2 className="font-display text-lg sm:text-xl font-medium line-clamp-1 leading-tight sm:leading-normal">{cat.label[lang]}</h2>
+        <p className="mt-1 text-xs sm:text-sm text-[var(--text-muted)] line-clamp-1 sm:line-clamp-2">{cat.description[lang]}</p>
       </div>
     </motion.button>
   );
@@ -125,27 +125,27 @@ function ProjectTileButton({
       whileHover={{ y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={() => onOpen(cat.id)}
-      className="group relative flex h-24 sm:h-44 flex-col justify-between overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md"
+      className="group relative flex h-44 sm:h-44 flex-col justify-between overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md w-full"
     >
       <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
         <Pattern id={cat.id} />
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-elevated)] via-[var(--bg-elevated)]/40 to-transparent" />
-      <div className="relative p-2.5 sm:p-5 flex flex-col justify-between h-full w-full">
+      <div className="relative p-5 flex flex-col justify-between h-full w-full">
         <div>
-          <span className="font-mono text-[8px] sm:text-[11px] tracking-[0.15em] text-[var(--accent)] font-semibold line-clamp-1">
+          <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.15em] text-[var(--accent)] font-semibold line-clamp-1">
             {cat.index}
           </span>
-          <h2 className="font-display text-[10px] sm:text-base font-medium text-[var(--text)] mt-0 sm:mt-0.5 group-hover:text-[var(--accent)] transition-colors leading-tight sm:leading-snug line-clamp-2 sm:line-clamp-1">
+          <h2 className="font-display text-sm sm:text-base font-medium text-[var(--text)] mt-0.5 group-hover:text-[var(--accent)] transition-colors leading-tight sm:leading-snug line-clamp-2 sm:line-clamp-1">
             {cat.label[lang]}
           </h2>
-          <p className="mt-0.5 text-[10px] sm:text-xs text-[var(--text-muted)] line-clamp-1 leading-normal hidden sm:block">
+          <p className="mt-0.5 text-[10px] sm:text-xs text-[var(--text-muted)] line-clamp-2 sm:line-clamp-1 leading-normal">
             {cat.description[lang]}
           </p>
         </div>
 
         {cat.tags && cat.tags.length > 0 && (
-          <div className="flex flex-wrap gap-0.5 sm:gap-1 font-mono text-[8px] sm:text-[9px] mt-1 sm:mt-0 hidden sm:flex">
+          <div className="flex flex-wrap gap-1 font-mono text-[9px] mt-1 sm:mt-0">
             {cat.tags.map((tg, i) => (
               <span
                 key={i}
@@ -291,9 +291,11 @@ export default function Hub() {
             <p className="font-mono mb-3 text-xs tracking-[0.2em] text-[var(--text-muted)]">
               {t.sectionAbout}
             </p>
-            <div className="grid grid-cols-3 gap-2 sm:gap-3">
+            <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 sm:grid sm:grid-cols-3 pb-2 sm:pb-0 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
               {personalTiles.map((cat) => (
-                <StandardTileButton key={cat.id} cat={cat} lang={lang} onOpen={openTile} />
+                <div key={cat.id} className="snap-center shrink-0 w-[75vw] sm:w-auto">
+                  <StandardTileButton cat={cat} lang={lang} onOpen={openTile} />
+                </div>
               ))}
             </div>
           </section>
@@ -304,9 +306,11 @@ export default function Hub() {
               <span>⭐</span>
               <span>{t.sectionFeaturedProjects}</span>
             </p>
-            <div className="grid grid-cols-3 gap-2 sm:gap-3">
+            <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 sm:grid sm:grid-cols-3 pb-2 sm:pb-0 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
               {projectTiles.map((cat) => (
-                <ProjectTileButton key={cat.id} cat={cat} lang={lang} onOpen={openTile} />
+                <div key={cat.id} className="snap-center shrink-0 w-[75vw] sm:w-auto">
+                  <ProjectTileButton cat={cat} lang={lang} onOpen={openTile} />
+                </div>
               ))}
             </div>
           </section>
