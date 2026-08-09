@@ -89,11 +89,7 @@ Identité : NDINGA OBA Olivier Vertu
 Formation principale : Ingénieur civil en informatique (ULB & ERM), avec un fort bagage en leadership.
 Certifications : Google AI, IBM Data Engineering, Reinforcement Learning, Git/GitHub, etc.
 Domaines d'expertise : Intelligence Artificielle, Machine Learning, Robotique en Essaim, Data Engineering, Conception de Systèmes (System Design), Développement Backend/Frontend.
-Contact :
-- Email : obavertu@gmail.com
-- Téléphone / WhatsApp : +32 497 21 21 37
-- LinkedIn : https://www.linkedin.com/in/olivier-ndinga-oba-1510101b7/
-- GitHub : https://github.com/Vertu5
+Contact : Pour contacter Olivier, il faut se rendre dans la section "Contact" du site.
 -------------------------------
 
 ${deepKnowledgeFR}` : `
@@ -102,11 +98,7 @@ Identity: NDINGA OBA Olivier Vertu
 Education: Computer Science Engineer (ULB & ERM), with strong leadership background.
 Certifications: Google AI, IBM Data Engineering, Reinforcement Learning, Git/GitHub, etc.
 Expertise: Artificial Intelligence, Machine Learning, Swarm Robotics, Data Engineering, System Design, Backend/Frontend Development.
-Contact:
-- Email: obavertu@gmail.com
-- Phone / WhatsApp: +32 497 21 21 37
-- LinkedIn: https://www.linkedin.com/in/olivier-ndinga-oba-1510101b7/
-- GitHub: https://github.com/Vertu5
+Contact: To contact Olivier, you must go to the "Contact" section of the site.
 --------------------------------
 
 ${deepKnowledgeEN}`;

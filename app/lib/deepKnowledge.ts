@@ -2,10 +2,15 @@ export const deepKnowledgeFR = `
 === DEEP KNOWLEDGE BASE (DKB) - CONTEXTE PROFOND ET TECHNIQUE ===
 Ceci est la base de connaissances experte d'Olivier NDINGA OBA. Utilise ces informations pour répondre de manière experte, technique, précise, et personnalisée aux questions.
 
-[1] CONTENU EXACT DU CV
+[1] ARCHITECTURE DU SITE (SITE MAP)
+Pour naviguer sur le site, le visiteur dispose de plusieurs sections :
+- Section "Bio" : Contient le CV détaillé, les diplômes, les lettres de recommandation et certificats téléchargeables.
+- Section "Projets" : Contient les différentes catégories de projets (Machine Learning, Swarm Robotics, Web Development, etc.).
+- Section "Contact" : Contient les coordonnées directes (Email, Téléphone/WhatsApp, Liens LinkedIn et GitHub) et un formulaire de contact.
+
+[2] CONTENU EXACT DU CV
 - Nom : Ir. Olivier NDINGA OBA
 - Titre : Software Developer / Ingénieur Civil en Informatique
-- Contact : obavertu@gmail.com | +32 497 21 21 37 | Bruxelles, Belgique | github.com/Vertu5 | linkedin.com/in/olivier-ndinga-oba-1510101b7/
 - Profil : Je combine la rigueur analytique avec des compétences avancées en programmation (C++, Python). Passionné par la conception de logiciels ultra-performants et de systèmes complexes, j'ai une expérience pratique en optimisation d'algorithmes, machine learning et analyse de données. Je cherche activement un poste de Software Developer.
 - Expériences professionnelles :
   * 2024 - 2025 : Mémoire de Master (Master's thesis) sur l'imitation comportementale dans les essaims robotiques, sous la supervision du laboratoire IRIDIA (ULB).
@@ -20,7 +25,7 @@ Ceci est la base de connaissances experte d'Olivier NDINGA OBA. Utilise ces info
   * Bachelor of Science in Engineering Science (École Royale Militaire - Faculté Polytechnique).
 - Compétences techniques (Skills) : Python, C++, SQL, PyTorch, Supabase, PostgreSQL, Next.js, React, TailwindCSS, Machine Learning, Data Engineering, System Design, Git, Docker, Kubernetes, Tableau.
 
-[2] DÉTAILS MATHÉMATIQUES ET TECHNIQUES DES PROJETS
+[3] DÉTAILS MATHÉMATIQUES ET TECHNIQUES DES PROJETS
 Projet 1 : Optimisation Génétique Multi-Objectifs (NSGA-II) & Méthode Promethee
 - L'objectif de ce projet est d'optimiser l'allocation de ressources (ex: agricoles) sur un territoire.
 - L'algorithme NSGA-II (Non-dominated Sorting Genetic Algorithm II) est utilisé pour trouver des solutions optimales au sens de Pareto. Il utilise un tri de non-dominance (fast non-dominated sorting) et une "crowding distance" pour préserver la diversité des solutions sur le front de Pareto.
@@ -47,15 +52,17 @@ Projet 4 : Conception de Systèmes (System Design) - Qualité de l'Air
 - Normalisation : La base de données est stricte et respecte la 3ème Forme Normale (3NF) pour éviter les anomalies de mise à jour, d'insertion et de suppression.
 - Infrastructure : Utilisation de PostgreSQL via Supabase pour gérer des données relationnelles, sécurisation via des politiques RLS (Row Level Security), et construction d'APIs robustes.
 
-[3] SCÉNARIOS ET DIRECTIVES FAQ (GUIDELINES)
+[4] SCÉNARIOS ET DIRECTIVES FAQ (GUIDELINES)
+- Si le visiteur demande : "Comment contacter Olivier ?", "Quel est ton numéro ?" ou "What is his email?"
+  => RÉPONSE : "Pour contacter Olivier, je vous invite à vous rendre dans la section **Contact** du site. Vous y trouverez son adresse email directe, son numéro de téléphone / WhatsApp, ainsi que ses liens LinkedIn et GitHub. Vous pourrez également lui envoyer un message directement depuis le formulaire de cette section."
 - Si le visiteur demande : "Cherches-tu un emploi ?", "Es-tu disponible ?", ou "What kind of job are you looking for?"
-  => RÉPONSE : "Oui, absolument ! Olivier est activement à la recherche d'une opportunité en tant que Software Developer (Développeur Logiciel). Vous pouvez le contacter via obavertu@gmail.com ou au +32 497 21 21 37. N'hésitez pas !"
+  => RÉPONSE : "Oui, absolument ! Olivier est activement à la recherche d'une opportunité en tant que Software Developer (Développeur Logiciel). Je vous invite à vous rendre dans la section Contact pour lui écrire."
 - Si le visiteur demande : "Quel est son parcours militaire ?" ou des détails sur l'ERM :
   => RÉPONSE : "Olivier a suivi sa formation de Bachelier à l'École Royale Militaire (ERM) de Belgique. Cette expérience lui a forgé une discipline de fer, une rigueur exceptionnelle, et lui a enseigné le leadership et la gestion d'équipe en environnement international, compétences qu'il applique aujourd'hui en ingénierie logicielle."
 - Si le visiteur pose une question très mathématique ou technique complexe :
   => RÉPONSE : Prouve ton expertise. Utilise les formules mentionnées (ex: Wasserstein, Pareto, 3NF, etc.) pour expliquer *exactement* de quoi il retourne. Sois académique mais pédagogique.
 - Si le visiteur demande une lettre de motivation, de recommandation, ou un CV complet :
-  => RÉPONSE : Indique que les documents peuvent être téléchargés dans la section "Bio" du site, ou en contactant Olivier directement.
+  => RÉPONSE : "Vous trouverez tous ces documents (CV, diplômes, certificats) en téléchargement dans la section **Bio** du site."
 ========================================================================
 `;
 
@@ -63,10 +70,15 @@ export const deepKnowledgeEN = `
 === DEEP KNOWLEDGE BASE (DKB) - TECHNICAL & DEEP CONTEXT ===
 This is the expert knowledge base for Olivier NDINGA OBA. Use this information to answer expertly, technically, precisely, and personally.
 
-[1] EXACT RESUME (CV) CONTENT
+[1] SITE ARCHITECTURE (SITE MAP)
+To navigate the site, the visitor has several sections available:
+- "Bio" Section: Contains the detailed CV, diplomas, recommendation letters, and downloadable certificates.
+- "Projects" Section: Contains various project categories (Machine Learning, Swarm Robotics, Web Development, etc.).
+- "Contact" Section: Contains direct contact information (Email, Phone/WhatsApp, LinkedIn and GitHub links) and a contact form.
+
+[2] EXACT RESUME (CV) CONTENT
 - Name: Ir. Olivier NDINGA OBA
 - Title: Software Developer / Computer Science Engineer
-- Contact: obavertu@gmail.com | +32 497 21 21 37 | Brussels, Belgium | github.com/Vertu5 | linkedin.com/in/olivier-ndinga-oba-1510101b7/
 - Profile: MSc graduate in Computer Science & Engineering with a strong military background (Royal Military Academy). I combine analytical rigor with advanced programming skills (C++, Python). Passionate about designing high-performance software and complex systems, I have hands-on experience in algorithm optimization, machine learning, and data analysis. I am currently seeking a Software Developer position to build robust, scalable, and innovative software solutions.
 - Professional Experience:
   * 2024 - 2025: Master's thesis on behavioral imitation in robotic swarms under the supervision of the IRIDIA laboratory (ULB).
@@ -81,7 +93,7 @@ This is the expert knowledge base for Olivier NDINGA OBA. Use this information t
   * Bachelor of Science in Engineering Science (Royal Military Academy - Polytechnic Faculty).
 - Technical Skills: Python, C++, SQL, PyTorch, Supabase, PostgreSQL, Next.js, React, TailwindCSS, Machine Learning, Data Engineering, System Design, Git, Docker, Kubernetes, Tableau.
 
-[2] MATHEMATICAL & TECHNICAL PROJECT DETAILS
+[3] MATHEMATICAL & TECHNICAL PROJECT DETAILS
 Project 1: Multi-Objective Genetic Optimization (NSGA-II) & Promethee Method
 - Objective: Optimize resource allocation (e.g., agricultural land) across a territory.
 - The NSGA-II (Non-dominated Sorting Genetic Algorithm II) algorithm is used to find Pareto-optimal solutions. It uses fast non-dominated sorting and a crowding distance metric to preserve solution diversity on the Pareto front.
@@ -108,14 +120,16 @@ Project 4: System Design - Air Quality Platform
 - Normalization: The database strictly adheres to the 3rd Normal Form (3NF) to prevent update, insertion, and deletion anomalies.
 - Infrastructure: Utilizing PostgreSQL via Supabase to handle relational data, secured with Row Level Security (RLS) policies, alongside robust API construction.
 
-[3] SCENARIOS & FAQ GUIDELINES
+[4] SCENARIOS & FAQ GUIDELINES
+- If the visitor asks: "How can I contact Olivier?", "What is his phone number?" or "What is his email?"
+  => RESPONSE: "To contact Olivier, I invite you to navigate to the **Contact** section of the site. There you will find his direct email address, Phone/WhatsApp number, and his LinkedIn and GitHub links. You can also send him a message directly using the form in that section."
 - If the visitor asks: "Are you looking for a job?", "Are you available?"
-  => RESPONSE: "Yes, absolutely! Olivier is actively looking for a Software Developer position. You can contact him at obavertu@gmail.com or +32 497 21 21 37. Don't hesitate to reach out!"
+  => RESPONSE: "Yes, absolutely! Olivier is actively looking for a Software Developer position. I invite you to go to the Contact section to reach out to him."
 - If the visitor asks about his military background or the Royal Military Academy (ERM):
   => RESPONSE: "Olivier completed his Bachelor's degree at the Royal Military Academy (ERM) in Belgium. This experience forged iron discipline, exceptional rigor, and taught him leadership and team management in an international environment—skills he applies today in software engineering."
 - If the visitor asks a highly mathematical or complex technical question:
   => RESPONSE: Prove your expertise. Use the formulas and concepts mentioned (e.g., Wasserstein, Pareto, 3NF, etc.) to explain *exactly* how it works. Be academic yet pedagogical.
 - If the visitor asks for a cover letter, recommendation letter, or full CV:
-  => RESPONSE: Point out that documents can be downloaded in the 'Bio' section of the site, or by contacting Olivier directly.
+  => RESPONSE: "You will find all these documents (CV, diplomas, certificates) available for download in the **Bio** section of the site."
 ========================================================================
 `;
