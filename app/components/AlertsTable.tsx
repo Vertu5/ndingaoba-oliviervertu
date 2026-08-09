@@ -16,16 +16,7 @@ export default function AlertsTable({ isEn = true }: Props) {
   const [data, setData] = useState<AlertRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const scrollRef = React.useRef<HTMLDivElement>(null);
-
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({
-        left: direction === 'left' ? -250 : 250,
-        behavior: 'smooth'
-      });
-    }
-  };
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -92,54 +83,56 @@ FOR EACH ROW EXECUTE FUNCTION trg_check_thresholds();`;
           </div>
         ) : (
           <div className="w-full">
-            <div className="flex justify-end gap-2 mb-2">
-              <button onClick={() => scroll('left')} className="p-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 active:scale-95 transition-transform shadow-sm">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-              </button>
-              <button onClick={() => scroll('right')} className="p-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 active:scale-95 transition-transform shadow-sm">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-              </button>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="font-semibold text-slate-700 dark:text-slate-300 text-sm">
+                {isEn ? `Alert ${currentIndex + 1} of ${data.length}` : `Alerte ${currentIndex + 1} sur ${data.length}`}
+              </h3>
+              <div className="flex gap-2">
+                <button 
+                  onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
+                  disabled={currentIndex === 0}
+                  className="p-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                </button>
+                <button 
+                  onClick={() => setCurrentIndex(prev => Math.min(data.length - 1, prev + 1))}
+                  disabled={currentIndex === data.length - 1}
+                  className="p-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
+              </div>
             </div>
-            <div className="w-full overflow-x-auto scrollbar-hide rounded-lg border border-slate-200 dark:border-slate-800" ref={scrollRef}>
-              <table className="w-full text-sm text-left min-w-[600px]">
-                <thead className="text-xs text-slate-500 uppercase bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
-                <tr>
-                  <th className="px-4 py-3 whitespace-nowrap">{isEn ? "City" : "Ville"}</th>
-                  <th className="px-4 py-3 whitespace-nowrap">{isEn ? "Station" : "Station"}</th>
-                  <th className="px-4 py-3 whitespace-nowrap">{isEn ? "Pollutant" : "Polluant"}</th>
-                  <th className="px-4 py-3 whitespace-nowrap">{isEn ? "Value" : "Valeur"}</th>
-                  <th className="px-4 py-3 whitespace-nowrap">{isEn ? "Limit" : "Limite"}</th>
-                  <th className="px-4 py-3 whitespace-nowrap">{isEn ? "Status" : "Statut"}</th>
-                </tr>
-              </thead>
-              <tbody className="text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 md:bg-transparent">
-                {data.map((alert, i) => (
-                  <tr key={i} className="border-b border-slate-200 dark:border-slate-800/50 last:border-none hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
-                    <td className="px-4 py-3 font-medium">
-                      <span className="truncate max-w-[60%]">{alert.city_name}</span>
-                    </td>
-                    <td className="px-4 py-3 text-slate-500">
-                      <span className="truncate max-w-[60%]">{alert.station_name}</span>
-                    </td>
-                    <td className="px-4 py-3 uppercase">
-                      <span className="truncate max-w-[60%]">{alert.pollutant_code}</span>
-                    </td>
-                    <td className="px-4 py-3 text-red-500 font-semibold">
-                      <span>{alert.value}</span>
-                    </td>
-                    <td className="px-4 py-3 text-slate-500">
-                      <span>{alert.threshold}</span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-xs font-semibold">
-                        <AlertOctagon className="w-3 h-3" />
-                        {isEn ? "EXCEEDED" : "DÉPASSÉ"}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+
+            <div className="border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 shadow-sm overflow-hidden text-sm">
+              <div className="flex justify-between items-center px-4 py-3 border-b border-slate-100 dark:border-slate-800/50">
+                <span className="font-semibold text-slate-500">{isEn ? "City" : "Ville"}</span>
+                <span className="font-medium text-slate-800 dark:text-slate-200 text-right">{data[currentIndex].city_name}</span>
+              </div>
+              <div className="flex justify-between items-center px-4 py-3 border-b border-slate-100 dark:border-slate-800/50">
+                <span className="font-semibold text-slate-500">{isEn ? "Station" : "Station"}</span>
+                <span className="text-slate-700 dark:text-slate-300 text-right">{data[currentIndex].station_name}</span>
+              </div>
+              <div className="flex justify-between items-center px-4 py-3 border-b border-slate-100 dark:border-slate-800/50">
+                <span className="font-semibold text-slate-500">{isEn ? "Pollutant" : "Polluant"}</span>
+                <span className="uppercase text-slate-700 dark:text-slate-300 text-right font-mono">{data[currentIndex].pollutant_code}</span>
+              </div>
+              <div className="flex justify-between items-center px-4 py-3 border-b border-slate-100 dark:border-slate-800/50">
+                <span className="font-semibold text-slate-500">{isEn ? "Value" : "Valeur"}</span>
+                <span className="text-red-600 dark:text-red-400 font-bold text-right">{data[currentIndex].value}</span>
+              </div>
+              <div className="flex justify-between items-center px-4 py-3 border-b border-slate-100 dark:border-slate-800/50">
+                <span className="font-semibold text-slate-500">{isEn ? "Limit" : "Limite"}</span>
+                <span className="text-slate-700 dark:text-slate-300 text-right">{data[currentIndex].threshold}</span>
+              </div>
+              <div className="flex justify-between items-center px-4 py-3 bg-slate-50 dark:bg-slate-800/30">
+                <span className="font-semibold text-slate-500">{isEn ? "Status" : "Statut"}</span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 font-bold tracking-wide">
+                  <AlertOctagon className="w-3.5 h-3.5" />
+                  {isEn ? "EXCEEDED" : "DÉPASSÉ"}
+                </span>
+              </div>
             </div>
           </div>
         )}
