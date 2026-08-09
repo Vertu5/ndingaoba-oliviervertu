@@ -153,11 +153,11 @@ function ProjectTileButton({
         </div>
 
         {cat.tags && cat.tags.length > 0 && (
-          <div className="flex flex-wrap gap-0.5 sm:gap-1 font-mono text-[8px] sm:text-[9px] mt-1 sm:mt-0">
+          <div className="flex flex-nowrap overflow-x-auto scrollbar-hide sm:flex-wrap gap-1.5 sm:gap-1 font-mono text-[8px] sm:text-[9px] mt-1 sm:mt-0 pb-1 sm:pb-0">
             {cat.tags.map((tg, i) => (
               <span
                 key={i}
-                className="rounded bg-[var(--accent)]/10 border border-[var(--accent)]/20 px-1 sm:px-1.5 py-0.5 text-[var(--accent)] font-medium"
+                className="shrink-0 whitespace-nowrap rounded bg-[var(--accent)]/10 border border-[var(--accent)]/20 px-1 sm:px-1.5 py-0.5 text-[var(--accent)] font-medium"
               >
                 #{tg}
               </span>
