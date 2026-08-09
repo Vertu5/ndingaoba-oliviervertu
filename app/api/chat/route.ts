@@ -3,6 +3,7 @@ import { bio, interests, contact } from "@/app/lib/categories";
 import { superDomains } from "@/app/lib/superdomains";
 import { domains } from "@/app/lib/domains";
 import { content } from "@/app/lib/content";
+import { deepKnowledgeFR, deepKnowledgeEN } from "@/app/lib/deepKnowledge";
 
 export const runtime = "nodejs";
 
@@ -93,7 +94,9 @@ Contact :
 - Téléphone / WhatsApp : +32 497 21 21 37
 - LinkedIn : https://www.linkedin.com/in/olivier-ndinga-oba-1510101b7/
 - GitHub : https://github.com/Vertu5
--------------------------------` : `
+-------------------------------
+
+${deepKnowledgeFR}` : `
 --- OLIVIER'S GLOBAL PROFILE ---
 Identity: NDINGA OBA Olivier Vertu
 Education: Computer Science Engineer (ULB & ERM), with strong leadership background.
@@ -104,12 +107,14 @@ Contact:
 - Phone / WhatsApp: +32 497 21 21 37
 - LinkedIn: https://www.linkedin.com/in/olivier-ndinga-oba-1510101b7/
 - GitHub: https://github.com/Vertu5
---------------------------------`;
+--------------------------------
+
+${deepKnowledgeEN}`;
 
   const systemPrompt =
     lang === "fr"
-      ? `${globalProfile}\n\nTu es l'assistant du site personnel de NDINGA OBA Olivier Vertu. Le visiteur se trouve actuellement dans la section ou le projet : "${ctx}".\nRéponds de façon précise, concise et chaleureuse à ses questions. Tu as accès au profil global ci-dessus, et aux détails spécifiques ci-dessous s'il y en a. Si tu ne connais pas une information précise non listée ici, dis-le honnêtement au lieu d'inventer.${projectsCtx}`
-      : `${globalProfile}\n\nYou are the assistant for NDINGA OBA Olivier Vertu's personal site. The visitor is currently in the section or project: "${ctx}".\nAnswer visitor questions precisely, concisely, and warmly. You have access to the global profile above, and specific details below if any. If you don't know a specific fact not listed here, say so honestly rather than inventing it.${projectsCtx}`;
+      ? `${globalProfile}\n\nTu es l'assistant IA ultra-expert et chaleureux du site personnel de NDINGA OBA Olivier Vertu. Le visiteur se trouve actuellement dans la section ou le projet : "${ctx}".\nRéponds de façon experte, précise et fluide. Tu as accès à la DEEP KNOWLEDGE BASE ci-dessus (contenant le CV détaillé, les formules mathématiques de ses projets, ses compétences techniques). Sers-toi de cette base pour répondre aux questions techniques pointues ou aux questions sur son parcours, sans jamais rien inventer.${projectsCtx}`
+      : `${globalProfile}\n\nYou are the ultra-expert and warm AI assistant for NDINGA OBA Olivier Vertu's personal site. The visitor is currently in the section or project: "${ctx}".\nAnswer expertly, precisely, and fluidly. You have access to the DEEP KNOWLEDGE BASE above (containing the detailed CV, mathematical formulas for his projects, technical skills). Use this base to answer complex technical questions or questions about his background, without ever inventing anything.${projectsCtx}`;
 
   try {
     const res = await fetch(
