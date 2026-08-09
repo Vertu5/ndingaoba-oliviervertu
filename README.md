@@ -5,7 +5,7 @@
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-> **Ingénieur civil en informatique (ULB, Distinction) · Bachelier de l'École Royale Militaire (ERM) · Software Developer & Ingénieur IA · Candidat au Management de Projets Techniques**
+> **Ingénieur civil en informatique (ULB, Distinction) · Bachelier de l'École Royale Militaire (ERM) · Software Developer · Ambition Project Management**
 
 ---
 
@@ -106,7 +106,7 @@ ndingaoba-oliviervertu/
 ## 👤 Auteur
 
 **NDINGA OBA Olivier Vertu**  
-*Ingénieur civil en informatique · Bruxelles, Belgique*
+*Software Developer & Ingénieur civil en informatique · Bruxelles, Belgique*
 
 - **GitHub** : [@Vertu5](https://github.com/Vertu5)
 - **LinkedIn** : [NDINGA OBA Olivier Vertu](https://www.linkedin.com/in/olivier-ndinga-oba-1510101b7/)
