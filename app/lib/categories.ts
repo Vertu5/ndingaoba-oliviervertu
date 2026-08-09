@@ -23,7 +23,7 @@ export type Category = {
 
 // Lien vers ton CV complet en PDF. Laisse `null` tant que tu n'as pas de fichier —
 // le bouton s'affichera alors désactivé avec une note "à ajouter".
-export const cvUrl: string | null = null;
+export const cvUrl: string | null = "/CV_Olivier_NDINGA_OBA.pdf";
 
 export const bio: Category = {
   id: "bio",
