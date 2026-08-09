@@ -126,7 +126,7 @@ export default function BioView({
             </p>
 
             {/* Quick Links Header */}
-            <div className="mt-1 sm:mt-2.5 font-mono text-[10px] sm:text-xs text-[var(--text-muted)] flex items-center">
+            <div className="mt-2 sm:mt-3 font-mono text-xs sm:text-sm text-[var(--text-muted)] flex items-center">
               {cvUrl ? (
                 <a
                   href={cvUrl}
