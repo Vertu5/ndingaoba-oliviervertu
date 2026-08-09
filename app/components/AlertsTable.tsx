@@ -16,6 +16,16 @@ export default function AlertsTable({ isEn = true }: Props) {
   const [data, setData] = useState<AlertRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -250 : 250,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -82,8 +92,17 @@ FOR EACH ROW EXECUTE FUNCTION trg_check_thresholds();`;
           </div>
         ) : (
           <div className="w-full">
-            <table className="w-full text-sm text-left block md:table">
-              <thead className="hidden md:table-header-group text-xs text-slate-500 uppercase bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+            <div className="flex md:hidden justify-end gap-2 mb-2">
+              <button onClick={() => scroll('left')} className="p-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 active:scale-95 transition-transform shadow-sm">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <button onClick={() => scroll('right')} className="p-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 active:scale-95 transition-transform shadow-sm">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+            </div>
+            <div className="w-full overflow-x-auto scrollbar-hide rounded-lg border border-slate-200 dark:border-slate-800" ref={scrollRef}>
+              <table className="w-full text-sm text-left min-w-[600px]">
+                <thead className="text-xs text-slate-500 uppercase bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th className="px-4 py-3 whitespace-nowrap">{isEn ? "City" : "Ville"}</th>
                   <th className="px-4 py-3 whitespace-nowrap">{isEn ? "Station" : "Station"}</th>
@@ -93,31 +112,25 @@ FOR EACH ROW EXECUTE FUNCTION trg_check_thresholds();`;
                   <th className="px-4 py-3 whitespace-nowrap">{isEn ? "Status" : "Statut"}</th>
                 </tr>
               </thead>
-              <tbody className="flex overflow-x-auto gap-4 pb-4 snap-x scrollbar-hide md:table-row-group md:overflow-visible md:gap-0 md:pb-0 text-slate-700 dark:text-slate-300">
+              <tbody className="text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 md:bg-transparent">
                 {data.map((alert, i) => (
-                  <tr key={i} className="block md:table-row shrink-0 w-[85vw] sm:w-[320px] snap-center md:w-auto md:shrink md:snap-align-none border border-slate-200 dark:border-slate-800 md:border-none rounded-lg bg-white dark:bg-slate-900 md:bg-transparent md:hover:bg-slate-50 md:dark:hover:bg-slate-800/20 transition-colors shadow-sm md:shadow-none">
-                    <td className="flex justify-between md:table-cell px-4 py-3 font-medium border-b border-slate-100 dark:border-slate-800 md:border-none">
-                      <span className="md:hidden font-semibold text-slate-500">{isEn ? "City" : "Ville"}</span>
-                      <span className="text-right truncate max-w-[60%]">{alert.city_name}</span>
+                  <tr key={i} className="border-b border-slate-200 dark:border-slate-800/50 last:border-none hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
+                    <td className="px-4 py-3 font-medium">
+                      <span className="truncate max-w-[60%]">{alert.city_name}</span>
                     </td>
-                    <td className="flex justify-between md:table-cell px-4 py-3 text-slate-500 border-b border-slate-100 dark:border-slate-800 md:border-none">
-                      <span className="md:hidden font-semibold text-slate-500">{isEn ? "Station" : "Station"}</span>
-                      <span className="text-right truncate max-w-[60%]">{alert.station_name}</span>
+                    <td className="px-4 py-3 text-slate-500">
+                      <span className="truncate max-w-[60%]">{alert.station_name}</span>
                     </td>
-                    <td className="flex justify-between md:table-cell px-4 py-3 uppercase border-b border-slate-100 dark:border-slate-800 md:border-none">
-                      <span className="md:hidden font-semibold text-slate-500 capitalize">{isEn ? "Pollutant" : "Polluant"}</span>
-                      <span className="text-right truncate max-w-[60%]">{alert.pollutant_code}</span>
+                    <td className="px-4 py-3 uppercase">
+                      <span className="truncate max-w-[60%]">{alert.pollutant_code}</span>
                     </td>
-                    <td className="flex justify-between md:table-cell px-4 py-3 text-red-500 font-semibold border-b border-slate-100 dark:border-slate-800 md:border-none">
-                      <span className="md:hidden font-semibold text-slate-500">{isEn ? "Value" : "Valeur"}</span>
-                      <span className="text-right">{alert.value}</span>
+                    <td className="px-4 py-3 text-red-500 font-semibold">
+                      <span>{alert.value}</span>
                     </td>
-                    <td className="flex justify-between md:table-cell px-4 py-3 text-slate-500 border-b border-slate-100 dark:border-slate-800 md:border-none">
-                      <span className="md:hidden font-semibold text-slate-500">{isEn ? "Limit" : "Limite"}</span>
-                      <span className="text-right">{alert.threshold}</span>
+                    <td className="px-4 py-3 text-slate-500">
+                      <span>{alert.threshold}</span>
                     </td>
-                    <td className="flex justify-between items-center md:table-cell px-4 py-3">
-                      <span className="md:hidden font-semibold text-slate-500">{isEn ? "Status" : "Statut"}</span>
+                    <td className="px-4 py-3">
                       <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-xs font-semibold">
                         <AlertOctagon className="w-3 h-3" />
                         {isEn ? "EXCEEDED" : "DÉPASSÉ"}
@@ -127,6 +140,7 @@ FOR EACH ROW EXECUTE FUNCTION trg_check_thresholds();`;
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         )}
       </div>
