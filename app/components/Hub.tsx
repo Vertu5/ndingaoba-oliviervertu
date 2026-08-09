@@ -68,12 +68,12 @@ const projectTiles: (Category & { tags?: string[] })[] = [
   {
     id: "air-quality-system-design",
     index: "04.SYS",
-    label: { fr: "System Design SQL", en: "System Design SQL" },
+    label: { fr: "System Design Pollution", en: "System Design Pollution" },
     description: {
-      fr: "Architecture système, modélisation 3NF, FastAPI & Docker.",
-      en: "System architecture, 3NF database modeling & Docker.",
+      fr: "Architecture système, modélisation 3NF & Base de données.",
+      en: "System architecture, 3NF database modeling.",
     },
-    tags: ["PostgreSQL", "SQL DDL", "FastAPI", "Docker"],
+    tags: ["ERD Diagram", "PostgreSQL", "Database", "Supabase", "API"],
   },
 ];
 
