@@ -125,43 +125,44 @@ export default function BioView({
               {bioNarrative.intro[lang]}
             </p>
 
-            {/* Quick Links Header */}
-            <div className="mt-2 sm:mt-3 flex flex-col gap-2 font-mono text-xs sm:text-sm text-[var(--text-muted)]">
-              <div>
-                {cvUrl ? (
-                  <a
-                    href={cvUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[var(--accent)] underline underline-offset-4 hover:no-underline font-medium"
-                  >
-                    📄 {t.bioIntroLink} ↗
-                  </a>
-                ) : (
-                  <span className="text-[var(--text-muted)]">
-                    📄 {t.bioIntroLink} ({t.cvMissing})
-                  </span>
-                )}
-              </div>
-              <div className="flex flex-col gap-1.5 sm:gap-2">
-                <a
-                  href="/Recommendation_Bontempi.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-[var(--text-muted)] hover:text-[var(--accent)] underline underline-offset-4 hover:no-underline transition-colors"
-                >
-                  📜 {lang === "fr" ? "Lettre de recommandation - Pr. Gianluca Bontempi (ULB)" : "Recommendation letter - Pr. Gianluca Bontempi (ULB)"} ↗
-                </a>
-                <a
-                  href="/Recommendation_Legarda.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-[var(--text-muted)] hover:text-[var(--accent)] underline underline-offset-4 hover:no-underline transition-colors"
-                >
-                  📜 {lang === "fr" ? "Lettre de recommandation - Guillermo Legarda (IRIDIA)" : "Recommendation letter - Guillermo Legarda (IRIDIA)"} ↗
-                </a>
-              </div>
-            </div>
+          </div>
+        </div>
+
+        {/* Quick Links Header (Full Width Below) */}
+        <div className="mt-4 sm:mt-5 pt-3 border-t border-[var(--border)]/50 flex flex-col gap-2 font-mono text-xs sm:text-sm text-[var(--text-muted)]">
+          <div>
+            {cvUrl ? (
+              <a
+                href={cvUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-[var(--accent)] underline underline-offset-4 hover:no-underline font-medium"
+              >
+                📄 {t.bioIntroLink} ↗
+              </a>
+            ) : (
+              <span className="text-[var(--text-muted)]">
+                📄 {t.bioIntroLink} ({t.cvMissing})
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col gap-1.5 sm:gap-2">
+            <a
+              href="/Recommendation_Bontempi.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-[var(--text-muted)] hover:text-[var(--accent)] underline underline-offset-4 hover:no-underline transition-colors"
+            >
+              📜 {lang === "fr" ? "Lettre de recommandation - Pr. Gianluca Bontempi (ULB)" : "Recommendation letter - Pr. Gianluca Bontempi (ULB)"} ↗
+            </a>
+            <a
+              href="/Recommendation_Legarda.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-[var(--text-muted)] hover:text-[var(--accent)] underline underline-offset-4 hover:no-underline transition-colors"
+            >
+              📜 {lang === "fr" ? "Lettre de recommandation - Guillermo Legarda (IRIDIA)" : "Recommendation letter - Guillermo Legarda (IRIDIA)"} ↗
+            </a>
           </div>
         </div>
       </div>
