@@ -123,7 +123,7 @@ export default function GeneticOptimizer() {
               </button>
             </div>
             
-            <p className="mb-8 text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto">
+            <p className="mb-8 text-sm sm:text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto line-clamp-4 sm:line-clamp-none">
               {isEn 
                 ? "Before seeking a solution, we must understand the baseline. The territory is divided into parcels. Some already belong to the farmer (Existing Farms), others are candidates for purchase, and each has a specific cost and yield potential." 
                 : "Avant de chercher une solution, il faut comprendre notre point de départ. Le territoire est divisé en parcelles. Certaines appartiennent déjà à l'agriculteur (Fermes existantes), d'autres sont candidates à l'achat, et chacune possède un coût et un potentiel de rendement différent."
@@ -147,7 +147,7 @@ export default function GeneticOptimizer() {
               </figcaption>
             </figure>
 
-            <p className="mb-6 text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto">
+            <p className="mb-6 text-sm sm:text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto line-clamp-4 sm:line-clamp-none">
               {isEn 
                 ? "When purchasing new land, the AI algorithm balances 4 often contradictory objectives:" 
                 : "Lors de l'achat de nouvelles parcelles, l'algorithme d'Intelligence Artificielle arbitre la situation entre 4 objectifs souvent contradictoires :"
@@ -157,7 +157,7 @@ export default function GeneticOptimizer() {
             <ul className="space-y-4 mb-8">
               <li className="bg-white dark:bg-[var(--bg-elevated)] p-5 rounded-lg border border-slate-200 dark:border-[var(--border)] shadow-sm">
                 <strong className="font-sans text-slate-900 dark:text-[var(--text)]">1. {isEn ? "Productivity (Maximize)" : "Productivité (Maximiser)"}</strong>
-                <p className="mt-1 text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto">{isEn ? "Prioritize land that offers the highest crop yield." : "Acheter en priorité les terres qui offrent le meilleur rendement de culture."}</p>
+                <p className="hidden sm:block mt-1 text-sm sm:text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto line-clamp-4 sm:line-clamp-none">{isEn ? "Prioritize land that offers the highest crop yield." : "Acheter en priorité les terres qui offrent le meilleur rendement de culture."}</p>
                 {showTheory && (
                   <div className="mt-4 p-4 bg-slate-50 dark:bg-[var(--bg-elevated)] border border-slate-200 dark:border-[var(--border)] rounded text-sm overflow-x-auto text-center">
                     <em>{isEn ? "Mathematical Formulation:" : "Formulation Mathématique :"}</em> 
@@ -167,7 +167,7 @@ export default function GeneticOptimizer() {
               </li>
               <li className="bg-white dark:bg-[var(--bg-elevated)] p-5 rounded-lg border border-slate-200 dark:border-[var(--border)] shadow-sm">
                 <strong className="font-sans text-slate-900 dark:text-[var(--text)]">2. {isEn ? "Proximity (Minimize)" : "Proximité (Minimiser)"}</strong>
-                <p className="mt-1 text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto">{isEn ? "Keep new land as close as possible to existing infrastructure to reduce transport costs." : "Garder les nouvelles terres le plus près possible des infrastructures existantes pour réduire les coûts de transport."}</p>
+                <p className="hidden sm:block mt-1 text-sm sm:text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto line-clamp-4 sm:line-clamp-none">{isEn ? "Keep new land as close as possible to existing infrastructure to reduce transport costs." : "Garder les nouvelles terres le plus près possible des infrastructures existantes pour réduire les coûts de transport."}</p>
                 {showTheory && (
                   <div className="mt-4 p-4 bg-slate-50 dark:bg-[var(--bg-elevated)] border border-slate-200 dark:border-[var(--border)] rounded text-sm overflow-x-auto text-center">
                     <em>{isEn ? "Mathematical Formulation:" : "Formulation Mathématique :"}</em> 
@@ -177,7 +177,7 @@ export default function GeneticOptimizer() {
               </li>
               <li className="bg-white dark:bg-[var(--bg-elevated)] p-5 rounded-lg border border-slate-200 dark:border-[var(--border)] shadow-sm">
                 <strong className="font-sans text-slate-900 dark:text-[var(--text)]">3. {isEn ? "Compactness (Minimize Scatter)" : "Compacité (Minimiser l'éparpillement)"}</strong>
-                <p className="mt-1 text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto">{isEn ? "Favor large, contiguous blocks of land rather than small, scattered 'confetti' patches." : "Favoriser des gros blocs de terres collés les uns aux autres, plutôt que des petits bouts de champs éparpillés partout en 'confetti'."}</p>
+                <p className="hidden sm:block mt-1 text-sm sm:text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto line-clamp-4 sm:line-clamp-none">{isEn ? "Favor large, contiguous blocks of land rather than small, scattered 'confetti' patches." : "Favoriser des gros blocs de terres collés les uns aux autres, plutôt que des petits bouts de champs éparpillés partout en 'confetti'."}</p>
                 {showTheory && (
                   <div className="mt-4 p-4 bg-slate-50 dark:bg-[var(--bg-elevated)] border border-slate-200 dark:border-[var(--border)] rounded text-sm overflow-x-auto text-center">
                     <em>{isEn ? "Mathematical Formulation:" : "Formulation Mathématique :"}</em> 
@@ -187,7 +187,7 @@ export default function GeneticOptimizer() {
               </li>
               <li className="bg-white dark:bg-[var(--bg-elevated)] p-5 rounded-lg border border-slate-200 dark:border-[var(--border)] shadow-sm">
                 <strong className="font-sans text-slate-900 dark:text-[var(--text)]">4. {isEn ? "Budget (Strict Constraint)" : "Le Budget (Contrainte Stricte)"}</strong>
-                <p className="mt-1 text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto">{isEn ? "The total price of the purchased land must never exceed the farmer's wallet." : "Le prix total des terres achetées ne doit jamais dépasser le portefeuille de l'agriculteur."}</p>
+                <p className="hidden sm:block mt-1 text-sm sm:text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto line-clamp-4 sm:line-clamp-none">{isEn ? "The total price of the purchased land must never exceed the farmer's wallet." : "Le prix total des terres achetées ne doit jamais dépasser le portefeuille de l'agriculteur."}</p>
                 {showTheory && (
                   <div className="mt-4 p-4 bg-slate-50 dark:bg-[var(--bg-elevated)] border border-slate-200 dark:border-[var(--border)] rounded text-sm overflow-x-auto text-center">
                     <em>{isEn ? "Mathematical Formulation:" : "Formulation Mathématique :"}</em> 
@@ -203,7 +203,7 @@ export default function GeneticOptimizer() {
             <h2 className="text-2xl font-bold font-sans mb-6 border-b border-slate-200 dark:border-[var(--border)] pb-2">
               {isEn ? "How the Genetic Algorithm Works" : "Comment fonctionne l'Algorithme Génétique ?"}
             </h2>
-            <p className="mb-8 text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto">
+            <p className="mb-8 text-sm sm:text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto line-clamp-4 sm:line-clamp-none">
               {isEn 
                 ? "To solve this complex equation, we use an AI inspired by Darwin's theory of evolution. Instead of testing all billions of possibilities, the algorithm \"evolves\" solutions over generations."
                 : "Pour résoudre cette équation complexe, nous utilisons une IA inspirée par la théorie de l'évolution de Darwin. Au lieu de tester les milliards de possibilités une par une, l'algorithme fait \"évoluer\" les solutions sur plusieurs générations."
@@ -264,7 +264,7 @@ export default function GeneticOptimizer() {
               <h2 className="text-xl font-bold font-sans mb-4 text-blue-900">
                 {isEn ? "Algorithmic Architecture (Advanced)" : "Architecture Algorithmique (Avancé)"}
               </h2>
-              <p className="mb-4 text-base text-slate-700 dark:text-slate-200 text-left md:text-justify md:hyphens-auto">
+              <p className="mb-4 text-sm sm:text-base text-slate-700 dark:text-slate-200 text-left md:text-justify md:hyphens-auto line-clamp-4 sm:line-clamp-none">
                 {isEn 
                   ? "Unlike classical approaches that arbitrarily sum scores, this architecture implements pure Multi-Objective Pareto Dominance."
                   : "Contrairement aux approches classiques qui additionnent arbitrairement les scores, cette architecture implémente une Dominance de Pareto multi-objectifs pure."
@@ -273,7 +273,7 @@ export default function GeneticOptimizer() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans">
                 <div className="bg-white dark:bg-[var(--bg-elevated)] p-4 rounded border border-slate-200 dark:border-[var(--border)] shadow-sm overflow-x-auto">
                   <strong className="text-slate-900 dark:text-[var(--text)] text-sm">{isEn ? "NSGA-II Engine" : "Moteur NSGA-II"}</strong>
-                  <p className="mt-1 text-sm text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto">
+                  <p className="hidden sm:block mt-1 text-xs sm:text-sm text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto line-clamp-4 sm:line-clamp-none">
                     {isEn 
                       ? "Uses Fast Non-Dominated Sorting to partition populations into Pareto fronts"
                       : "Utilise le tri non-dominé rapide (Fast Non-Dominated Sorting) pour diviser la population en fronts de Pareto"
@@ -282,7 +282,7 @@ export default function GeneticOptimizer() {
                 </div>
                 <div className="bg-white dark:bg-[var(--bg-elevated)] p-4 rounded border border-slate-200 dark:border-[var(--border)] shadow-sm overflow-x-auto">
                   <strong className="text-slate-900 dark:text-[var(--text)] text-sm">{isEn ? "PROMETHEE II Ranking" : "Classement PROMETHEE II"}</strong>
-                  <p className="mt-1 text-sm text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto">
+                  <p className="hidden sm:block mt-1 text-xs sm:text-sm text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto line-clamp-4 sm:line-clamp-none">
                     {isEn 
                       ? "Evaluates non-dominated solutions on the final front to provide a decision-maker ranking based on preference flows"
                       : "Évalue les solutions non-dominées du front final pour classer les compromis selon les flux de préférence"
@@ -298,7 +298,7 @@ export default function GeneticOptimizer() {
             <h2 className="text-2xl font-bold font-sans mb-6 border-b border-slate-200 dark:border-[var(--border)] pb-2">
               {isEn ? "2. Interactive Solution Exploration" : "2. Exploration Interactive des Solutions"}
             </h2>
-            <p className="mb-10 text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto">
+            <p className="mb-10 text-sm sm:text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto line-clamp-4 sm:line-clamp-none">
               {isEn 
                 ? "The AI algorithm generates dozens of valid compromises (the \"Pareto Front\"). You can explore the 31 best solutions found below. The slider allows you to navigate from the most balanced solution (Solution 1) to more extreme solutions."
                 : "L'algorithme IA génère des dizaines de compromis valides (le \"Front de Pareto\"). Vous pouvez explorer ci-dessous les 31 meilleures solutions trouvées. Le curseur vous permet de naviguer de la solution la plus équilibrée (Solution 1) aux solutions plus extrêmes."
@@ -425,7 +425,7 @@ export default function GeneticOptimizer() {
           {/* CONCLUSION / REPO */}
           <section className="bg-slate-900 text-slate-300 p-8 rounded-xl font-sans shadow-lg">
             <h3 className="text-xl font-bold text-white mb-4">{isEn ? "Quality Verification & Open Source" : "Vérification de Qualité & Open Source"}</h3>
-            <p className="text-sm mb-4 leading-relaxed text-left md:text-justify md:hyphens-auto">
+            <p className="text-sm mb-4 leading-relaxed text-left md:text-justify md:hyphens-auto line-clamp-4 sm:line-clamp-none">
               {isEn 
                 ? "The pipeline executes an automated quality audit (" 
                 : "Le pipeline exécute un audit de qualité automatisé ("

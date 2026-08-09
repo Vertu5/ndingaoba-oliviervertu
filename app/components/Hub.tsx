@@ -94,7 +94,7 @@ function StandardTileButton({
       whileHover={{ y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={() => onOpen(cat.id)}
-      className="group relative flex h-44 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md"
+      className="group relative flex h-32 sm:h-44 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md"
     >
       <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
         <Pattern id={cat.id} />
@@ -104,8 +104,8 @@ function StandardTileButton({
         <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--text-muted)]">
           {cat.index}
         </span>
-        <h2 className="font-display text-xl font-medium">{cat.label[lang]}</h2>
-        <p className="mt-1 text-sm text-[var(--text-muted)]">{cat.description[lang]}</p>
+        <h2 className="font-display text-lg sm:text-xl font-medium line-clamp-1">{cat.label[lang]}</h2>
+        <p className="mt-1 text-xs sm:text-sm text-[var(--text-muted)] line-clamp-1 sm:line-clamp-2">{cat.description[lang]}</p>
       </div>
     </motion.button>
   );
@@ -125,7 +125,7 @@ function ProjectTileButton({
       whileHover={{ y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={() => onOpen(cat.id)}
-      className="group relative flex h-44 flex-col justify-between overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md"
+      className="group relative flex h-36 sm:h-44 flex-col justify-between overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md"
     >
       <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
         <Pattern id={cat.id} />
@@ -136,16 +136,16 @@ function ProjectTileButton({
           <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--accent)] font-semibold">
             {cat.index}
           </span>
-          <h2 className="font-display text-base font-medium text-[var(--text)] mt-0.5 group-hover:text-[var(--accent)] transition-colors leading-snug">
+          <h2 className="font-display text-sm sm:text-base font-medium text-[var(--text)] mt-0.5 group-hover:text-[var(--accent)] transition-colors leading-snug line-clamp-1">
             {cat.label[lang]}
           </h2>
-          <p className="mt-0.5 text-xs text-[var(--text-muted)] line-clamp-1 leading-normal">
+          <p className="mt-0.5 text-[10px] sm:text-xs text-[var(--text-muted)] line-clamp-1 leading-normal hidden sm:block">
             {cat.description[lang]}
           </p>
         </div>
 
         {cat.tags && cat.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1 font-mono text-[9px]">
+          <div className="flex flex-wrap gap-1 font-mono text-[9px] mt-1 sm:mt-0">
             {cat.tags.map((tg, i) => (
               <span
                 key={i}
@@ -291,7 +291,7 @@ export default function Hub() {
             <p className="font-mono mb-3 text-xs tracking-[0.2em] text-[var(--text-muted)]">
               {t.sectionAbout}
             </p>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {personalTiles.map((cat) => (
                 <StandardTileButton key={cat.id} cat={cat} lang={lang} onOpen={openTile} />
               ))}
@@ -304,7 +304,7 @@ export default function Hub() {
               <span>⭐</span>
               <span>{t.sectionFeaturedProjects}</span>
             </p>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {projectTiles.map((cat) => (
                 <ProjectTileButton key={cat.id} cat={cat} lang={lang} onOpen={openTile} />
               ))}

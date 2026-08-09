@@ -341,7 +341,7 @@ export default function SystemDesign() {
             </h2>
           </div>
           
-          <p className="mb-8 text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto">
+          <p className="mb-8 text-sm sm:text-base text-slate-600 dark:text-[var(--text-muted)] text-left md:text-justify md:hyphens-auto line-clamp-4 sm:line-clamp-none">
             {isEn 
               ? "To ensure data integrity and query efficiency, the database was strictly normalized to the Third Normal Form (3NF). We separated entities into dimension tables (cities, stations, pollutants) and a central fact table (measurements). Foreign keys guarantee referential integrity." 
               : "Pour garantir l'intégrité des données et l'efficacité des requêtes, la base a été strictement normalisée en 3ème Forme Normale (3NF). Nous avons séparé les entités en tables de dimension (villes, stations, polluants) et une table de faits centrale (mesures). Les clés étrangères garantissent l'intégrité référentielle."
