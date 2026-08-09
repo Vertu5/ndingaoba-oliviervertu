@@ -116,7 +116,7 @@ export default function BioView({
 
           {/* Subtitle Tag & Intro */}
           <div className="flex-1 min-w-0">
-            <div className="inline-flex max-w-full flex-wrap items-center gap-1.5 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-2 py-0.5 sm:px-3 sm:py-1 font-mono text-[10px] sm:text-xs font-medium text-[var(--accent)] mb-1 sm:mb-2.5">
+            <div className="inline-flex max-w-full flex-wrap items-center gap-1.5 rounded-lg border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-2.5 py-1.5 sm:px-3 sm:py-1 font-mono text-[10px] sm:text-xs font-medium text-[var(--accent)] mb-1 sm:mb-2.5 leading-tight">
               <span>💡</span>
               <span>{bioNarrative.headlineTag[lang]}</span>
             </div>
