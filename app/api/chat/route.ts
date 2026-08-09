@@ -41,18 +41,33 @@ export async function POST(req: NextRequest) {
     messages: IncomingMsg[];
   };
 
-  const ctx = sectionContext[sectionId]?.[lang] ?? "";
-  
-  const domainProjects = content.filter((c) => c.domains.includes(sectionId));
-  const projectsCtx = domainProjects.length > 0
-    ? (lang === "fr" ? `\n\nVoici les projets réels de Olivier dans ce domaine (utilise ces informations pour répondre de manière experte) :\n` : `\n\nHere are Olivier's actual projects in this domain (use this information to answer expertly):\n`) + 
-      domainProjects.map(p => `- ${p.title[lang]} : ${p.summary[lang]}`).join("\n")
-    : "";
+  let ctx = sectionContext[sectionId]?.[lang] ?? "";
+  let projectsCtx = "";
+
+  // 1. Is it a single project?
+  const singleProject = content.find(c => c.id === sectionId);
+  if (singleProject) {
+    ctx = singleProject.title[lang];
+    projectsCtx = (lang === "fr" 
+      ? `\n\nLe visiteur consulte actuellement le projet spécifique suivant. Utilisez ces détails pour répondre :\n` 
+      : `\n\nThe visitor is currently viewing the following specific project. Use these details to answer:\n`) + 
+      `- Résumé / Summary : ${singleProject.summary[lang]}\n` +
+      (singleProject.tags ? `- Technologies / Tags : ${singleProject.tags.join(', ')}\n` : "");
+  } else {
+    // 2. Or is it a Domain / Category?
+    const domainProjects = content.filter((c) => c.domains.includes(sectionId));
+    if (domainProjects.length > 0) {
+      projectsCtx = (lang === "fr" 
+        ? `\n\nVoici les projets réels de Olivier dans ce domaine (utilisez ces informations pour répondre de manière experte) :\n` 
+        : `\n\nHere are Olivier's actual projects in this domain (use this information to answer expertly):\n`) + 
+        domainProjects.map(p => `- ${p.title[lang]} : ${p.summary[lang]}`).join("\n");
+    }
+  }
 
   const systemPrompt =
     lang === "fr"
-      ? `Tu es l'assistant du site personnel de NDINGA OBA Olivier Vertu, section "${ctx}". Réponds de façon précise, concise et pédagogique aux questions du visiteur sur ce domaine. Si tu ne sais pas quelque chose de spécifique à ses projets réels (non fourni ici), dis-le clairement plutôt que d'inventer.${projectsCtx}`
-      : `You are the assistant for NDINGA OBA Olivier Vertu's personal site, section "${ctx}". Answer visitor questions about this domain precisely, concisely and pedagogically. If you don't know something specific to his actual projects (not provided here), say so clearly rather than inventing it.${projectsCtx}`;
+      ? `Tu es l'assistant du site personnel de NDINGA OBA Olivier Vertu. Le visiteur se trouve actuellement dans la section ou le projet : "${ctx}".\nRéponds de façon précise, concise et pédagogique à ses questions. Si tu ne sais pas quelque chose de spécifique à ses projets (non fourni ci-dessous), dis-le clairement au lieu d'inventer.${projectsCtx}`
+      : `You are the assistant for NDINGA OBA Olivier Vertu's personal site. The visitor is currently in the section or project: "${ctx}".\nAnswer visitor questions precisely, concisely and pedagogically. If you don't know something specific to his actual projects (not provided below), say so clearly rather than inventing it.${projectsCtx}`;
 
   try {
     const res = await fetch(
