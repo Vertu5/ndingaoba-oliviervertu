@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { bio, interests, contact } from "@/app/lib/categories";
 import { superDomains } from "@/app/lib/superdomains";
 import { domains } from "@/app/lib/domains";
+import { content } from "@/app/lib/content";
 
 export const runtime = "nodejs";
 
@@ -41,10 +42,17 @@ export async function POST(req: NextRequest) {
   };
 
   const ctx = sectionContext[sectionId]?.[lang] ?? "";
+  
+  const domainProjects = content.filter((c) => c.domains.includes(sectionId));
+  const projectsCtx = domainProjects.length > 0
+    ? (lang === "fr" ? `\n\nVoici les projets réels de Olivier dans ce domaine (utilise ces informations pour répondre de manière experte) :\n` : `\n\nHere are Olivier's actual projects in this domain (use this information to answer expertly):\n`) + 
+      domainProjects.map(p => `- ${p.title[lang]} : ${p.summary[lang]}`).join("\n")
+    : "";
+
   const systemPrompt =
     lang === "fr"
-      ? `Tu es l'assistant du site personnel de NDINGA OBA Olivier Vertu, section "${ctx}". Réponds de façon précise, concise et pédagogique aux questions du visiteur sur ce domaine. Si tu ne sais pas quelque chose de spécifique à ses projets réels (non fourni ici), dis-le clairement plutôt que d'inventer.`
-      : `You are the assistant for NDINGA OBA Olivier Vertu's personal site, section "${ctx}". Answer visitor questions about this domain precisely, concisely and pedagogically. If you don't know something specific to his actual projects (not provided here), say so clearly rather than inventing it.`;
+      ? `Tu es l'assistant du site personnel de NDINGA OBA Olivier Vertu, section "${ctx}". Réponds de façon précise, concise et pédagogique aux questions du visiteur sur ce domaine. Si tu ne sais pas quelque chose de spécifique à ses projets réels (non fourni ici), dis-le clairement plutôt que d'inventer.${projectsCtx}`
+      : `You are the assistant for NDINGA OBA Olivier Vertu's personal site, section "${ctx}". Answer visitor questions about this domain precisely, concisely and pedagogically. If you don't know something specific to his actual projects (not provided here), say so clearly rather than inventing it.${projectsCtx}`;
 
   try {
     const res = await fetch(
