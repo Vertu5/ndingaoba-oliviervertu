@@ -94,7 +94,7 @@ function StandardTileButton({
       whileHover={{ y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={() => onOpen(cat.id)}
-      className="group relative flex h-40 sm:h-44 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md w-full"
+      className="group relative flex h-[6.5rem] sm:h-44 flex-col justify-end overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md w-full"
     >
       <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
         <Pattern id={cat.id} />
@@ -104,7 +104,7 @@ function StandardTileButton({
         <span className="font-mono text-[9px] sm:text-[11px] tracking-[0.15em] text-[var(--text-muted)] line-clamp-1">
           {cat.index}
         </span>
-        <h2 className="font-display text-sm sm:text-xl font-medium line-clamp-1 leading-tight sm:leading-normal">{cat.label[lang]}</h2>
+        <h2 className="font-display text-xs sm:text-xl font-medium line-clamp-1 leading-tight sm:leading-normal">{cat.label[lang]}</h2>
         <p className="mt-1 text-[10px] sm:text-sm text-[var(--text-muted)] line-clamp-2 sm:line-clamp-2 hidden sm:block">{cat.description[lang]}</p>
       </div>
     </motion.button>
@@ -125,7 +125,7 @@ function ProjectTileButton({
       whileHover={{ y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={() => onOpen(cat.id)}
-      className="group relative flex h-44 sm:h-44 flex-col justify-between overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md w-full"
+      className="group relative flex h-[6.5rem] sm:h-44 flex-col justify-between overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] text-left transition-colors hover:border-[var(--accent)]/40 shadow-sm hover:shadow-md w-full"
     >
       <div className="absolute inset-0 opacity-70 transition-transform duration-500 group-hover:scale-105">
         <Pattern id={cat.id} />
@@ -145,7 +145,7 @@ function ProjectTileButton({
         </div>
 
         {cat.tags && cat.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1 font-mono text-[9px] mt-1 sm:mt-0">
+          <div className="flex-wrap gap-1 font-mono text-[9px] mt-1 sm:mt-0 hidden sm:flex">
             {cat.tags.map((tg, i) => (
               <span
                 key={i}
@@ -250,10 +250,10 @@ export default function Hub() {
     : [];
 
   return (
-    <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-16 md:py-24">
+    <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6 sm:px-6 sm:py-16 md:py-24">
       {/* Header principal (affiché uniquement sur la grille d'accueil) */}
       {!open && (
-        <header className="mb-10 flex items-start sm:items-center justify-between gap-2 md:mb-16">
+        <header className="mb-6 sm:mb-10 flex items-start sm:items-center justify-between gap-2 md:mb-16">
           <div className="flex-1 pr-2">
             <h1 className="font-display text-3xl font-medium tracking-tight sm:text-5xl md:text-6xl text-[var(--text)] leading-[1.1] sm:leading-tight">
               NDINGA OBA<br className="block sm:hidden" /> Olivier Vertu
@@ -285,7 +285,7 @@ export default function Hub() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20, transition: { duration: 0.2 } }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="space-y-10"
+            className="space-y-6 sm:space-y-10"
           >
             <section>
             <p className="font-mono mb-3 text-xs tracking-[0.2em] text-[var(--text-muted)]">
