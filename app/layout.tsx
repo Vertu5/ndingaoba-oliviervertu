@@ -50,6 +50,9 @@ export const metadata: Metadata = {
     title: "Olivier Vertu NDINGA OBA | Software Developer",
     description: "Based in Brussels, I am seeking challenging opportunities as a Software Developer, aiming to grow into Project Management.",
     images: ["/images/profile.jpeg"],
+  },
+  verification: {
+    google: "mutYfMpiqnP6rcfyCIJ45ctwCratCIFYZo1GHn4yye0",
   }
 };
 
