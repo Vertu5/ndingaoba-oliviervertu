@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* Override default dark mode (media) to use class-based dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   /* Light mode (default variables overridden by .dark) */
   --bg: #fafafa;
