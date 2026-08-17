@@ -32,7 +32,7 @@ export const interestPillars: InterestPillar[] = [
     },
     text: {
       fr: "J'éprouve une véritable passion pour les problèmes complexes, ceux qui exigent des heures, voire des mois d'immersion totale. Cette soif d'analyse s'étend à la compréhension de l'humain et du monde qui l'entoure à travers la philosophie, qui constitue l'essentiel de mes lectures. Je suis particulièrement marqué par la pensée de Friedrich Nietzsche et les ouvrages de Charles Pépin, qui m'aident à décrypter la complexité de la nature humaine.",
-      en: "I share a true passion for complex problems—those demanding hours or months of deep immersion. This drive for analysis extends to understanding human nature through philosophy, which makes up most of my reading. I am profoundly influenced by Friedrich Nietzsche's thought and Charles Pépin's practical philosophy, helping me decipher the complexity of human nature.",
+      en: "I share a true passion for complex problems: those demanding hours or months of deep immersion. This drive for analysis extends to understanding human nature through philosophy, which makes up most of my reading. I am profoundly influenced by Friedrich Nietzsche's thought and Charles Pépin's practical philosophy, helping me decipher the complexity of human nature.",
     },
     tags: ["Philosophie", "Nietzsche", "Charles Pépin", "Systèmes Complexes"],
   },
@@ -66,7 +66,7 @@ export const interestPillars: InterestPillar[] = [
     },
     text: {
       fr: "J'ai toujours eu un besoin viscéral de créer. Très sensible à la mode et à l'image, je pratique la photographie en capturant aussi bien l'énergie des gens que la géométrie des immeubles ou la délicatesse de la nature. Plus jeune, j'ai exploré la création sonore en tant que beatmaker sur FL Studio. Mon imaginaire, quant à lui, est constamment nourri par la culture des animes, dont je regarde de nouveaux épisodes chaque semaine.",
-      en: "I have always had a deep visceral drive to create. Keenly sensitive to fashion and visuals, I practice photography—capturing human energy, architectural geometry, and natural details. Earlier, I explored music production as a beatmaker on FL Studio. My imagination is continuously inspired by anime culture, following new episodes weekly.",
+      en: "I have always had a deep visceral drive to create. Keenly sensitive to fashion and visuals, I practice photography, capturing human energy, architectural geometry, and natural details. Earlier, I explored music production as a beatmaker on FL Studio. My imagination is continuously inspired by anime culture, following new episodes weekly.",
     },
     tags: ["Photographie", "FL Studio", "Beatmaking", "Mode", "Animes"],
   },

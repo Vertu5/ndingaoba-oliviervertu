@@ -77,7 +77,7 @@ export const bioNarrative = {
       badge: { fr: "École Royale Militaire (ERM)", en: "Royal Military Academy (RMA)" },
       content: {
         fr: "Ressentant le besoin de franchir un cap scientifique, j'ai intégré la faculté Polytechnique de l'École Royale Militaire de Belgique (ERM). J'y ai obtenu un Bachelier en Sciences de l'Ingénieur dans un environnement extrêmement exigeant. Au-delà de la rigueur mathématique, c'est à l'ERM que j'ai forgé mon esprit d'équipe et mon leadership, apprenant à encadrer et diriger des équipes de travail, développant ainsi un sens aigu du management d'équipe, de la cohésion et de la gestion de crise.",
-        en: "Driven to reach higher scientific standards, I entered the Faculty of Engineering at the Royal Military Academy of Belgium (RMA). I earned a Bachelor of Science in Engineering Sciences in an exceptionally demanding environment. Beyond mathematical rigor, RMA is where I forged my teamwork and leadership—learning to manage and lead project teams, developing a strong sense of team management, cohesion, and crisis handling.",
+        en: "Driven to reach higher scientific standards, I entered the Faculty of Engineering at the Royal Military Academy of Belgium (RMA). I earned a Bachelor of Science in Engineering Sciences in an exceptionally demanding environment. Beyond mathematical rigor, RMA is where I forged my teamwork and leadership, learning to manage and lead project teams, developing a strong sense of team management, cohesion, and crisis handling.",
       },
     },
     {

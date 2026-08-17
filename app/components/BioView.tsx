@@ -244,7 +244,7 @@ export default function BioView({
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 underline underline-offset-2 hover:no-underline"
                   >
-                    🏛️ École Royale Militaire — Faculté Polytechnique ↗
+                    🏛️ École Royale Militaire - Faculté Polytechnique ↗
                   </a>
                 </div>
               )}
@@ -257,7 +257,7 @@ export default function BioView({
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 underline underline-offset-2 hover:no-underline"
                   >
-                    🎓 ULB — Master Ingénieur civil en informatique ↗
+                    🎓 ULB - Master Ingénieur civil en informatique ↗
                   </a>
                   <a
                     href={institutionalLinks.iridia}
@@ -322,11 +322,11 @@ export default function BioView({
                             rel="noopener noreferrer"
                             className="font-mono text-[10px] text-[var(--accent)] underline hover:no-underline"
                           >
-                            Vérifier ↗
+                            {lang === "fr" ? "Vérifier ↗" : "Verify ↗"}
                           </a>
                         ) : (
                           <span className="font-mono text-[10px] text-[var(--text-muted)]">
-                            (Lien à venir)
+                            {lang === "fr" ? "(Lien à venir)" : "(Link pending)"}
                           </span>
                         )}
                       </div>
@@ -343,7 +343,7 @@ export default function BioView({
       <div className="rounded-xl border border-[var(--accent)]/30 bg-gradient-to-br from-[var(--bg-elevated)] via-[var(--bg-elevated)]/60 to-[var(--bg)] p-6 md:p-8">
         <div className="flex items-center gap-2 mb-2">
           <span className="font-mono text-xs text-[var(--accent)] tracking-widest uppercase">
-            ROADMAP PROFESSIONNELLE
+            {lang === "fr" ? "ROADMAP PROFESSIONNELLE" : "PROFESSIONAL ROADMAP"}
           </span>
         </div>
         <h4 className="font-display text-lg font-medium text-[var(--text)]">
@@ -364,9 +364,6 @@ export default function BioView({
             <h3 className="font-mono text-xs tracking-[0.2em] text-[var(--text-muted)] uppercase">
               {t.docDiplome}
             </h3>
-            <span className="font-mono text-[10px] text-[var(--text-muted)]">
-              🔒 Titres académiques officiels (Fichiers privés)
-            </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
