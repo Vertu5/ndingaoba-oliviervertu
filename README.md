@@ -11,14 +11,14 @@
 
 ## 🎯 Project Overview
 
-This repository contains the source code for the interactive portfolio and website of **Olivier Vertu NDINGA OBA**. Built with modern web technologies (**Next.js 16 App Router**, **React 19**, **TypeScript**, and **Tailwind CSS 4**), this site features a sleek dark mode, modernist glassmorphism aesthetics, engineering-grade typography, and fluid micro-animations.
+Welcome to the source code repository of my personal interactive portfolio and website. Built with modern web technologies (**Next.js 16 App Router**, **React 19**, **TypeScript**, and **Tailwind CSS 4**), this site features a sleek dark mode, modernist glassmorphism aesthetics, engineering-grade typography, and fluid micro-animations.
 
 ### 🌟 Key Features
 
-- **⚡ Synthetic Presentation & Expandable Views**: A 4-pillar executive summary right on the first screen (readable without scrolling on mobile), and an "Explore full background" expansion button to access academic details (RMA, ULB / IRIDIA) and **7 verified certifications** (Google AI, IBM Data Eng, RL, Agile Management).
+- **⚡ Synthetic Presentation & Expandable Views**: A 4-pillar executive summary right on the first screen (readable without scrolling on mobile), and an "Explore full background" expansion button to access my academic details (RMA, ULB / IRIDIA) and **7 verified certifications** (Google AI, IBM Data Eng, RL, Agile Management).
 - **🌍 Native Bilingual Support (EN / FR)**: Real-time dynamic language toggling across the entire platform.
-- **🤖 Integrated AI Assistant (`/api/chat`)**: A custom RAG-based conversational agent capable of answering recruiters' questions regarding Olivier's background, philosophy (Nietzsche & Charles Pépin), and technical skills.
-- **🔍 Interactive Domains Hub**: Modular exploration of software engineering projects, interactive demos, and research papers.
+- **🤖 Integrated AI Assistant (`/api/chat`)**: A custom RAG-based conversational agent capable of answering recruiters' questions regarding my background, philosophy (Nietzsche & Charles Pépin), and technical skills.
+- **🔍 Interactive Domains Hub**: Modular exploration of my software engineering projects, interactive demos, and research papers.
 - **📱 Ultra-Responsive & Accessible**: A 2x2 grid optimized for smartphones, HD clickable photo lightboxes, and smooth navigation.
 - **✉️ Secure Contact Form (`/api/contact`)**: Serverless API for direct contact.
 
