@@ -26,12 +26,12 @@ export const institutionalLinks = {
 
 export const bioNarrative = {
   headlineTag: {
-    fr: "Informatique & IA · Systèmes Complexes · Leadership",
-    en: "Computer Science & AI · Complex Systems · Leadership",
+    fr: "Database & Software Engineer · Systèmes Complexes · Leadership",
+    en: "Database & Software Engineer · Complex Systems · Leadership",
   },
   intro: {
-    fr: "Ingénieur civil en informatique (ULB, Distinction) et Bachelier de l'École Royale Militaire (ERM), je combine une expertise pointue en Intelligence Artificielle et Systèmes Complexes (IRIDIA) avec une solide expérience en Management d'équipe et Leadership. Basé à Bruxelles, je recherche des opportunités stimulantes en tant que Software Developer, avec pour ambition d'évoluer vers le Project Management.",
-    en: "Computer Science Engineer (ULB, Distinction) and Royal Military Academy Bachelor (RMA), I bridge advanced technical expertise in Artificial Intelligence and Complex Systems (IRIDIA) with strong Team Management and Leadership skills. Based in Brussels, I am seeking challenging opportunities as a Software Developer, aiming to grow into Project Management.",
+    fr: "Ingénieur diplômé en Informatique (Master, Distinction) avec une solide expérience militaire (École Royale Militaire) qui m'a forgé rigueur, sens de l'organisation et capacité à travailler sous pression. Je combine une expertise en architecture et administration de bases de données MS-SQL, à des compétences avancées en programmation (C++, Python) et en gestion basique de serveurs Linux/Windows. Autonome, orienté service et à l'aise en environnement d'équipe, je recherche un poste de Database ou Software Engineer pour mettre cette expertise au service de systèmes fiables et sécurisés.",
+    en: "Graduated with a Master's in Computer Science Engineering (Distinction) and a strong military background (Royal Military Academy) which forged my rigor, organizational skills, and ability to work under pressure. I combine expertise in MS-SQL database architecture and administration with advanced programming skills (C++, Python) and basic Linux/Windows server management. Autonomous, service-oriented, and comfortable in a team environment, I am seeking a Database or Software Engineer position to apply this expertise to reliable and secure systems.",
   },
   executiveSummary: [
     {
@@ -52,7 +52,7 @@ export const bioNarrative = {
     {
       icon: "🎯",
       title: { fr: "Vision Pro", en: "Professional Vision" },
-      desc: { fr: "Software Developer ➔ Project Manager", en: "Software Developer ➔ Project Manager" },
+      desc: { fr: "Database / Software Engineer ➔ Project Manager", en: "Database / Software Engineer ➔ Project Manager" },
     },
   ],
   sections: [
@@ -129,6 +129,33 @@ export const bioNarrative = {
     },
     {
       category: {
+        fr: "Administration Systèmes & Bases de données",
+        en: "System & Database Administration",
+      },
+      icon: "🗄️",
+      items: [
+        {
+          id: "ms-sql-server",
+          name: "Microsoft SQL Server",
+          issuer: "Coursera",
+          verifyUrl: "https://www.coursera.org/specializations/microsoft-sql-server",
+        },
+        {
+          id: "win-server-2025",
+          name: "Windows Server 2025 Admin – Hands-On Labs",
+          issuer: "Coursera",
+          verifyUrl: "https://www.coursera.org/learn/packt-windows-server-2025-admin-hands-on-labs-44omo/home/welcome",
+        },
+        {
+          id: "linux-server-admin",
+          name: "Linux Server Administration Made Easy",
+          issuer: "Coursera",
+          verifyUrl: undefined,
+        },
+      ],
+    },
+    {
+      category: {
         fr: "Data Engineering & Infrastructure",
         en: "Data Engineering & Infrastructure",
       },
@@ -180,8 +207,8 @@ export const bioNarrative = {
       en: "What connects all steps of my journey is this core mindset: understand a system deeply before modeling it, and always dare to break new ground.",
     },
     roadmap: {
-      fr: "Aujourd'hui, mon objectif est d'évoluer en tant que Software Developer pour me confronter à la réalité du code, de l'architecture et de la mise en production sur des projets ambitieux. À plus long terme, fort de mes expériences de leadership à l'ERM et de ma vision transversale des systèmes, j'ambitionne d'évoluer vers le Project Management, afin d'orchestrer la complexité non plus seulement à l'échelle du code, mais à l'échelle humaine et organisationnelle.",
-      en: "Today, my goal is to thrive as a Software Developer to tackle real-world code, architecture, and production delivery on ambitious projects. Long-term, building on my leadership experience at RMA and my systems vision, I aim to transition into Project Management to orchestrate complexity at both technical and human scales.",
+      fr: "Aujourd'hui, mon objectif est d'évoluer en tant que Database Engineer ou Software Developer pour concevoir des architectures fiables et sécurisées sur des projets d'envergure. À plus long terme, fort de mes expériences de leadership à l'ERM et de ma vision transversale des systèmes, j'ambitionne d'évoluer vers le Project Management, afin d'orchestrer la complexité non plus seulement à l'échelle technique, mais à l'échelle humaine et organisationnelle.",
+      en: "Today, my goal is to thrive as a Database or Software Engineer to design reliable and secure architectures on ambitious projects. Long-term, building on my leadership experience at RMA and my systems vision, I aim to transition into Project Management to orchestrate complexity at both technical and human scales.",
     },
   },
 };
