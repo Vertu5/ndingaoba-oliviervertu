@@ -127,8 +127,8 @@ export default function BioView({
             {/* Desktop Links (Hidden on mobile) */}
             <div className="hidden sm:flex mt-3 flex-col gap-2 font-mono text-sm text-[var(--text-muted)]">
               <div>
-                {cvUrl ? (
-                  <a href={cvUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--accent)] underline underline-offset-4 hover:no-underline font-medium">
+                {cvUrl[lang] ? (
+                  <a href={cvUrl[lang]} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--accent)] underline underline-offset-4 hover:no-underline font-medium">
                     📄 {t.bioIntroLink} ↗
                   </a>
                 ) : (
@@ -151,8 +151,8 @@ export default function BioView({
         {/* Mobile Links (Full Width Below, Hidden on desktop) */}
         <div className="sm:hidden mt-3 pt-3 border-t border-[var(--border)]/50 flex flex-col gap-1.5 font-mono text-xs text-[var(--text-muted)]">
           <div>
-            {cvUrl ? (
-              <a href={cvUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--accent)] underline underline-offset-4 hover:no-underline font-medium">
+            {cvUrl[lang] ? (
+              <a href={cvUrl[lang]} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--accent)] underline underline-offset-4 hover:no-underline font-medium">
                 📄 {t.bioIntroLink} ↗
               </a>
             ) : (

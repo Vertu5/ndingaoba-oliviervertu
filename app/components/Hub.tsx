@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { bio, interests, contact, cvUrl, type Category } from "@/app/lib/categories";
+import { bio, interests, contact, type Category } from "@/app/lib/categories";
 import { superDomains } from "@/app/lib/superdomains";
 import { domains } from "@/app/lib/domains";
 import { content, type ContentType } from "@/app/lib/content";

@@ -26,12 +26,12 @@ export const institutionalLinks = {
 
 export const bioNarrative = {
   headlineTag: {
-    fr: "Informatique & IA · Systèmes Complexes · Leadership",
-    en: "Computer Science & AI · Complex Systems · Leadership",
+    fr: "Ingénieur Informatique & Systèmes · Data & IA · Leadership",
+    en: "Computer & Systems Engineer · Data & AI · Leadership",
   },
   intro: {
-    fr: "Ingénieur civil en informatique (ULB, Distinction) et Bachelier de l'École Royale Militaire (ERM), je combine une expertise pointue en Intelligence Artificielle et Systèmes Complexes (IRIDIA) avec une solide expérience en Management d'équipe et Leadership. Basé à Bruxelles, je recherche des opportunités stimulantes en tant que Software Developer, avec pour ambition d'évoluer vers le Project Management.",
-    en: "Computer Science Engineer (ULB, Distinction) and Royal Military Academy Bachelor (RMA), I bridge advanced technical expertise in Artificial Intelligence and Complex Systems (IRIDIA) with strong Team Management and Leadership skills. Based in Brussels, I am seeking challenging opportunities as a Software Developer, aiming to grow into Project Management.",
+    fr: "Diplômé en Sciences Informatiques et Ingénierie de l'ULB (Master avec Distinction) et ancien élève de l'École Royale Militaire, combinant une discipline analytique rigoureuse avec une large expertise technique. Solide parcours en Data Engineering, Advanced Analytics, modélisation IA et architectures système. Finaliste de compétitions d'innovation majeures (Huawei France Tech Arena, Future of IT Leaders). Ingénieur polyvalent capable de lier une implémentation technique complexe à la valeur métier et à l'excellence opérationnelle.",
+    en: "Computer Science and Engineering graduate from ULB (Master with Distinction) and former Royal Military Academy cadet, combining rigorous analytical discipline with broad technical expertise. Proven track record across Data Engineering, Advanced Analytics, AI modeling, and system architectures. Finalist in prominent innovation challenges (Huawei France Tech Arena, Future of IT Leaders). Versatile engineer capable of bridging complex technical implementation with business value and operational excellence.",
   },
   executiveSummary: [
     {
@@ -52,7 +52,7 @@ export const bioNarrative = {
     {
       icon: "🎯",
       title: { fr: "Vision Pro", en: "Professional Vision" },
-      desc: { fr: "Software Developer ➔ Project Manager", en: "Software Developer ➔ Project Manager" },
+      desc: { fr: "Engineering ➔ Tech Lead", en: "Engineering ➔ Tech Lead" },
     },
   ],
   sections: [
@@ -124,6 +124,48 @@ export const bioNarrative = {
           name: "Vers l'infiniment grand",
           issuer: "Coursera",
           verifyUrl: "https://coursera.org/share/40321d81f432c6738b028e57638bd39e",
+        },
+      ],
+    },
+    {
+      category: {
+        fr: "IT Support & Opérations",
+        en: "IT Support & Operations",
+      },
+      icon: "🖥️",
+      items: [
+        {
+          id: "google-it-support",
+          name: "Google IT Support Professional Certificate",
+          issuer: "Coursera",
+          verifyUrl: undefined,
+        },
+      ],
+    },
+    {
+      category: {
+        fr: "Administration Systèmes & Bases de données",
+        en: "System Administration & Databases",
+      },
+      icon: "🗄️",
+      items: [
+        {
+          id: "ms-sql-server",
+          name: "Microsoft SQL Server",
+          issuer: "Coursera",
+          verifyUrl: "https://www.coursera.org/specializations/microsoft-sql-server",
+        },
+        {
+          id: "win-server-2025",
+          name: "Windows Server 2025 Admin – Hands-On Labs",
+          issuer: "Coursera",
+          verifyUrl: "https://www.coursera.org/learn/packt-windows-server-2025-admin-hands-on-labs-44omo/home/welcome",
+        },
+        {
+          id: "linux-server-admin",
+          name: "Linux Server Administration Made Easy",
+          issuer: "Coursera",
+          verifyUrl: "https://coursera.org/share/f6dc17bec4fd215bdc38cb2066bfa36e",
         },
       ],
     },
