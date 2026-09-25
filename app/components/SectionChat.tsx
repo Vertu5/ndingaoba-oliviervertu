@@ -19,6 +19,25 @@ export default function SectionChat({ sectionId }: { sectionId: string }) {
   
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
+  // Load history on mount
+  useEffect(() => {
+    const saved = sessionStorage.getItem(`chat_history_${sectionId}`);
+    if (saved) {
+      try {
+        setMessages(JSON.parse(saved));
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, [sectionId]);
+
+  // Save history on change
+  useEffect(() => {
+    if (messages.length > 0) {
+      sessionStorage.setItem(`chat_history_${sectionId}`, JSON.stringify(messages));
+    }
+  }, [messages, sectionId]);
+
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });

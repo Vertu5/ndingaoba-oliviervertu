@@ -5,7 +5,7 @@ import { domains } from "@/app/lib/domains";
 import { content } from "@/app/lib/content";
 import { globalKnowledgeFR, globalKnowledgeEN, projectDetailsFR, projectDetailsEN } from "@/app/lib/deepKnowledge";
 
-export const runtime = "nodejs";
+export const runtime = "edge";
 
 type IncomingMsg = { role: "user" | "assistant"; content: string };
 
