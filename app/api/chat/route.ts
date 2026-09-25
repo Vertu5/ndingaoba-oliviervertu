@@ -116,6 +116,16 @@ ${globalKnowledgeEN}`;
       : `${globalProfile}\n\nYou are the ultra-expert and warm AI assistant for NDINGA OBA Olivier Vertu's personal site. The visitor is currently in the section or project: "${ctx}".\nAnswer expertly, precisely, and fluidly. You have access to the DEEP KNOWLEDGE BASE above (containing the detailed CV, mathematical formulas for his projects, technical skills). Use this base to answer complex technical questions or questions about his background, without ever inventing anything.${projectsCtx}`;
 
   try {
+    const normalizedContents: any[] = [];
+    for (const m of messages) {
+      const role = m.role === "assistant" ? "model" : "user";
+      if (normalizedContents.length > 0 && normalizedContents[normalizedContents.length - 1].role === role) {
+        normalizedContents[normalizedContents.length - 1].parts[0].text += "\n\n" + m.content;
+      } else {
+        normalizedContents.push({ role, parts: [{ text: m.content }] });
+      }
+    }
+
     const res = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent?key=${apiKey}`,
       {
@@ -123,10 +133,7 @@ ${globalKnowledgeEN}`;
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: systemPrompt }] },
-          contents: messages.map((m) => ({
-            role: m.role === "assistant" ? "model" : "user",
-            parts: [{ text: m.content }],
-          })),
+          contents: normalizedContents,
         }),
       }
     );
