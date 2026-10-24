@@ -85,11 +85,14 @@ Projet 3 : Machine Learning Spatio-Temporel (Pollution de l'Air)
 - Modèles : Architectures avancées de séries temporelles et spatiales (souvent des combinaisons de CNN pour l'extraction spatiale et LSTM/GRU pour la dépendance temporelle, ou des Graph Neural Networks - GNN).
 - L'enjeu est de modéliser avec précision des phénomènes météorologiques et de trafic qui sont hautement non-linéaires.
 
-Projet 4 : Conception de Systèmes (System Design) - Qualité de l'Air
-- Conception complète (Backend/Database) de la plateforme de gestion de la qualité de l'air.
-- Modélisation Entité-Association (ERD - Entity-Relationship Diagram).
-- Normalisation : La base de données est stricte et respecte la 3ème Forme Normale (3NF) pour éviter les anomalies de mise à jour, d'insertion et de suppression.
-- Infrastructure : Utilisation de PostgreSQL via Supabase pour gérer des données relationnelles, sécurisation via des politiques RLS (Row Level Security), et construction d'APIs robustes.
+Projet 4 : Architecture Lakehouse iGaming, CI/CD Databricks, Data Science & Text-to-SQL Sécurisé
+- Pipeline médaillon complet (Bronze ➔ Silver ➔ Gold) sur Databricks (Unity Catalog, Delta Lake, Serverless SQL Warehouse) traitant 4 646 999 tours de machines à sous, 46 690 sessions et 8 000 joueurs (8,11 M€ de mises, 574,3 k€ de GGR, RTP global 92,92 %).
+- Industrialisation CI/CD via Databricks Asset Bundles (databricks.yml) : 6 tâches SQL chaînées où chaque couche (Bronze, Silver, Gold) est suivie d'un contrôle qualité bloquant (assert_true()). Boucle rapide en développement sur un échantillon déterministe de 5 % (player_id % 20 = 0 sur les 3 tables pour préserver l'intégrité référentielle) avant déploiement sur 100 % des données en production.
+- Insights Business & Data Science :
+  * Marketing : Taux d'activation uniforme (85-86 %), l'écart de rentabilité vient de la qualité des joueurs acquis (Organic : 90,57 €/inscrit, hold 8,76 % vs Affiliate : 67,70 € et Referral : 41,72 €).
+  * VIP & Pareto : Le top 10 % des joueurs génère 64,2 % des mises ; les 69 VIP (top 1 %) génèrent 40,8 % du GGR ; 413 gros joueurs sont identifiés "At risk (high value)" (553,8 k€ de mises) pour réactivation CRM.
+  * Risque & ML : Seuils empiriques au 99e percentile (durée ≥ 2938s, cadence ≥ 20 spins/min, mise max ≥ 627,3 €) + geo_mismatch + partage d'appareil/IP (10 sessions High-risk, 389 Medium-risk), complétés par IsolationForest (467 anomalies ML) et un modèle de Churn à 30 jours par Régression Logistique (AUC Test = 0,7468).
+- Text-to-SQL Sécurisé (4 Boucliers) : Data Dictionary métier strict, Few-Shot Prompting disjoint de l'évaluation, Validation AST via sqlglot (SELECT lecture seule, tables Gold uniquement, rejet des colonnes hallucinées) avec boucle d'auto-correction (Self-Correction Loop) et pré-exécution sur l'échantillon dev 5 %, et évaluation sur Golden Dataset (14/14 tests de garde-fous réussis).
 ========================================================================
 `;
 
@@ -135,13 +138,13 @@ To navigate the site, the visitor has several sections available:
   * Foundations of Project Management (Google)
 - Technical Skills (Skills - EXACTLY AS ON CV):
   * Programming Languages: Advanced in C/C++, Python. Proficient in SQL, basic JavaScript.
-  * Technologies & Tools: Git/GitHub, Docker, Linux, ROS/ROS2, Vercel, PyTorch, Tableau, PostgreSQL.
+  * Technologies & Tools: Git/GitHub, Docker, Linux, ROS/ROS2, Vercel, PyTorch, Tableau, PostgreSQL, Databricks (Delta Lake, Unity Catalog).
   * Core Engineering: Object-Oriented Programming (OOP), Data Structures, System Design.
 
 [3] SCENARIOS & FAQ GUIDELINES
 - If the visitor is in the global section and asks a very specific question about a project (like the Master's thesis or algorithms):
   => RESPONSE: Explain *globally* what it is (e.g. "His thesis was about Swarm Robotics and behavior imitation at ULB").
-  ATTENTION: Currently, only 3 projects have a dedicated section on the site (Genetic Optimization, Machine Learning Pollution, and System Design Air Quality). The Master's thesis (Swarm Robotics) does NOT have a dedicated section yet.
+  ATTENTION: Currently, 3 featured projects have a dedicated interactive section on the site (Genetic Optimization, Machine Learning Pollution, and iGaming Databricks Lakehouse & AI). The Master's thesis (Swarm Robotics) does NOT have a dedicated section yet.
   If the project has a section, invite the visitor to go there for mathematical details. If the project does NOT have a section yet (e.g., the thesis), state it HONESTLY and simply: "Olivier has not yet published the detailed section of this project on his portfolio, but globally..." and do not redirect them to a non-existent section.
 - If a recruiter asks about a skill not on the CV (e.g., CSS, React, etc.):
   => RESPONSE: Be honest. State that Olivier has basic skills ("basic JavaScript", using frontend tools for his portfolio) but his true "Advanced" expertise lies in C/C++, Python, AI, Data, OOP, and Backend/System Software Engineering. NEVER sell him as an expert in technologies not listed in his Skills.
@@ -180,10 +183,13 @@ Project 3: Spatio-Temporal Machine Learning (Air Pollution)
 - Models: Advanced spatial and time-series architectures (often combinations of CNNs for spatial extraction and LSTM/GRU for temporal dependence, or Graph Neural Networks - GNNs).
 - The challenge is to accurately model highly non-linear meteorological and traffic phenomena.
 
-Project 4: System Design - Air Quality
-- End-to-end design (Backend/Database) of the air quality management platform.
-- Entity-Relationship Diagram (ERD) modeling.
-- Normalization: The database is strict and respects the 3rd Normal Form (3NF) to prevent update, insertion, and deletion anomalies.
-- Infrastructure: Use of PostgreSQL via Supabase to manage relational data, secured via RLS (Row Level Security) policies, and construction of robust APIs.
+Project 4: iGaming Lakehouse Architecture, Databricks CI/CD, Data Science & Guarded Text-to-SQL
+- End-to-end Medallion pipeline (Bronze ➔ Silver ➔ Gold) on Databricks (Unity Catalog, Delta Lake, Serverless SQL Warehouse) processing 4,646,999 slot spins, 46,690 sessions, and 8,000 players (€8.11M turnover, €574.3K GGR, 92.92% global RTP).
+- Declarative CI/CD via Databricks Asset Bundles (databricks.yml): 6 chained SQL tasks where each layer is gated by a blocking assert_true() quality check. Fast dev target runs in seconds on a 5% deterministic player sample (player_id % 20 = 0 across all 3 tables) before deploying to 100% production data.
+- Business Insights & Data Science:
+  * Marketing: Uniform activation rate (85–86%); profitability comes from player quality (Organic: €90.57/registered player, 8.76% hold vs Affiliate: €67.70 and Referral: €41.72).
+  * VIP & Pareto: Top 10% of players generate 64.2% of bets; 69 VIPs (top 1%) generate 40.8% of GGR; 413 high-value players are flagged "At risk (high value)" (€553.8K historical turnover) for CRM reactivation.
+  * Risk & ML: Empirical 99th-percentile thresholds (duration ≥ 2,938s, pace ≥ 20 spins/min, max bet ≥ €627.3) + geo_mismatch + shared device/IP (10 High-risk, 389 Medium-risk sessions), complemented by IsolationForest (467 ML anomalies) and a 30-day Churn Logistic Regression model (Test AUC = 0.7468).
+- Guarded Text-to-SQL (4 Shields): Strict business Data Dictionary, disjoint Few-Shot Prompting, sqlglot AST validation (read-only SELECT, Gold tables only, rejects hallucinated columns) with a Self-Correction Loop and 5% dev-sample pre-check, and Golden Dataset evaluation (14/14 guardrail tests passed).
 ========================================================================
 `;

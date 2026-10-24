@@ -12,7 +12,7 @@ import ContactView from "@/app/components/ContactView";
 import InterestsView from "@/app/components/InterestsView";
 import GeneticOptimizer from "@/app/components/GeneticOptimizer";
 import UrbanAirPollution from "@/app/components/UrbanAirPollution";
-import SystemDesign from "@/app/components/SystemDesign";
+import IgamingDatabricks from "@/app/components/IgamingDatabricks";
 import { useLang } from "@/app/lib/i18n";
 import ThemeToggle from "@/app/components/ThemeToggle";
 import { motion, AnimatePresence } from "framer-motion";
@@ -66,14 +66,14 @@ const projectTiles: (Category & { tags?: string[] })[] = [
     tags: ["ML", "Python", "PyTorch", "SpatioTemporal"],
   },
   {
-    id: "air-quality-system-design",
-    index: "04.SYS",
-    label: { fr: "System Design Pollution", en: "System Design Pollution" },
+    id: "igaming-databricks-lakehouse",
+    index: "04.DBX",
+    label: { fr: "Lakehouse iGaming & IA", en: "iGaming Lakehouse & AI" },
     description: {
-      fr: "Architecture système, modélisation 3NF & Base de données.",
-      en: "System architecture, 3NF database modeling.",
+      fr: "Architecture Médaillon Databricks, CI/CD, ML & Text-to-SQL.",
+      en: "Databricks Medallion Lakehouse, CI/CD, ML & Text-to-SQL.",
     },
-    tags: ["ERD Diagram", "PostgreSQL", "Database", "Supabase", "API"],
+    tags: ["Databricks", "Delta Lake", "SQL", "CI/CD", "ML", "Text-to-SQL"],
   },
 ];
 
@@ -217,7 +217,8 @@ export default function Hub() {
     const applyUrlState = () => {
       if (typeof window === "undefined") return;
       const params = new URLSearchParams(window.location.search);
-      const viewParam = params.get("view");
+      const rawView = params.get("view");
+      const viewParam = rawView === "air-quality-system-design" ? "igaming-databricks-lakehouse" : rawView;
       const subParam = params.get("sub");
       const tabParam = params.get("tab");
 
@@ -408,7 +409,7 @@ export default function Hub() {
                   </div>
                 </div>
 
-                {open.id !== "nsga2-promethee2-agricultural" && open.id !== "urban-air-pollution-ml" && (
+                {open.id !== "nsga2-promethee2-agricultural" && open.id !== "urban-air-pollution-ml" && open.id !== "igaming-databricks-lakehouse" && (
                   <div className="mb-2 sm:mb-4">
                     <h2 className="font-display text-2xl font-medium sm:text-4xl md:text-5xl">
                       {subOpen ? subOpen.label[lang] : open.label[lang]}
@@ -435,10 +436,10 @@ export default function Hub() {
                       </div>
                     );
                   }
-                  if (open.id === "air-quality-system-design") {
+                  if (open.id === "igaming-databricks-lakehouse") {
                     return (
                       <div className="mt-4">
-                        <SystemDesign />
+                        <IgamingDatabricks />
                       </div>
                     );
                   }

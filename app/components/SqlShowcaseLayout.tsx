@@ -8,6 +8,7 @@ interface SqlShowcaseLayoutProps {
   description: string;
   sqlQuery: string;
   isEn?: boolean;
+  sqlLabel?: string;
   children: React.ReactNode;
 }
 
@@ -16,6 +17,7 @@ export default function SqlShowcaseLayout({
   description,
   sqlQuery,
   isEn = true,
+  sqlLabel = "Executed PostgreSQL Query",
   children
 }: SqlShowcaseLayoutProps) {
   const [showSql, setShowSql] = useState(false);
@@ -47,7 +49,7 @@ export default function SqlShowcaseLayout({
         <div className="bg-[#0d1117] border border-slate-800 rounded-xl p-5 shadow-inner overflow-hidden relative group animate-in fade-in slide-in-from-top-4 duration-300 z-20">
           <div className="flex items-center gap-2 mb-3 text-slate-400 border-b border-slate-800 pb-2">
             <Database className="w-4 h-4 text-blue-400" />
-            <span className="text-xs font-mono uppercase tracking-wider">Executed PostgreSQL Query</span>
+            <span className="text-xs font-mono uppercase tracking-wider">{sqlLabel}</span>
           </div>
           <pre className="font-mono text-sm text-green-400 whitespace-pre-wrap">
             {sqlQuery}

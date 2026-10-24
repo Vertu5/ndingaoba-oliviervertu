@@ -69,19 +69,19 @@ export const content: ContentItem[] = [
     githubUrl: "https://github.com/Vertu5/urban-air-pollution-ml",
   },
   {
-    id: "air-quality-system-design",
+    id: "igaming-databricks-lakehouse",
     type: "projet",
     featured: true,
     domains: ["algo", "ml"],
     title: {
-      fr: "⚙️ Architecture Système & Analytics de la Qualité de l'Air en Temps Réel",
-      en: "⚙️ Real-Time Air Quality System Design & Relational Data Architecture",
+      fr: "🎰 Architecture Lakehouse iGaming, CI/CD Databricks, Data Science & Text-to-SQL Sécurisé",
+      en: "🎰 iGaming Lakehouse Architecture, Databricks CI/CD, Data Science & Guarded Text-to-SQL",
     },
     summary: {
-      fr: "Conception de A à Z d'une plateforme événementielle : modélisation de base de données relationnelle normalisée (3NF), écriture des scripts DDL SQL avec indexation optimisée, pipeline d'ingestion streaming temps réel, API REST FastAPI et conteneurisation Docker.",
-      en: "End-to-end event-driven platform design: 3NF normalized relational database modeling, SQL DDL scripts with optimized indexing, real-time streaming ingestion pipeline, FastAPI REST API, and Docker containerization.",
+      fr: "Pipeline médaillon de bout en bout sur Databricks (Unity Catalog, Delta Lake, Serverless SQL) traitant 4,65M de tours de machines à sous. Déploiement déclaratif CI/CD par Databricks Asset Bundles (échantillon 5% dev ➔ 100% prod avec contrôles assert_true bloquants), segmentation RFM & KMeans, détection d'anomalies IsolationForest, modèle de Churn (AUC 0,75) et moteur Text-to-SQL sécurisé par 4 boucliers anti-hallucinations.",
+      en: "End-to-end medallion pipeline on Databricks (Unity Catalog, Delta Lake, Serverless SQL) processing 4.65M slot spins. Declarative CI/CD via Databricks Asset Bundles (5% dev sample ➔ 100% prod with blocking assert_true quality gates), RFM & KMeans segmentation, IsolationForest anomaly detection, Churn prediction (AUC 0.75), and a 4-shield Guarded Text-to-SQL engine.",
     },
-    tags: ["PostgreSQL", "SQL DDL", "FastAPI", "Data Modeling 3NF", "Docker", "DevOps"],
-    githubUrl: "https://github.com/Vertu5/air-quality-system-design",
+    tags: ["Databricks", "Delta Lake", "SQL", "Asset Bundles CI/CD", "Machine Learning", "Text-to-SQL"],
+    githubUrl: "https://github.com/Vertu5/igaming-databricks-lakehouse",
   },
 ];
