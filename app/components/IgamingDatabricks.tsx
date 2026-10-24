@@ -19,7 +19,16 @@ import { useLang } from "@/app/lib/i18n";
 import TextToSqlSandbox from "./igaming/TextToSqlSandbox";
 import igamingData from "../data/igaming.json";
 
-const COLORS = ["#2563eb", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899", "#06b6d4"];
+const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899", "#06b6d4"];
+
+const TOOLTIP_STYLE: React.CSSProperties = {
+  backgroundColor: "var(--bg-elevated)",
+  borderColor: "var(--border)",
+  borderRadius: "8px",
+  color: "var(--text)",
+  fontSize: "12px",
+  boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
+};
 
 export default function IgamingDatabricks() {
   const { lang } = useLang();
@@ -155,7 +164,7 @@ export default function IgamingDatabricks() {
   return (
     <article
       lang={isEn ? "en" : "fr"}
-      className="bg-[#fafafa] dark:bg-[var(--bg)] text-[#222222] dark:text-[var(--text)] font-serif selection:bg-blue-200 rounded-lg overflow-hidden border border-slate-200 dark:border-[var(--border)] shadow-xl relative"
+      className="bg-[#fafafa] dark:bg-[var(--bg)] text-[#222222] dark:text-[var(--text)] font-serif selection:bg-blue-200 dark:selection:bg-blue-900 rounded-lg overflow-hidden border border-slate-200 dark:border-[var(--border)] shadow-xl relative"
     >
       {/* HEADER / TITRE (Matches GeneticOptimizer & UrbanAirPollution) */}
       <header className="max-w-3xl mx-auto pt-12 sm:pt-16 pb-10 sm:pb-12 px-5 sm:px-6">
@@ -163,8 +172,8 @@ export default function IgamingDatabricks() {
           {isEn ? "iGaming Executive Intelligence" : "Intelligence Décisionnelle iGaming"} <br />
           <span className="text-slate-500 dark:text-[var(--text-muted)] font-light text-xl sm:text-2xl md:text-3xl block mt-1">
             {isEn
-              ? "Databricks Lakehouse, MLflow & Guarded Text-to-SQL"
-              : "Lakehouse Databricks, MLflow & Text-to-SQL Gouverné"}
+              ? "(Databricks Lakehouse, MLflow & Guarded Text-to-SQL)"
+              : "(Lakehouse Databricks, MLflow & Text-to-SQL Gouverné)"}
           </span>
         </h1>
 
@@ -180,13 +189,13 @@ export default function IgamingDatabricks() {
             {isEn ? "Databricks Unity Catalog & MLflow" : "Databricks Unity Catalog & MLflow"}
           </div>
           <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
-            <span className="bg-slate-100 dark:bg-[var(--bg-elevated)] px-2 py-1 rounded border border-slate-200 dark:border-[var(--border)] whitespace-nowrap">
+            <span className="bg-slate-100 dark:bg-[var(--bg-elevated)] text-slate-700 dark:text-[var(--text)] px-2 py-1 rounded border border-slate-200 dark:border-[var(--border)] whitespace-nowrap">
               Delta Lake
             </span>
-            <span className="bg-slate-100 dark:bg-[var(--bg-elevated)] px-2 py-1 rounded border border-slate-200 dark:border-[var(--border)] whitespace-nowrap">
+            <span className="bg-slate-100 dark:bg-[var(--bg-elevated)] text-slate-700 dark:text-[var(--text)] px-2 py-1 rounded border border-slate-200 dark:border-[var(--border)] whitespace-nowrap">
               MLflow @champion
             </span>
-            <span className="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-2 py-1 rounded border border-blue-200 dark:border-blue-800 whitespace-nowrap">
+            <span className="bg-blue-50 dark:bg-blue-500/15 text-blue-700 dark:text-blue-300 px-2 py-1 rounded border border-blue-200 dark:border-blue-500/30 whitespace-nowrap">
               Text-to-SQL
             </span>
           </div>
@@ -201,6 +210,40 @@ export default function IgamingDatabricks() {
               : "Transformer 4,65 millions de spins bruts (8,11 M€ de mises, 574,3 k€ de revenu net casino) en un moteur de décision pour la direction : réallouer le budget marketing vers les canaux à forte marge, retenir les joueurs VIP avant leur départ, isoler la fraude multi-comptes et permettre aux directeurs d'interroger Databricks en langage naturel en 0,3 seconde."}
           </p>
         </section>
+
+        {/* COMPACT CONTEXT STRIP: WHAT WE HAVE AT THE START */}
+        <div className="bg-white dark:bg-[var(--bg-elevated)] p-4 sm:p-5 rounded-xl border border-slate-200 dark:border-[var(--border)] font-sans shadow-sm">
+          <div className="text-xs font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400 font-bold mb-2">
+            {isEn
+              ? "Starting Point: 4 Months of Raw Casino Telemetry (10 Countries, 8 Slot Games)"
+              : "Point de Départ : 4 Mois de Logs Bruts du Casino (10 Pays, 8 Machines à Sous)"}
+          </div>
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-[var(--text-muted)] leading-relaxed mb-3.5">
+            {isEn
+              ? "We start with 3 raw relational files containing no pre-computed revenue and no churn or fraud labels. Our goal is to clean, reconcile, and model them on Databricks Unity Catalog to drive 4 concrete executive decisions:"
+              : "Nous partons de 3 fichiers relationnels bruts sans revenu pré-calculé ni étiquette de churn ou de fraude. L'objectif est de les réconcilier et modéliser sur Databricks Unity Catalog pour éclairer 4 décisions de direction :"}
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+            <div className="bg-slate-50 dark:bg-[var(--bg)] px-3 py-2 rounded-lg border border-slate-200 dark:border-[var(--border)] flex items-center justify-between">
+              <span className="font-mono font-bold text-blue-600 dark:text-blue-400">players.csv</span>
+              <span className="text-slate-700 dark:text-[var(--text)] font-medium">
+                8,000 {isEn ? "signups (5 channels)" : "inscrits (5 canaux)"}
+              </span>
+            </div>
+            <div className="bg-slate-50 dark:bg-[var(--bg)] px-3 py-2 rounded-lg border border-slate-200 dark:border-[var(--border)] flex items-center justify-between">
+              <span className="font-mono font-bold text-purple-600 dark:text-purple-400">sessions.csv</span>
+              <span className="text-slate-700 dark:text-[var(--text)] font-medium">
+                46,690 {isEn ? "sessions (IP/device)" : "sessions (IP/support)"}
+              </span>
+            </div>
+            <div className="bg-slate-50 dark:bg-[var(--bg)] px-3 py-2 rounded-lg border border-slate-200 dark:border-[var(--border)] flex items-center justify-between">
+              <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">spins.csv</span>
+              <span className="text-slate-700 dark:text-[var(--text)] font-medium">
+                4,646,999 {isEn ? "slot spins (8 games)" : "spins (8 machines)"}
+              </span>
+            </div>
+          </div>
+        </div>
       </header>
 
       {/* MAIN ARTICLE BODY */}
@@ -216,7 +259,7 @@ export default function IgamingDatabricks() {
             <button
               type="button"
               onClick={() => setShowTheory(!showTheory)}
-              className="text-sm bg-slate-100 dark:bg-[var(--bg-elevated)] hover:bg-slate-200 dark:hover:bg-[var(--border)] text-slate-700 dark:text-slate-200 py-1.5 px-3 rounded font-sans transition-colors border border-slate-200 dark:border-[var(--border)] mt-4 md:mt-0 shadow-sm cursor-pointer"
+              className="text-sm bg-slate-100 dark:bg-[var(--bg-elevated)] hover:bg-slate-200 dark:hover:bg-[var(--border)] text-slate-700 dark:text-[var(--text)] py-1.5 px-3 rounded font-sans transition-colors border border-slate-200 dark:border-[var(--border)] mt-4 md:mt-0 shadow-sm cursor-pointer"
             >
               {showTheory
                 ? isEn
@@ -235,8 +278,8 @@ export default function IgamingDatabricks() {
           </p>
 
           {/* FIGURE 1: VISUAL CASINO P&L WATERFALL */}
-          <figure className="my-10 bg-slate-50 dark:bg-[#151515] p-5 sm:p-6 rounded-xl border border-slate-200 dark:border-[var(--border)] font-sans shadow-sm">
-            <h3 className="text-sm sm:text-base font-bold text-slate-800 dark:text-slate-200 mb-5 flex items-center justify-between">
+          <figure className="my-10 bg-slate-50 dark:bg-[var(--bg-elevated)] p-5 sm:p-6 rounded-xl border border-slate-200 dark:border-[var(--border)] font-sans shadow-sm">
+            <h3 className="text-sm sm:text-base font-bold text-slate-800 dark:text-[var(--text)] mb-5 flex items-center justify-between">
               <span>
                 {isEn
                   ? "Figure 1. Casino Revenue Waterfall (From Signups to GGR at Risk)"
@@ -248,56 +291,62 @@ export default function IgamingDatabricks() {
             </h3>
 
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
-              <div className="bg-white dark:bg-[var(--bg-elevated)] p-3.5 rounded-lg border border-slate-200 dark:border-[var(--border)] shadow-sm">
-                <div className="text-[10px] font-mono uppercase text-slate-500">
+              <div className="bg-white dark:bg-[var(--bg)] p-3.5 rounded-lg border border-slate-200 dark:border-[var(--border)] border-t-4 border-t-slate-400 shadow-sm">
+                <div className="text-[10px] font-mono uppercase text-slate-500 dark:text-[var(--text-muted)]">
                   {isEn ? "1. Signups" : "1. Inscrits"}
                 </div>
-                <div className="text-xl font-bold text-slate-900 dark:text-white mt-1">8,000</div>
+                <div className="text-xl font-bold text-slate-900 dark:text-[var(--text)] mt-1">
+                  8,000
+                </div>
                 <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium mt-0.5">
                   85.7% {isEn ? "activated" : "activés"}
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-[var(--bg-elevated)] p-3.5 rounded-lg border border-slate-200 dark:border-[var(--border)] shadow-sm">
-                <div className="text-[10px] font-mono uppercase text-slate-500">
+              <div className="bg-white dark:bg-[var(--bg)] p-3.5 rounded-lg border border-slate-200 dark:border-[var(--border)] border-t-4 border-t-blue-500 shadow-sm">
+                <div className="text-[10px] font-mono uppercase text-slate-500 dark:text-[var(--text-muted)]">
                   {isEn ? "2. Total Bets" : "2. Mises (Turnover)"}
                 </div>
                 <div className="text-xl font-bold text-blue-600 dark:text-blue-400 mt-1">
                   €{(kpi.turnover / 1_000_000).toFixed(2)}M
                 </div>
-                <div className="text-[11px] text-slate-500 mt-0.5">46,690 sessions</div>
+                <div className="text-[11px] text-slate-500 dark:text-[var(--text-muted)] mt-0.5">
+                  46,690 sessions
+                </div>
               </div>
 
-              <div className="bg-white dark:bg-[var(--bg-elevated)] p-3.5 rounded-lg border border-slate-200 dark:border-[var(--border)] shadow-sm">
-                <div className="text-[10px] font-mono uppercase text-slate-500">
+              <div className="bg-white dark:bg-[var(--bg)] p-3.5 rounded-lg border border-slate-200 dark:border-[var(--border)] border-t-4 border-t-indigo-500 shadow-sm">
+                <div className="text-[10px] font-mono uppercase text-slate-500 dark:text-[var(--text-muted)]">
                   {isEn ? "3. Player Wins" : "3. Gains Joueurs"}
                 </div>
-                <div className="text-xl font-bold text-slate-700 dark:text-slate-300 mt-1">
+                <div className="text-xl font-bold text-slate-800 dark:text-[var(--text)] mt-1">
                   €7.54M
                 </div>
-                <div className="text-[11px] text-slate-500 mt-0.5">92.92% RTP</div>
+                <div className="text-[11px] text-slate-500 dark:text-[var(--text-muted)] mt-0.5">
+                  92.92% RTP
+                </div>
               </div>
 
-              <div className="bg-emerald-50 dark:bg-emerald-950/30 p-3.5 rounded-lg border border-emerald-300 dark:border-emerald-800 shadow-sm">
+              <div className="bg-white dark:bg-[var(--bg)] p-3.5 rounded-lg border border-slate-200 dark:border-[var(--border)] border-t-4 border-t-emerald-500 shadow-sm">
                 <div className="text-[10px] font-mono uppercase text-emerald-700 dark:text-emerald-400 font-bold">
                   {isEn ? "4. Net GGR" : "4. Revenu Net (GGR)"}
                 </div>
-                <div className="text-xl font-bold text-emerald-700 dark:text-emerald-400 mt-1">
+                <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">
                   €{(kpi.ggr / 1000).toFixed(1)}K
                 </div>
-                <div className="text-[11px] text-emerald-600 dark:text-emerald-300 mt-0.5">
+                <div className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-0.5">
                   7.08% Hold
                 </div>
               </div>
 
-              <div className="col-span-2 sm:col-span-1 bg-rose-50 dark:bg-rose-950/30 p-3.5 rounded-lg border border-rose-300 dark:border-rose-800 shadow-sm">
-                <div className="text-[10px] font-mono uppercase text-rose-700 dark:text-rose-400 font-bold">
+              <div className="col-span-2 sm:col-span-1 bg-white dark:bg-[var(--bg)] p-3.5 rounded-lg border border-slate-200 dark:border-[var(--border)] border-t-4 border-t-rose-500 shadow-sm">
+                <div className="text-[10px] font-mono uppercase text-rose-600 dark:text-rose-400 font-bold">
                   {isEn ? "5. GGR at Risk" : "5. GGR à Risque"}
                 </div>
                 <div className="text-xl font-bold text-rose-600 dark:text-rose-400 mt-1">
                   €221.5K
                 </div>
-                <div className="text-[11px] text-rose-600 dark:text-rose-300 mt-0.5">
+                <div className="text-[11px] text-rose-600 dark:text-rose-400 mt-0.5">
                   {isEn ? "30d Churn ML" : "Churn 30j ML"}
                 </div>
               </div>
@@ -319,7 +368,7 @@ export default function IgamingDatabricks() {
                   : "En conservant les inscrits inactifs via un LEFT JOIN, on démontre que l'activation est identique partout (~85 %), mais qu'un joueur Organic rapporte 2,2 fois plus qu'un joueur Referral (marge de 8,76 % contre 5,25 %)."}
               </p>
               {showTheory && (
-                <div className="mt-4 p-4 bg-slate-50 dark:bg-[var(--bg)] border border-slate-200 dark:border-[var(--border)] rounded text-sm overflow-x-auto text-center font-sans">
+                <div className="mt-4 p-4 bg-slate-50 dark:bg-[var(--bg)] border border-slate-200 dark:border-[var(--border)] rounded text-sm overflow-x-auto text-center font-sans text-slate-800 dark:text-[var(--text)]">
                   <em>{isEn ? "Gross Gaming Revenue & Hold Rate:" : "Revenu Brut des Jeux (GGR) & Taux de Marge :"}</em>
                   <div className="my-2 flex justify-center">
                     <BlockMath
@@ -343,7 +392,7 @@ export default function IgamingDatabricks() {
                   : "Comme 32,7 % des joueurs actifs sont gagnants nets (GGR < 0), segmenter sur le GGR fausse l'analyse. Le classement sur le volume misé (Turnover) + RFM isole les 69 VIP (234,4 k€ de GGR) et 413 gros joueurs en train de décrocher (553,8 k€ de mises)."}
               </p>
               {showTheory && (
-                <div className="mt-4 p-4 bg-slate-50 dark:bg-[var(--bg)] border border-slate-200 dark:border-[var(--border)] rounded text-sm overflow-x-auto text-center font-sans">
+                <div className="mt-4 p-4 bg-slate-50 dark:bg-[var(--bg)] border border-slate-200 dark:border-[var(--border)] rounded text-sm overflow-x-auto text-center font-sans text-slate-800 dark:text-[var(--text)]">
                   <em>{isEn ? "Empirical vs Theoretical GGR:" : "GGR Réel vs GGR Théorique Attendu :"}</em>
                   <div className="my-2 flex justify-center">
                     <BlockMath
@@ -367,7 +416,7 @@ export default function IgamingDatabricks() {
                   : "Entraîné sans fuite temporelle (60 premiers jours -> inactivité sur les 30 derniers) et promu dans Unity Catalog sous l'alias @champion, le modèle chiffre à 221,5 k€ le GGR pondéré par le risque de départ sur les 6 857 joueurs actifs."}
               </p>
               {showTheory && (
-                <div className="mt-4 p-4 bg-slate-50 dark:bg-[var(--bg)] border border-slate-200 dark:border-[var(--border)] rounded text-sm overflow-x-auto text-center font-sans">
+                <div className="mt-4 p-4 bg-slate-50 dark:bg-[var(--bg)] border border-slate-200 dark:border-[var(--border)] rounded text-sm overflow-x-auto text-center font-sans text-slate-800 dark:text-[var(--text)]">
                   <em>{isEn ? "Expected GGR at Risk Formula:" : "Formule du GGR Attendu à Risque :"}</em>
                   <div className="my-2 flex justify-center">
                     <BlockMath
@@ -394,7 +443,7 @@ export default function IgamingDatabricks() {
           </ul>
         </section>
 
-        {/* SECTION 2: INTERACTIVE EXECUTIVE DECISION EXPLORER (Matches Figure 2 of GeneticOptimizer) */}
+        {/* SECTION 2: INTERACTIVE EXECUTIVE DECISION EXPLORER */}
         <section className="mb-16">
           <h2 className="text-2xl font-bold font-sans mb-6 border-b border-slate-200 dark:border-[var(--border)] pb-2">
             {isEn
@@ -409,7 +458,7 @@ export default function IgamingDatabricks() {
 
           <figure className="mb-12 -mx-4 sm:-mx-6 md:-mx-12 font-sans">
             <div className="bg-white dark:bg-[var(--bg-elevated)] p-5 sm:p-8 rounded-xl border border-slate-200 dark:border-[var(--border)] shadow-xl space-y-6">
-              {/* Top Navigation Pills + Prev/Next */}
+              {/* Top Navigation Pills + SQL Toggle */}
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-[var(--border)] pb-4">
                 <div className="flex flex-wrap gap-1.5">
                   {[
@@ -425,7 +474,7 @@ export default function IgamingDatabricks() {
                       className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                         activeSlide === idx
                           ? "bg-blue-600 text-white shadow-sm"
-                          : "bg-slate-100 dark:bg-[var(--bg)] text-slate-600 dark:text-[var(--text-muted)] hover:bg-slate-200"
+                          : "bg-slate-100 dark:bg-[var(--bg)] text-slate-700 dark:text-[var(--text-muted)] hover:bg-slate-200 dark:hover:bg-[var(--border)] dark:hover:text-[var(--text)]"
                       }`}
                     >
                       {tabLabel}
@@ -436,7 +485,7 @@ export default function IgamingDatabricks() {
                 <button
                   type="button"
                   onClick={() => setShowSlideSql(!showSlideSql)}
-                  className="text-xs bg-slate-100 dark:bg-[var(--bg)] hover:bg-slate-200 text-slate-700 dark:text-slate-200 py-1.5 px-3 rounded border border-slate-200 dark:border-[var(--border)] font-medium cursor-pointer"
+                  className="text-xs bg-slate-100 dark:bg-[var(--bg)] hover:bg-slate-200 dark:hover:bg-[var(--border)] text-slate-700 dark:text-[var(--text)] py-1.5 px-3 rounded border border-slate-200 dark:border-[var(--border)] font-medium transition-colors cursor-pointer"
                 >
                   {showSlideSql
                     ? isEn
@@ -462,7 +511,7 @@ export default function IgamingDatabricks() {
               </div>
 
               {showSlideSql && (
-                <pre className="bg-slate-900 text-emerald-300 p-4 rounded-lg text-xs font-mono overflow-x-auto border border-slate-800">
+                <pre className="bg-slate-100 dark:bg-[#0f1014] text-emerald-800 dark:text-emerald-300 p-4 rounded-lg text-xs font-mono overflow-x-auto border border-slate-200 dark:border-[var(--border)]">
                   {slides[activeSlide].sql}
                 </pre>
               )}
@@ -471,29 +520,26 @@ export default function IgamingDatabricks() {
               {activeSlide === 0 && (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
                   <div className="h-72 bg-slate-50 dark:bg-[var(--bg)] p-4 rounded-lg border border-slate-200 dark:border-[var(--border)]">
-                    <div className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    <div className="text-xs font-bold text-slate-800 dark:text-[var(--text)] mb-2">
                       {isEn
                         ? "GGR per Registered vs Active Player (€)"
                         : "Revenu Net (GGR) par Inscrit vs par Actif (€)"}
                     </div>
                     <ResponsiveContainer width="100%" height="88%">
                       <BarChart data={channelChartData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.2)" />
-                        <XAxis dataKey="channel" tick={{ fill: "#64748b", fontSize: 11 }} />
-                        <YAxis tick={{ fill: "#64748b", fontSize: 11 }} unit="€" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                        <XAxis dataKey="channel" tick={{ fill: "var(--text-muted)", fontSize: 11 }} />
+                        <YAxis tick={{ fill: "var(--text-muted)", fontSize: 11 }} unit="€" />
                         <Tooltip
-                          contentStyle={{
-                            backgroundColor: "#0f172a",
-                            borderColor: "#334155",
-                            borderRadius: "8px",
-                            color: "#f8fafc",
-                            fontSize: "12px",
-                          }}
+                          cursor={{ fill: "rgba(148, 163, 184, 0.12)" }}
+                          contentStyle={TOOLTIP_STYLE}
+                          itemStyle={{ color: "var(--text)" }}
+                          labelStyle={{ color: "var(--text)", fontWeight: 700, marginBottom: "4px" }}
                         />
                         <Bar
                           dataKey="ggrPerPlayer"
                           name={isEn ? "GGR / Signup (€)" : "GGR / Inscrit (€)"}
-                          fill="#2563eb"
+                          fill="#3b82f6"
                           radius={[4, 4, 0, 0]}
                         />
                         <Bar
@@ -507,7 +553,7 @@ export default function IgamingDatabricks() {
                   </div>
 
                   <div className="h-72 bg-slate-50 dark:bg-[var(--bg)] p-4 rounded-lg border border-slate-200 dark:border-[var(--border)]">
-                    <div className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    <div className="text-xs font-bold text-slate-800 dark:text-[var(--text)] mb-2">
                       {isEn
                         ? "Total Net Casino Revenue by Channel (k€)"
                         : "Contribution au Revenu Total du Casino par Canal (k€)"}
@@ -518,22 +564,19 @@ export default function IgamingDatabricks() {
                         layout="vertical"
                         margin={{ left: 15, right: 20 }}
                       >
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.2)" />
-                        <XAxis type="number" tick={{ fill: "#64748b", fontSize: 11 }} unit="k€" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                        <XAxis type="number" tick={{ fill: "var(--text-muted)", fontSize: 11 }} unit="k€" />
                         <YAxis
                           type="category"
                           dataKey="channel"
-                          tick={{ fill: "#64748b", fontSize: 11 }}
+                          tick={{ fill: "var(--text-muted)", fontSize: 11 }}
                           width={80}
                         />
                         <Tooltip
-                          contentStyle={{
-                            backgroundColor: "#0f172a",
-                            borderColor: "#334155",
-                            borderRadius: "8px",
-                            color: "#f8fafc",
-                            fontSize: "12px",
-                          }}
+                          cursor={{ fill: "rgba(148, 163, 184, 0.12)" }}
+                          contentStyle={TOOLTIP_STYLE}
+                          itemStyle={{ color: "var(--text)" }}
+                          labelStyle={{ color: "var(--text)", fontWeight: 700, marginBottom: "4px" }}
                         />
                         <Bar
                           dataKey="totalGgrK"
@@ -554,31 +597,28 @@ export default function IgamingDatabricks() {
               {activeSlide === 1 && (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
                   <div className="h-72 bg-slate-50 dark:bg-[var(--bg)] p-4 rounded-lg border border-slate-200 dark:border-[var(--border)]">
-                    <div className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    <div className="text-xs font-bold text-slate-800 dark:text-[var(--text)] mb-2">
                       {isEn
                         ? "Pareto Curve: Top 10% Players = 64.2% of Bets"
                         : "Courbe de Pareto : Top 10 % Joueurs = 64,2 % des Mises"}
                     </div>
                     <ResponsiveContainer width="100%" height="88%">
                       <ComposedChart data={paretoChartData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.2)" />
-                        <XAxis dataKey="label" tick={{ fill: "#64748b", fontSize: 10 }} />
-                        <YAxis tick={{ fill: "#64748b", fontSize: 11 }} unit="%" domain={[0, 100]} />
+                        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                        <XAxis dataKey="label" tick={{ fill: "var(--text-muted)", fontSize: 10 }} />
+                        <YAxis tick={{ fill: "var(--text-muted)", fontSize: 11 }} unit="%" domain={[0, 100]} />
                         <Tooltip
-                          contentStyle={{
-                            backgroundColor: "#0f172a",
-                            borderColor: "#334155",
-                            borderRadius: "8px",
-                            color: "#f8fafc",
-                            fontSize: "12px",
-                          }}
+                          cursor={{ fill: "rgba(148, 163, 184, 0.12)" }}
+                          contentStyle={TOOLTIP_STYLE}
+                          itemStyle={{ color: "var(--text)" }}
+                          labelStyle={{ color: "var(--text)", fontWeight: 700, marginBottom: "4px" }}
                         />
                         <Area
                           type="monotone"
                           dataKey="cumulativeShare"
                           name={isEn ? "Cumulative Bets (%)" : "Mises Cumulées (%)"}
-                          fill="rgba(37,99,235,0.15)"
-                          stroke="#2563eb"
+                          fill="rgba(59,130,246,0.18)"
+                          stroke="#3b82f6"
                           strokeWidth={2}
                         />
                         <Bar
@@ -592,24 +632,21 @@ export default function IgamingDatabricks() {
                   </div>
 
                   <div className="h-72 bg-slate-50 dark:bg-[var(--bg)] p-4 rounded-lg border border-slate-200 dark:border-[var(--border)]">
-                    <div className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    <div className="text-xs font-bold text-slate-800 dark:text-[var(--text)] mb-2">
                       {isEn
                         ? "RFM Segments: Net GGR (k€) vs Bets at Risk (k€)"
                         : "Segments RFM : GGR Net (k€) vs Volume Misé (k€)"}
                     </div>
                     <ResponsiveContainer width="100%" height="88%">
                       <BarChart data={segmentChartData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.2)" />
-                        <XAxis dataKey="segment" tick={{ fill: "#64748b", fontSize: 10 }} />
-                        <YAxis tick={{ fill: "#64748b", fontSize: 11 }} unit="k€" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                        <XAxis dataKey="segment" tick={{ fill: "var(--text-muted)", fontSize: 10 }} />
+                        <YAxis tick={{ fill: "var(--text-muted)", fontSize: 11 }} unit="k€" />
                         <Tooltip
-                          contentStyle={{
-                            backgroundColor: "#0f172a",
-                            borderColor: "#334155",
-                            borderRadius: "8px",
-                            color: "#f8fafc",
-                            fontSize: "12px",
-                          }}
+                          cursor={{ fill: "rgba(148, 163, 184, 0.12)" }}
+                          contentStyle={TOOLTIP_STYLE}
+                          itemStyle={{ color: "var(--text)" }}
+                          labelStyle={{ color: "var(--text)", fontWeight: 700, marginBottom: "4px" }}
                         />
                         <Bar
                           dataKey="ggrK"
@@ -633,7 +670,7 @@ export default function IgamingDatabricks() {
               {activeSlide === 2 && (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
                   <div className="h-72 bg-slate-50 dark:bg-[var(--bg)] p-4 rounded-lg border border-slate-200 dark:border-[var(--border)]">
-                    <div className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    <div className="text-xs font-bold text-slate-800 dark:text-[var(--text)] mb-2">
                       {isEn
                         ? "Churn Drivers (Green = Retains, Red = Drives Churn)"
                         : "Facteurs de Churn (Vert = Fidélise, Rouge = Départ)"}
@@ -644,27 +681,24 @@ export default function IgamingDatabricks() {
                         layout="vertical"
                         margin={{ left: 20, right: 15 }}
                       >
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.2)" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
                         <XAxis
                           type="number"
                           domain={[-1, 0.3]}
-                          tick={{ fill: "#64748b", fontSize: 11 }}
+                          tick={{ fill: "var(--text-muted)", fontSize: 11 }}
                         />
                         <YAxis
                           type="category"
                           dataKey="feature"
-                          tick={{ fill: "#64748b", fontSize: 10 }}
+                          tick={{ fill: "var(--text-muted)", fontSize: 10 }}
                           width={145}
                         />
-                        <ReferenceLine x={0} stroke="#64748b" />
+                        <ReferenceLine x={0} stroke="var(--text-muted)" />
                         <Tooltip
-                          contentStyle={{
-                            backgroundColor: "#0f172a",
-                            borderColor: "#334155",
-                            borderRadius: "8px",
-                            color: "#f8fafc",
-                            fontSize: "12px",
-                          }}
+                          cursor={{ fill: "rgba(148, 163, 184, 0.12)" }}
+                          contentStyle={TOOLTIP_STYLE}
+                          itemStyle={{ color: "var(--text)" }}
+                          labelStyle={{ color: "var(--text)", fontWeight: 700, marginBottom: "4px" }}
                         />
                         <Bar
                           dataKey="coef"
@@ -680,29 +714,26 @@ export default function IgamingDatabricks() {
                   </div>
 
                   <div className="h-72 bg-slate-50 dark:bg-[var(--bg)] p-4 rounded-lg border border-slate-200 dark:border-[var(--border)]">
-                    <div className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    <div className="text-xs font-bold text-slate-800 dark:text-[var(--text)] mb-2">
                       {isEn
                         ? "K-Means Personas: Total GGR vs GGR at Risk (k€)"
                         : "Personas K-Means : GGR Total vs GGR à Risque (k€)"}
                     </div>
                     <ResponsiveContainer width="100%" height="88%">
                       <BarChart data={personaChartData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.2)" />
-                        <XAxis dataKey="persona" tick={{ fill: "#64748b", fontSize: 10 }} />
-                        <YAxis tick={{ fill: "#64748b", fontSize: 11 }} unit="k€" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                        <XAxis dataKey="persona" tick={{ fill: "var(--text-muted)", fontSize: 10 }} />
+                        <YAxis tick={{ fill: "var(--text-muted)", fontSize: 11 }} unit="k€" />
                         <Tooltip
-                          contentStyle={{
-                            backgroundColor: "#0f172a",
-                            borderColor: "#334155",
-                            borderRadius: "8px",
-                            color: "#f8fafc",
-                            fontSize: "12px",
-                          }}
+                          cursor={{ fill: "rgba(148, 163, 184, 0.12)" }}
+                          contentStyle={TOOLTIP_STYLE}
+                          itemStyle={{ color: "var(--text)" }}
+                          labelStyle={{ color: "var(--text)", fontWeight: 700, marginBottom: "4px" }}
                         />
                         <Bar
                           dataKey="totalGgrK"
                           name={isEn ? "Total GGR (k€)" : "GGR Total (k€)"}
-                          fill="#2563eb"
+                          fill="#3b82f6"
                           radius={[4, 4, 0, 0]}
                         />
                         <Bar
@@ -721,7 +752,7 @@ export default function IgamingDatabricks() {
               {activeSlide === 3 && (
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center pt-2">
                   <div className="lg:col-span-5 space-y-3 bg-slate-50 dark:bg-[var(--bg)] p-4 rounded-lg border border-slate-200 dark:border-[var(--border)]">
-                    <div className="text-xs font-bold uppercase text-slate-700 dark:text-slate-300">
+                    <div className="text-xs font-bold uppercase text-slate-800 dark:text-[var(--text)]">
                       {isEn
                         ? "Rules (399) vs Isolation Forest (467)"
                         : "Croisement Règles SQL (399) vs ML (467)"}
@@ -733,7 +764,7 @@ export default function IgamingDatabricks() {
                           : "Priorité 1 : Double Alerte (SQL + ML)",
                         count: igamingData.anomalies.overlap,
                         pct: "100%",
-                        color: "bg-red-600",
+                        color: "bg-rose-500",
                       },
                       {
                         label: isEn
@@ -749,15 +780,15 @@ export default function IgamingDatabricks() {
                           : "Priorité 3 : Cadence Extrême (ML seul)",
                         count: igamingData.anomalies.ml_only,
                         pct: "85%",
-                        color: "bg-blue-600",
+                        color: "bg-blue-500",
                       },
                     ].map((b, i) => (
-                      <div key={i} className="space-y-1 text-xs">
+                      <div key={i} className="space-y-1 text-xs text-slate-800 dark:text-[var(--text)]">
                         <div className="flex justify-between font-medium">
                           <span>{b.label}</span>
                           <span className="font-mono font-bold">{b.count} sessions</span>
                         </div>
-                        <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                        <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-[var(--border)] overflow-hidden">
                           <div className={`h-full ${b.color}`} style={{ width: b.pct }} />
                         </div>
                       </div>
@@ -765,7 +796,7 @@ export default function IgamingDatabricks() {
                   </div>
 
                   <div className="lg:col-span-7 h-64 bg-slate-50 dark:bg-[var(--bg)] p-4 rounded-lg border border-slate-200 dark:border-[var(--border)]">
-                    <div className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    <div className="text-xs font-bold text-slate-800 dark:text-[var(--text)] mb-2">
                       {isEn
                         ? "Sessions Flagged by Risk Signal"
                         : "Nombre de Sessions par Signal d'Alerte"}
@@ -776,22 +807,19 @@ export default function IgamingDatabricks() {
                         layout="vertical"
                         margin={{ left: 25, right: 20 }}
                       >
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.2)" />
-                        <XAxis type="number" tick={{ fill: "#64748b", fontSize: 11 }} />
+                        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                        <XAxis type="number" tick={{ fill: "var(--text-muted)", fontSize: 11 }} />
                         <YAxis
                           type="category"
                           dataKey="flag"
-                          tick={{ fill: "#64748b", fontSize: 11 }}
+                          tick={{ fill: "var(--text-muted)", fontSize: 11 }}
                           width={115}
                         />
                         <Tooltip
-                          contentStyle={{
-                            backgroundColor: "#0f172a",
-                            borderColor: "#334155",
-                            borderRadius: "8px",
-                            color: "#f8fafc",
-                            fontSize: "12px",
-                          }}
+                          cursor={{ fill: "rgba(148, 163, 184, 0.12)" }}
+                          contentStyle={TOOLTIP_STYLE}
+                          itemStyle={{ color: "var(--text)" }}
+                          labelStyle={{ color: "var(--text)", fontWeight: 700, marginBottom: "4px" }}
                         />
                         <Bar
                           dataKey="sessions"
@@ -808,17 +836,17 @@ export default function IgamingDatabricks() {
                 </div>
               )}
 
-              {/* Bottom Slider Controls (Matches GeneticOptimizer Pareto Slider) */}
+              {/* Bottom Slider Controls */}
               <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-[var(--border)]">
                 <button
                   type="button"
                   onClick={() => setActiveSlide(Math.max(0, activeSlide - 1))}
                   disabled={activeSlide === 0}
-                  className="px-4 py-2 bg-slate-100 dark:bg-[var(--bg)] text-slate-700 dark:text-slate-200 hover:bg-slate-200 disabled:opacity-30 font-bold rounded-lg text-xs transition-colors cursor-pointer"
+                  className="px-4 py-2 bg-slate-100 dark:bg-[var(--bg)] text-slate-700 dark:text-[var(--text)] hover:bg-slate-200 dark:hover:bg-[var(--border)] disabled:opacity-30 font-bold rounded-lg text-xs transition-colors border border-slate-200 dark:border-[var(--border)] cursor-pointer"
                 >
                   ⬅ {isEn ? "Prev Board" : "Précédent"}
                 </button>
-                <span className="font-mono text-xs font-bold uppercase tracking-widest text-slate-500">
+                <span className="font-mono text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-[var(--text-muted)]">
                   {isEn ? "Executive Board" : "Tableau Exécutif"} {activeSlide + 1} / 4
                 </span>
                 <button
@@ -844,7 +872,7 @@ export default function IgamingDatabricks() {
           </figure>
         </section>
 
-        {/* SECTION 3: HOW THE MEDALLION + MLOPS PIPELINE WORKS (Matches 5-Step Flow in GeneticOptimizer) */}
+        {/* SECTION 3: HOW THE MEDALLION + MLOPS PIPELINE WORKS */}
         <section className="mb-16">
           <h2 className="text-2xl font-bold font-sans mb-6 border-b border-slate-200 dark:border-[var(--border)] pb-2">
             {isEn
@@ -858,10 +886,10 @@ export default function IgamingDatabricks() {
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4 relative font-sans">
-            <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-slate-200 dark:bg-slate-800 -z-10 -translate-y-1/2"></div>
+            <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-slate-200 dark:bg-[var(--border)] -z-10 -translate-y-1/2"></div>
 
             <div className="bg-white dark:bg-[var(--bg-elevated)] p-4 rounded-xl border border-slate-200 dark:border-[var(--border)] shadow-sm text-center relative z-10 flex flex-col items-center">
-              <div className="w-10 h-10 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-bold mb-3 border-2 border-white shadow">
+              <div className="w-10 h-10 bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 rounded-full flex items-center justify-center font-bold mb-3 border-2 border-white dark:border-blue-500/40 shadow">
                 1
               </div>
               <strong className="text-sm text-slate-900 dark:text-[var(--text)] block mb-1">
@@ -875,7 +903,7 @@ export default function IgamingDatabricks() {
             </div>
 
             <div className="bg-white dark:bg-[var(--bg-elevated)] p-4 rounded-xl border border-slate-200 dark:border-[var(--border)] shadow-sm text-center relative z-10 flex flex-col items-center">
-              <div className="w-10 h-10 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center font-bold mb-3 border-2 border-white shadow">
+              <div className="w-10 h-10 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 rounded-full flex items-center justify-center font-bold mb-3 border-2 border-white dark:border-purple-500/40 shadow">
                 2
               </div>
               <strong className="text-sm text-slate-900 dark:text-[var(--text)] block mb-1">
@@ -889,7 +917,7 @@ export default function IgamingDatabricks() {
             </div>
 
             <div className="bg-white dark:bg-[var(--bg-elevated)] p-4 rounded-xl border border-slate-200 dark:border-[var(--border)] shadow-sm text-center relative z-10 flex flex-col items-center">
-              <div className="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center font-bold mb-3 border-2 border-white shadow">
+              <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 rounded-full flex items-center justify-center font-bold mb-3 border-2 border-white dark:border-emerald-500/40 shadow">
                 3
               </div>
               <strong className="text-sm text-slate-900 dark:text-[var(--text)] block mb-1">
@@ -903,7 +931,7 @@ export default function IgamingDatabricks() {
             </div>
 
             <div className="bg-white dark:bg-[var(--bg-elevated)] p-4 rounded-xl border border-slate-200 dark:border-[var(--border)] shadow-sm text-center relative z-10 flex flex-col items-center">
-              <div className="w-10 h-10 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center font-bold mb-3 border-2 border-white shadow">
+              <div className="w-10 h-10 bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 rounded-full flex items-center justify-center font-bold mb-3 border-2 border-white dark:border-amber-500/40 shadow">
                 4
               </div>
               <strong className="text-sm text-slate-900 dark:text-[var(--text)] block mb-1">
@@ -917,7 +945,7 @@ export default function IgamingDatabricks() {
             </div>
 
             <div className="col-span-2 md:col-span-1 bg-white dark:bg-[var(--bg-elevated)] p-4 rounded-xl border border-slate-200 dark:border-[var(--border)] shadow-sm text-center relative z-10 flex flex-col items-center">
-              <div className="w-10 h-10 bg-rose-100 text-rose-700 rounded-full flex items-center justify-center font-bold mb-3 border-2 border-white shadow">
+              <div className="w-10 h-10 bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300 rounded-full flex items-center justify-center font-bold mb-3 border-2 border-white dark:border-rose-500/40 shadow">
                 5
               </div>
               <strong className="text-sm text-slate-900 dark:text-[var(--text)] block mb-1">
@@ -932,8 +960,8 @@ export default function IgamingDatabricks() {
           </div>
 
           <div className="mt-8 text-center font-sans">
-            <span className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-[var(--bg-elevated)] text-slate-600 dark:text-[var(--text-muted)] rounded-full text-xs sm:text-sm font-medium border border-slate-200 dark:border-[var(--border)]">
-              <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-[var(--bg-elevated)] text-slate-700 dark:text-[var(--text-muted)] rounded-full text-xs sm:text-sm font-medium border border-slate-200 dark:border-[var(--border)]">
+              <svg className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -964,9 +992,9 @@ export default function IgamingDatabricks() {
           <TextToSqlSandbox isEn={isEn} />
         </section>
 
-        {/* CONCLUSION / REPO (Matches GeneticOptimizer Conclusion Card) */}
-        <section className="bg-slate-900 text-slate-300 p-8 rounded-xl font-sans shadow-lg">
-          <h3 className="text-xl font-bold text-white mb-4">
+        {/* CONCLUSION / REPO (Adaptive Day/Night Card) */}
+        <section className="bg-slate-100 dark:bg-[var(--bg-elevated)] text-slate-700 dark:text-[var(--text-muted)] p-8 rounded-xl border border-slate-200 dark:border-[var(--border)] font-sans shadow-md">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-[var(--text)] mb-4">
             {isEn
               ? "Production Governance, CI/CD & Open Source"
               : "Gouvernance en Production, CI/CD & Open Source"}
@@ -975,15 +1003,15 @@ export default function IgamingDatabricks() {
             {isEn ? (
               <>
                 Every commit is verified by a local CI gate (
-                <code className="bg-slate-800 text-blue-300 px-1.5 py-0.5 rounded font-mono text-xs">
+                <code className="bg-white dark:bg-[var(--bg)] text-blue-700 dark:text-blue-300 border border-slate-200 dark:border-[var(--border)] px-1.5 py-0.5 rounded font-mono text-xs">
                   make check
                 </code>
                 ) that runs 14 AST guardrail tests, validates SQL syntax with{" "}
-                <code className="bg-slate-800 text-blue-300 px-1.5 py-0.5 rounded font-mono text-xs">
+                <code className="bg-white dark:bg-[var(--bg)] text-blue-700 dark:text-blue-300 border border-slate-200 dark:border-[var(--border)] px-1.5 py-0.5 rounded font-mono text-xs">
                   sqlglot
                 </code>
                 , and dry-runs{" "}
-                <code className="bg-slate-800 text-blue-300 px-1.5 py-0.5 rounded font-mono text-xs">
+                <code className="bg-white dark:bg-[var(--bg)] text-blue-700 dark:text-blue-300 border border-slate-200 dark:border-[var(--border)] px-1.5 py-0.5 rounded font-mono text-xs">
                   databricks bundle sync
                 </code>{" "}
                 before deploying the 8-task workflow to Unity Catalog.
@@ -991,11 +1019,11 @@ export default function IgamingDatabricks() {
             ) : (
               <>
                 Chaque modification est vérifiée par une porte CI automatisée (
-                <code className="bg-slate-800 text-blue-300 px-1.5 py-0.5 rounded font-mono text-xs">
+                <code className="bg-white dark:bg-[var(--bg)] text-blue-700 dark:text-blue-300 border border-slate-200 dark:border-[var(--border)] px-1.5 py-0.5 rounded font-mono text-xs">
                   make check
                 </code>
                 ) qui exécute 14 tests de sécurité AST, valide la syntaxe SQL avec{" "}
-                <code className="bg-slate-800 text-blue-300 px-1.5 py-0.5 rounded font-mono text-xs">
+                <code className="bg-white dark:bg-[var(--bg)] text-blue-700 dark:text-blue-300 border border-slate-200 dark:border-[var(--border)] px-1.5 py-0.5 rounded font-mono text-xs">
                   sqlglot
                 </code>{" "}
                 et vérifie la synchronisation du bundle Databricks avant de déployer le workflow de 8
@@ -1007,7 +1035,7 @@ export default function IgamingDatabricks() {
             href="https://github.com/Vertu5/igaming-databricks-lakehouse"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-white text-slate-900 font-bold px-6 py-2.5 rounded shadow hover:bg-slate-100 transition-colors"
+            className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2.5 rounded-lg shadow-sm transition-colors"
           >
             {isEn
               ? "View Full Source Code (SQL, MLflow & Text-to-SQL) on GitHub"

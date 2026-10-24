@@ -23,7 +23,16 @@ import {
   type LiveQueryResult,
 } from "@/app/lib/igamingScenarios";
 
-const COLORS = ["#2563eb", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899", "#06b6d4"];
+const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899", "#06b6d4"];
+
+const TOOLTIP_STYLE: React.CSSProperties = {
+  backgroundColor: "var(--bg-elevated)",
+  borderColor: "var(--border)",
+  borderRadius: "8px",
+  color: "var(--text)",
+  fontSize: "12px",
+  boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
+};
 
 export default function TextToSqlSandbox({ isEn }: { isEn: boolean }) {
   const [queryInput, setQueryInput] = useState<string>("");
@@ -60,7 +69,7 @@ export default function TextToSqlSandbox({ isEn }: { isEn: boolean }) {
           <button
             type="button"
             onClick={() => setShowSqlTrace(!showSqlTrace)}
-            className="self-start sm:self-auto text-xs bg-slate-100 dark:bg-[var(--bg)] hover:bg-slate-200 dark:hover:bg-[var(--border)] text-slate-700 dark:text-slate-200 py-1.5 px-3 rounded border border-slate-200 dark:border-[var(--border)] font-medium transition-colors cursor-pointer"
+            className="self-start sm:self-auto text-xs bg-slate-100 dark:bg-[var(--bg)] hover:bg-slate-200 dark:hover:bg-[var(--border)] text-slate-700 dark:text-[var(--text)] py-1.5 px-3 rounded border border-slate-200 dark:border-[var(--border)] font-medium transition-colors cursor-pointer"
           >
             {showSqlTrace
               ? isEn
@@ -76,7 +85,7 @@ export default function TextToSqlSandbox({ isEn }: { isEn: boolean }) {
         <form onSubmit={handleRunCustomQuery} className="space-y-3">
           <div className="flex flex-col sm:flex-row gap-2.5">
             <div className="relative flex-1">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-slate-400 dark:text-[var(--text-muted)] absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={queryInput}
@@ -86,7 +95,7 @@ export default function TextToSqlSandbox({ isEn }: { isEn: boolean }) {
                     ? "Ask a business question (e.g. 'VIP churn risk', 'channel revenue', 'fraud', or 'DROP TABLE')..."
                     : "Posez une question métier (ex: 'risque de churn VIP', 'chiffre d'affaires par canal', 'fraude', ou 'DROP TABLE')..."
                 }
-                className="w-full rounded-lg border border-slate-300 dark:border-[var(--border)] bg-slate-50 dark:bg-[var(--bg)] pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-[var(--text)] placeholder:text-slate-400 focus:outline-none focus:border-blue-500"
+                className="w-full rounded-lg border border-slate-300 dark:border-[var(--border)] bg-slate-50 dark:bg-[var(--bg)] pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-[var(--text)] placeholder:text-slate-400 dark:placeholder:text-[var(--text-muted)] focus:outline-none focus:border-blue-500"
               />
             </div>
             <button
@@ -136,7 +145,7 @@ export default function TextToSqlSandbox({ isEn }: { isEn: boolean }) {
                   className={`rounded-full px-3 py-1 text-xs transition-all border cursor-pointer ${
                     isSelected
                       ? "border-blue-600 bg-blue-600 text-white font-semibold shadow-sm"
-                      : "border-slate-200 dark:border-[var(--border)] bg-slate-100 dark:bg-[var(--bg)] text-slate-600 dark:text-[var(--text-muted)] hover:border-blue-400"
+                      : "border-slate-200 dark:border-[var(--border)] bg-slate-100 dark:bg-[var(--bg)] text-slate-700 dark:text-[var(--text-muted)] hover:bg-slate-200 dark:hover:bg-[var(--border)] dark:hover:text-[var(--text)]"
                   }`}
                 >
                   {pill.label}
@@ -193,21 +202,29 @@ export default function TextToSqlSandbox({ isEn }: { isEn: boolean }) {
           ].map((s, idx) => (
             <div
               key={idx}
-              className={`rounded-lg border p-2.5 text-xs ${
+              className={`rounded-lg border p-2.5 text-xs bg-slate-50 dark:bg-[var(--bg)] border-slate-200 dark:border-[var(--border)] border-l-4 ${
                 s.status === "BLOCKED"
-                  ? "border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/30 text-red-800 dark:text-red-300"
+                  ? "border-l-rose-500"
                   : s.status === "REPAIRED"
-                  ? "border-amber-300 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-300"
-                  : "border-slate-200 dark:border-[var(--border)] bg-slate-50 dark:bg-[var(--bg)] text-slate-700 dark:text-slate-200"
+                  ? "border-l-amber-500"
+                  : "border-l-emerald-500"
               }`}
             >
-              <div className="flex items-center justify-between font-bold">
+              <div className="flex items-center justify-between font-bold text-slate-900 dark:text-[var(--text)]">
                 <span className="truncate">{s.step}</span>
-                <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10">
+                <span
+                  className={`font-mono text-[10px] px-1.5 py-0.5 rounded ${
+                    s.status === "BLOCKED"
+                      ? "bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300"
+                      : s.status === "REPAIRED"
+                      ? "bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300"
+                      : "bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300"
+                  }`}
+                >
                   {s.status}
                 </span>
               </div>
-              <div className="mt-1 text-[11px] text-slate-500 dark:text-[var(--text-muted)] truncate">
+              <div className="mt-1 text-[11px] text-slate-600 dark:text-[var(--text-muted)] truncate">
                 {s.detail}
               </div>
             </div>
@@ -216,13 +233,17 @@ export default function TextToSqlSandbox({ isEn }: { isEn: boolean }) {
 
         {/* Executive Decision Takeaway Box */}
         <div
-          className={`rounded-lg border p-4 text-sm leading-relaxed ${
-            currentResult.status === "blocked"
-              ? "border-red-200 dark:border-red-800/60 bg-red-50/70 dark:bg-red-950/20 text-red-900 dark:text-red-200"
-              : "border-blue-200 dark:border-blue-800/60 bg-blue-50/70 dark:bg-blue-950/20 text-slate-800 dark:text-slate-200"
+          className={`rounded-lg border border-slate-200 dark:border-[var(--border)] bg-slate-50 dark:bg-[var(--bg)] border-l-4 p-4 text-sm leading-relaxed text-slate-800 dark:text-[var(--text)] ${
+            currentResult.status === "blocked" ? "border-l-rose-500" : "border-l-blue-500"
           }`}
         >
-          <strong className="font-bold text-blue-900 dark:text-blue-300 block mb-1">
+          <strong
+            className={`font-bold block mb-1 ${
+              currentResult.status === "blocked"
+                ? "text-rose-600 dark:text-rose-400"
+                : "text-blue-600 dark:text-blue-400"
+            }`}
+          >
             {isEn ? "Executive Insight & Action:" : "Décision Business & Action :"}
           </strong>
           {isEn ? currentResult.businessTakeawayEn : currentResult.businessTakeawayFr}
@@ -232,8 +253,8 @@ export default function TextToSqlSandbox({ isEn }: { isEn: boolean }) {
         {(showSqlTrace || currentResult.status !== "ok") && (
           <div className="space-y-2.5 font-mono text-xs">
             {currentResult.attempt1Error && (
-              <div className="rounded-lg border border-amber-300 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/30 p-3 space-y-1.5">
-                <div className="flex items-center gap-1.5 font-bold text-red-600 dark:text-red-400">
+              <div className="rounded-lg border border-slate-200 dark:border-[var(--border)] border-l-4 border-l-amber-500 bg-slate-50 dark:bg-[var(--bg)] p-3.5 space-y-2">
+                <div className="flex items-center gap-1.5 font-bold text-rose-600 dark:text-rose-400">
                   <XCircle className="w-4 h-4 shrink-0" />
                   <span>
                     {currentResult.status === "blocked"
@@ -245,26 +266,26 @@ export default function TextToSqlSandbox({ isEn }: { isEn: boolean }) {
                       : "Tentative 1 Interceptée (Colonne Hallucinée) :"}
                   </span>
                 </div>
-                <div className="bg-slate-900 text-slate-200 p-2 rounded overflow-x-auto">
+                <pre className="bg-slate-100 dark:bg-[#0f1014] text-slate-800 dark:text-slate-200 p-2.5 rounded border border-slate-200 dark:border-[var(--border)] overflow-x-auto">
                   {currentResult.attempt1Sql}
-                </div>
-                <div className="text-amber-800 dark:text-amber-300 text-[11px]">
+                </pre>
+                <div className="text-amber-700 dark:text-amber-300 text-[11px] font-sans font-medium">
                   {currentResult.attempt1Error}
                 </div>
               </div>
             )}
 
             {currentResult.finalSql && (
-              <div className="rounded-lg border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/20 p-3 space-y-1.5">
+              <div className="rounded-lg border border-slate-200 dark:border-[var(--border)] border-l-4 border-l-emerald-500 bg-slate-50 dark:bg-[var(--bg)] p-3.5 space-y-2">
                 <div className="flex items-center gap-1.5 font-bold text-emerald-700 dark:text-emerald-400">
                   <CheckCircle2 className="w-4 h-4 shrink-0" />
                   <span>
                     {isEn ? "Validated SQL Executed on Gold:" : "SQL Validé Exécuté sur Gold :"}
                   </span>
                 </div>
-                <div className="bg-slate-900 text-emerald-300 p-2 rounded overflow-x-auto">
+                <pre className="bg-slate-100 dark:bg-[#0f1014] text-emerald-800 dark:text-emerald-300 p-2.5 rounded border border-slate-200 dark:border-[var(--border)] overflow-x-auto">
                   {currentResult.finalSql}
-                </div>
+                </pre>
               </div>
             )}
           </div>
@@ -275,7 +296,7 @@ export default function TextToSqlSandbox({ isEn }: { isEn: boolean }) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center pt-1">
             {currentResult.chartKeyX && currentResult.chartKeyY && (
               <div className="lg:col-span-5 h-60 bg-slate-50 dark:bg-[var(--bg)] rounded-lg border border-slate-200 dark:border-[var(--border)] p-3">
-                <div className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
+                <div className="text-xs font-bold text-slate-800 dark:text-[var(--text)] mb-2">
                   {currentResult.chartLabelY}
                 </div>
                 <ResponsiveContainer width="100%" height="88%">
@@ -283,20 +304,17 @@ export default function TextToSqlSandbox({ isEn }: { isEn: boolean }) {
                     data={currentResult.rows}
                     margin={{ top: 5, right: 10, left: -10, bottom: 5 }}
                   >
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.2)" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
                     <XAxis
                       dataKey={currentResult.chartKeyX}
-                      tick={{ fill: "#64748b", fontSize: 10 }}
+                      tick={{ fill: "var(--text-muted)", fontSize: 10 }}
                     />
-                    <YAxis tick={{ fill: "#64748b", fontSize: 10 }} />
+                    <YAxis tick={{ fill: "var(--text-muted)", fontSize: 10 }} />
                     <Tooltip
-                      contentStyle={{
-                        backgroundColor: "#0f172a",
-                        borderColor: "#334155",
-                        borderRadius: "8px",
-                        color: "#f8fafc",
-                        fontSize: "12px",
-                      }}
+                      cursor={{ fill: "rgba(148, 163, 184, 0.12)" }}
+                      contentStyle={TOOLTIP_STYLE}
+                      itemStyle={{ color: "var(--text)" }}
+                      labelStyle={{ color: "var(--text)", fontWeight: 700, marginBottom: "4px" }}
                     />
                     <Bar
                       dataKey={currentResult.chartKeyY}
@@ -319,9 +337,9 @@ export default function TextToSqlSandbox({ isEn }: { isEn: boolean }) {
             >
               <table className="w-full text-left border-collapse font-mono text-xs">
                 <thead>
-                  <tr className="bg-slate-100 dark:bg-[var(--bg)] border-b border-slate-200 dark:border-[var(--border)] text-slate-600 dark:text-slate-400">
+                  <tr className="bg-slate-100 dark:bg-[var(--bg)] border-b border-slate-200 dark:border-[var(--border)] text-slate-700 dark:text-[var(--text-muted)]">
                     {currentResult.columns.map((c) => (
-                      <th key={c} className="py-2 px-3">
+                      <th key={c} className="py-2.5 px-3 font-bold">
                         {c}
                       </th>
                     ))}
@@ -331,7 +349,7 @@ export default function TextToSqlSandbox({ isEn }: { isEn: boolean }) {
                   {currentResult.rows.map((r, i) => (
                     <tr
                       key={i}
-                      className="border-b border-slate-100 dark:border-[var(--border)]/50 text-slate-800 dark:text-slate-200"
+                      className="border-b border-slate-100 dark:border-[var(--border)] bg-white dark:bg-[var(--bg-elevated)] hover:bg-slate-50 dark:hover:bg-[var(--bg)] text-slate-800 dark:text-[var(--text)] transition-colors"
                     >
                       {currentResult.columns.map((c) => (
                         <td key={c} className="py-2 px-3">
@@ -349,8 +367,8 @@ export default function TextToSqlSandbox({ isEn }: { isEn: boolean }) {
       <figcaption className="mt-4 text-sm font-sans text-slate-500 dark:text-[var(--text-muted)] text-center max-w-2xl mx-auto px-4">
         <strong>
           {isEn
-            ? "Figure 4. Interactive Guarded Text-to-SQL Copilot."
-            : "Figure 4. Copilote Text-to-SQL Gouverné Interactif."}
+            ? "Figure 3. Interactive Guarded Text-to-SQL Copilot."
+            : "Figure 3. Copilote Text-to-SQL Gouverné Interactif."}
         </strong>{" "}
         {isEn
           ? "Allows non-technical directors to query governed Gold tables in 0.3 seconds while blocking destructive commands and auto-correcting hallucinated column names."
