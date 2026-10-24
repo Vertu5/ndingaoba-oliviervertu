@@ -29,7 +29,7 @@ Pour naviguer sur le site, le visiteur a plusieurs sections à sa disposition :
 - Certifications :
   * Google IT Support Professional Certificate (Ongoing)
   * Microsoft SQL Server (Coursera)
-  * Windows Server 2025 Admin – Hands-On Labs (Coursera)
+  * Windows Server 2025 Admin - Hands-On Labs (Coursera)
   * Linux Server Administration Made Easy (Coursera)
   * IBM Data Engineering
   * Relational Databases (IBM)
@@ -127,7 +127,7 @@ To navigate the site, the visitor has several sections available:
 - Certifications:
   * Google IT Support Professional Certificate (Ongoing)
   * Microsoft SQL Server (Coursera)
-  * Windows Server 2025 Admin – Hands-On Labs (Coursera)
+  * Windows Server 2025 Admin - Hands-On Labs (Coursera)
   * Linux Server Administration Made Easy (Coursera)
   * IBM Data Engineering
   * Relational Databases (IBM)
@@ -187,7 +187,7 @@ Project 4: iGaming Lakehouse Architecture, Databricks CI/CD, Data Science & Guar
 - End-to-end Medallion pipeline (Bronze ➔ Silver ➔ Gold) on Databricks (Unity Catalog, Delta Lake, Serverless SQL Warehouse) processing 4,646,999 slot spins, 46,690 sessions, and 8,000 players (€8.11M turnover, €574.3K GGR, 92.92% global RTP).
 - Declarative CI/CD via Databricks Asset Bundles (databricks.yml): 6 chained SQL tasks where each layer is gated by a blocking assert_true() quality check. Fast dev target runs in seconds on a 5% deterministic player sample (player_id % 20 = 0 across all 3 tables) before deploying to 100% production data.
 - Business Insights & Data Science:
-  * Marketing: Uniform activation rate (85–86%); profitability comes from player quality (Organic: €90.57/registered player, 8.76% hold vs Affiliate: €67.70 and Referral: €41.72).
+  * Marketing: Uniform activation rate (85-86%); profitability comes from player quality (Organic: €90.57/registered player, 8.76% hold vs Affiliate: €67.70 and Referral: €41.72).
   * VIP & Pareto: Top 10% of players generate 64.2% of bets; 69 VIPs (top 1%) generate 40.8% of GGR; 413 high-value players are flagged "At risk (high value)" (€553.8K historical turnover) for CRM reactivation.
   * Risk & ML: Empirical 99th-percentile thresholds (duration ≥ 2,938s, pace ≥ 20 spins/min, max bet ≥ €627.3) + geo_mismatch + shared device/IP (10 High-risk, 389 Medium-risk sessions), complemented by IsolationForest (467 ML anomalies) and a 30-day Churn Logistic Regression model (Test AUC = 0.7468).
 - Guarded Text-to-SQL (4 Shields): Strict business Data Dictionary, disjoint Few-Shot Prompting, sqlglot AST validation (read-only SELECT, Gold tables only, rejects hallucinated columns) with a Self-Correction Loop and 5% dev-sample pre-check, and Golden Dataset evaluation (14/14 guardrail tests passed).
