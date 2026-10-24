@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import {
   BarChart,
   Bar,
@@ -15,56 +15,25 @@ import {
   ReferenceLine,
 } from "recharts";
 import {
-  ShieldCheck,
   Database,
   TrendingUp,
   Sparkles,
-  CheckCircle2,
-  XCircle,
-  Play,
   Layers,
   ExternalLink,
-  Zap,
-  Clock,
   ArrowRight,
-  Target,
-  Search,
 } from "lucide-react";
 import SqlShowcaseLayout from "./SqlShowcaseLayout";
+import TextToSqlSandbox from "./igaming/TextToSqlSandbox";
 import { useLang } from "@/app/lib/i18n";
 import igamingData from "../data/igaming.json";
-
-interface LiveQueryResult {
-  question: string;
-  intentLabel: string;
-  attempt1Sql: string;
-  attempt1Error: string | null;
-  finalSql: string | null;
-  status: "ok" | "repaired" | "blocked";
-  devTimeMs: number;
-  prodTimeMs: number;
-  columns: string[];
-  rows: Record<string, string | number>[];
-  chartKeyX?: string;
-  chartKeyY?: string;
-  chartLabelY?: string;
-  businessTakeawayFr: string;
-  businessTakeawayEn: string;
-}
 
 const COLORS = ["#10b981", "#3b82f6", "#f59e0b", "#8b5cf6", "#ec4899", "#06b6d4"];
 
 export default function IgamingDatabricks() {
   const { lang } = useLang();
   const isEn = lang === "en";
-
-  const [queryInput, setQueryInput] = useState<string>("");
-  const [activeScenarioId, setActiveScenarioId] = useState<string>("vip_churn");
-  const [customResult, setCustomResult] = useState<LiveQueryResult | null>(null);
-
   const kpi = igamingData.kpis.rows[0];
 
-  // 1. Marketing chart data
   const channelChartData = useMemo(
     () =>
       igamingData.channels.rows.map((r) => ({
@@ -72,13 +41,10 @@ export default function IgamingDatabricks() {
         ggrPerPlayer: r.ggr_per_registered_player,
         ggrPerActive: Number((r.ggr / r.active_players).toFixed(2)),
         totalGgrK: Number((r.ggr / 1000).toFixed(1)),
-        activationPct: Number((r.activation_rate * 100).toFixed(1)),
-        holdPct: Number((r.hold_rate * 100).toFixed(2)),
       })),
     []
   );
 
-  // 2. Pareto cumulative chart data
   const paretoChartData = useMemo(() => {
     return igamingData.pareto.rows.map((r, idx, arr) => {
       const prevCum = idx > 0 ? arr[idx - 1].cumulative_share_of_turnover : 0;
@@ -91,19 +57,16 @@ export default function IgamingDatabricks() {
     });
   }, []);
 
-  // 3. RFM Segment chart data
   const segmentChartData = useMemo(
     () =>
       igamingData.segments.rows.map((r) => ({
         segment: r.segment,
-        players: r.players,
         turnoverK: Number((r.turnover / 1000).toFixed(1)),
         ggrK: Number((r.ggr / 1000).toFixed(1)),
       })),
     []
   );
 
-  // 4. Standardized Churn Drivers chart data
   const churnDriversData = useMemo(() => {
     const entries = Object.entries(igamingData.churn.standardized_coefficients);
     const labelMapFr: Record<string, string> = {
@@ -134,299 +97,20 @@ export default function IgamingDatabricks() {
       .sort((a, b) => a.coef - b.coef);
   }, [isEn]);
 
-  // 5. K-Means Persona chart data
-  const personaChartData = useMemo(() => {
-    return igamingData.mlflow.cluster_personas.map((p) => ({
-      persona: p.cluster_persona,
-      players: p.players,
-      totalGgrK: Number((p.total_ggr / 1000).toFixed(1)),
-      ggrAtRiskK: Number((p.ggr_at_risk / 1000).toFixed(1)),
-      avgChurnPct: Number((p.avg_churn_prob * 100).toFixed(1)),
-    }));
-  }, []);
+  const personaChartData = useMemo(
+    () =>
+      igamingData.mlflow.cluster_personas.map((p) => ({
+        persona: p.cluster_persona,
+        totalGgrK: Number((p.total_ggr / 1000).toFixed(1)),
+        ggrAtRiskK: Number((p.ggr_at_risk / 1000).toFixed(1)),
+      })),
+    []
+  );
 
-  // 6. Risk Flags chart data
-  const riskFlagsChartData = useMemo(() => {
-    return igamingData.risk_flags.rows.map((r) => ({
-      flag: r.flag,
-      sessions: r.sessions,
-    }));
-  }, []);
-
-  // Pre-built scenarios + Live Natural Language / SQL Compiler over real Gold data
-  const scenarios: Record<string, LiveQueryResult> = useMemo(() => {
-    const topMl = igamingData.top_ml_scores || [];
-    const topPlayers = igamingData.top_players || [];
-
-    return {
-      vip_churn: {
-        question: isEn
-          ? "Which high-value players have the highest GGR at risk of churn?"
-          : "Quels sont les gros joueurs avec le plus fort GGR à risque de départ (churn) ?",
-        intentLabel: isEn ? "CRM Retention Target (MLflow Gold)" : "Ciblage Rétention CRM (MLflow Gold)",
-        attempt1Sql:
-          "SELECT player_id, country, cluster_persona, churn_probability, ggr, expected_ggr_at_risk FROM workspace.igaming.gold_player_ml_scores ORDER BY expected_ggr_at_risk DESC LIMIT 8",
-        attempt1Error: null,
-        finalSql:
-          "SELECT player_id, country, cluster_persona, churn_probability, ggr, expected_ggr_at_risk FROM workspace.igaming.gold_player_ml_scores ORDER BY expected_ggr_at_risk DESC LIMIT 8",
-        status: "ok",
-        devTimeMs: 95,
-        prodTimeMs: 280,
-        columns: [
-          "player_id",
-          "country",
-          "cluster_persona",
-          "churn_probability",
-          "ggr",
-          "expected_ggr_at_risk",
-        ],
-        rows: topMl.slice(0, 8),
-        chartKeyX: "player_id",
-        chartKeyY: "expected_ggr_at_risk",
-        chartLabelY: isEn ? "Expected GGR at Risk (€)" : "GGR à Risque Attendu (€)",
-        businessTakeawayFr:
-          "Décision CRM : Le joueur #2857 (Italie, VIP) génère 11 809 € de GGR avec 43,7 % de probabilité de départ (soit 5 155 € à risque). Un hôte VIP peut le relancer dès aujourd'hui avant qu'il ne quitte la plateforme.",
-        businessTakeawayEn:
-          "CRM Decision: Player #2857 (Italy, VIP) generates €11,809 GGR with a 43.7% churn probability (€5,155 at risk). A VIP host can trigger a tailored retention offer today before inactivity sets in.",
-      },
-      hallucination_repair: {
-        question: isEn
-          ? "What is the total revenue and profit per acquisition channel?"
-          : "Quel est le chiffre d'affaires (revenue) et le profit par canal d'acquisition ?",
-        intentLabel: isEn
-          ? "Self-Correction: Hallucinated Column ('revenue' -> 'ggr')"
-          : "Auto-Correction : Colonne Hallucinée ('revenue' -> 'ggr')",
-        attempt1Sql:
-          "SELECT acquisition_channel, SUM(revenue) AS total_revenue, AVG(profit) FROM gold_channel_performance GROUP BY acquisition_channel",
-        attempt1Error:
-          "Guardrail Shield 3 Rejected: Unknown column 'revenue' and 'profit'. Allowed revenue columns in gold_channel_performance: ['turnover', 'ggr', 'ggr_per_registered_player', 'ggr_per_active_player', 'hold_rate'].",
-        finalSql:
-          "SELECT acquisition_channel, registered_players, active_players, ggr, ggr_per_registered_player, hold_rate FROM workspace.igaming.gold_channel_performance ORDER BY ggr_per_registered_player DESC LIMIT 100",
-        status: "repaired",
-        devTimeMs: 110,
-        prodTimeMs: 240,
-        columns: [
-          "acquisition_channel",
-          "registered_players",
-          "active_players",
-          "ggr",
-          "ggr_per_registered_player",
-          "hold_rate",
-        ],
-        rows: igamingData.channels.rows,
-        chartKeyX: "acquisition_channel",
-        chartKeyY: "ggr_per_registered_player",
-        chartLabelY: isEn ? "GGR / Registered Player (€)" : "GGR / Inscrit (€)",
-        businessTakeawayFr:
-          "Pourquoi ce bouclier est vital : Sans le Data Dictionary et la validation AST, le LLM invente la colonne 'revenue' et fait planter la requête. Ici, l'erreur est interceptée et corrigée automatiquement en 'ggr' en 0,3 seconde.",
-        businessTakeawayEn:
-          "Why this shield matters: Without the Data Dictionary and AST check, the LLM invents a 'revenue' column and crashes. Here, the error is caught and auto-repaired to 'ggr' in 0.3 seconds.",
-      },
-      top_vips: {
-        question: isEn
-          ? "Show the top 8 VIP players by Gross Gaming Revenue (GGR) and their bet volume"
-          : "Montre le top 8 des joueurs VIP par revenu net (GGR) et leur volume de mises",
-        intentLabel: isEn ? "VIP Whale Profiling" : "Profilage des Joueurs VIP",
-        attempt1Sql:
-          "SELECT player_id, country, acquisition_channel, segment, sessions, turnover, ggr FROM workspace.igaming.gold_player_stats WHERE spins > 0 ORDER BY ggr DESC LIMIT 8",
-        attempt1Error: null,
-        finalSql:
-          "SELECT player_id, country, acquisition_channel, segment, sessions, turnover, ggr FROM workspace.igaming.gold_player_stats WHERE spins > 0 ORDER BY ggr DESC LIMIT 8",
-        status: "ok",
-        devTimeMs: 88,
-        prodTimeMs: 215,
-        columns: ["player_id", "country", "acquisition_channel", "segment", "sessions", "turnover", "ggr"],
-        rows: topPlayers.slice(0, 8),
-        chartKeyX: "player_id",
-        chartKeyY: "ggr",
-        chartLabelY: "GGR (€)",
-        businessTakeawayFr:
-          "Insight VIP : Le joueur #5534 (acquis via Affiliate) a généré 45 867 € de GGR sur 393 082 € de mises en 97 sessions. Les 69 VIP représentent 1 % des joueurs mais 40,8 % des revenus du casino.",
-        businessTakeawayEn:
-          "VIP Insight: Player #5534 (Affiliate) generated €45,867 GGR on €393,082 in bets across 97 sessions. The 69 VIPs represent 1% of active players but 40.8% of total casino revenue.",
-      },
-      fraud_sessions: {
-        question: isEn
-          ? "Which fraud & responsible gaming flags appear most frequently across sessions?"
-          : "Quels signaux de fraude et de jeu excessif apparaissent le plus souvent sur les sessions ?",
-        intentLabel: isEn ? "Compliance & Anti-Fraud Audit" : "Audit Conformité & Anti-Fraude",
-        attempt1Sql:
-          "SELECT flag, sessions FROM workspace.igaming.gold_risk_sessions GROUP BY flag ORDER BY sessions DESC LIMIT 100",
-        attempt1Error: null,
-        finalSql:
-          "SELECT flag, sessions FROM workspace.igaming.gold_risk_sessions GROUP BY flag ORDER BY sessions DESC LIMIT 100",
-        status: "ok",
-        devTimeMs: 102,
-        prodTimeMs: 260,
-        columns: ["flag", "sessions"],
-        rows: igamingData.risk_flags.rows,
-        chartKeyX: "flag",
-        chartKeyY: "sessions",
-        chartLabelY: isEn ? "Flagged Sessions" : "Sessions Signalées",
-        businessTakeawayFr:
-          "Décision Risque : Au lieu d'auditer 46 690 sessions à la main, le croisement des 6 drapeaux métier et d'Isolation Forest isole 10 sessions 'High Risk' et 67 anomalies confirmées en double alerte.",
-        businessTakeawayEn:
-          "Risk Decision: Instead of manually auditing 46,690 sessions, combining the 6 business flags with Isolation Forest isolates 10 'High Risk' sessions and 67 dual-confirmed anomalies.",
-      },
-      destructive_blocked: {
-        question: isEn
-          ? "DROP TABLE gold_player_stats; -- delete player records"
-          : "DROP TABLE gold_player_stats; -- supprimer la table des joueurs",
-        intentLabel: isEn ? "Security Attack Blocked (AST Shield)" : "Attaque Bloquée (Bouclier AST)",
-        attempt1Sql: "DROP TABLE gold_player_stats",
-        attempt1Error:
-          "Guardrail Shield 3 CRITICAL BLOCK: Only read-only SELECT statements are permitted. Destructive or DDL statement 'Drop' was blocked before reaching Databricks.",
-        finalSql: null,
-        status: "blocked",
-        devTimeMs: 0,
-        prodTimeMs: 0,
-        columns: [],
-        rows: [],
-        businessTakeawayFr:
-          "Sécurité Garantie : Aucune requête générée par l'IA ne touche Databricks sans être analysée syntaxiquement par sqlglot. Toute commande DROP, DELETE, UPDATE ou accès hors de la couche Gold est bloquée en 0 ms.",
-        businessTakeawayEn:
-          "Guaranteed Safety: No AI-generated query ever reaches Databricks without being parsed into an AST by sqlglot. Any DROP, DELETE, UPDATE, or non-Gold table access is blocked in 0 ms.",
-      },
-    };
-  }, [isEn]);
-
-  const handleRunCustomQuery = (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    const raw = queryInput.trim();
-    if (!raw) return;
-
-    const lower = raw.toLowerCase();
-
-    if (/\b(drop|delete|truncate|update|insert|alter|create|grant|revoke)\b/i.test(lower)) {
-      setCustomResult({
-        question: raw,
-        intentLabel: isEn ? "Blocked Destructive Command" : "Commande Destructrice Bloquée",
-        attempt1Sql: raw,
-        attempt1Error:
-          "Guardrail Shield 3 CRITICAL BLOCK: Only read-only SELECT queries on Gold tables are allowed. Write/DDL operation rejected before reaching Databricks.",
-        finalSql: null,
-        status: "blocked",
-        devTimeMs: 0,
-        prodTimeMs: 0,
-        columns: [],
-        rows: [],
-        businessTakeawayFr:
-          "Le bouclier syntaxique sqlglot a bloqué cette instruction d'écriture/suppression instantanément avant tout appel à Databricks.",
-        businessTakeawayEn:
-          "The sqlglot AST shield blocked this write/destructive instruction instantaneously before any call to Databricks.",
-      });
-      return;
-    }
-
-    if (/\b(bronze_players|bronze_sessions|bronze_spins|silver_player_activity)\b/i.test(lower)) {
-      setCustomResult({
-        question: raw,
-        intentLabel: isEn ? "Blocked Raw Layer Access" : "Accès Couche Brute Bloqué",
-        attempt1Sql: raw,
-        attempt1Error:
-          "Guardrail Shield 3 BLOCK: Table access denied. Text-to-SQL is restricted to governed Gold tables to prevent 4.65M-spin full table scans.",
-        finalSql: null,
-        status: "blocked",
-        devTimeMs: 0,
-        prodTimeMs: 0,
-        columns: [],
-        rows: [],
-        businessTakeawayFr:
-          "Pourquoi bloquer Bronze/Silver : Scanner 4,65 millions de spins bruts à chaque question coûterait cher et prendrait ~40 secondes. En forçant la couche Gold pré-agrégée, la réponse arrive en 0,2 seconde.",
-        businessTakeawayEn:
-          "Why block Bronze/Silver: Scanning 4.65M raw spins per question is slow and costly. Enforcing pre-aggregated Gold tables delivers answers in 0.2 seconds.",
-      });
-      return;
-    }
-
-    if (/\b(revenue|profit|chiffre|benefice|bénéfice|ca)\b/i.test(lower)) {
-      setCustomResult({
-        ...scenarios.hallucination_repair,
-        question: raw,
-      });
-      return;
-    }
-
-    if (/\b(churn|depart|départ|quitter|inactif|ml|probabilit|cluster|persona|retent)\b/i.test(lower)) {
-      setCustomResult({
-        ...scenarios.vip_churn,
-        question: raw,
-      });
-      return;
-    }
-
-    if (/\b(fraud|risque|risk|session|geo|ip|device|appareil|collusion|anomal)\b/i.test(lower)) {
-      setCustomResult({
-        ...scenarios.fraud_sessions,
-        question: raw,
-      });
-      return;
-    }
-
-    if (/\b(canal|canaux|channel|marketing|acquisition|organic|affiliate|referral|hold)\b/i.test(lower)) {
-      setCustomResult({
-        question: raw,
-        intentLabel: isEn ? "Marketing Channel Query" : "Analyse Canal d'Acquisition",
-        attempt1Sql:
-          "SELECT acquisition_channel, registered_players, active_players, activation_rate, ggr, ggr_per_registered_player, hold_rate FROM workspace.igaming.gold_channel_performance ORDER BY ggr_per_registered_player DESC LIMIT 100",
-        attempt1Error: null,
-        finalSql:
-          "SELECT acquisition_channel, registered_players, active_players, activation_rate, ggr, ggr_per_registered_player, hold_rate FROM workspace.igaming.gold_channel_performance ORDER BY ggr_per_registered_player DESC LIMIT 100",
-        status: "ok",
-        devTimeMs: 82,
-        prodTimeMs: 195,
-        columns: [
-          "acquisition_channel",
-          "registered_players",
-          "active_players",
-          "ggr",
-          "ggr_per_registered_player",
-          "hold_rate",
-        ],
-        rows: igamingData.channels.rows,
-        chartKeyX: "acquisition_channel",
-        chartKeyY: "ggr_per_registered_player",
-        chartLabelY: isEn ? "GGR / Registered Player (€)" : "GGR / Inscrit (€)",
-        businessTakeawayFr:
-          "Décision Marketing : Organic génère 90,57 € par inscrit contre 41,72 € pour Referral, alors que le taux d'activation est identique (~85 %). Il faut réallouer le budget vers le SEO/Organic.",
-        businessTakeawayEn:
-          "Marketing Decision: Organic yields €90.57 per registered player vs €41.72 for Referral, while activation rates are identical (~85%). Reallocate budget toward SEO/Organic.",
-      });
-      return;
-    }
-
-    if (/\b(segment|rfm|pareto|dormant|loyal|champion)\b/i.test(lower)) {
-      setCustomResult({
-        question: raw,
-        intentLabel: isEn ? "RFM Segmentation Query" : "Segmentation Client RFM",
-        attempt1Sql:
-          "SELECT segment, players, turnover, ggr, share_of_ggr FROM workspace.igaming.gold_player_value ORDER BY ggr DESC LIMIT 100",
-        attempt1Error: null,
-        finalSql:
-          "SELECT segment, players, turnover, ggr, share_of_ggr FROM workspace.igaming.gold_player_value ORDER BY ggr DESC LIMIT 100",
-        status: "ok",
-        devTimeMs: 90,
-        prodTimeMs: 210,
-        columns: ["segment", "players", "turnover", "ggr", "share_of_ggr"],
-        rows: igamingData.segments.rows,
-        chartKeyX: "segment",
-        chartKeyY: "ggr",
-        chartLabelY: "GGR (€)",
-        businessTakeawayFr:
-          "Insight RFM : 413 joueurs 'At risk (high value)' cumulent 553 778 € de mises mais décrochent. C'est le vivier n°1 de relance CRM.",
-        businessTakeawayEn:
-          "RFM Insight: 413 'At risk (high value)' players account for €553,778 in bets. They are the #1 CRM reactivation target.",
-      });
-      return;
-    }
-
-    setCustomResult({
-      ...scenarios.top_vips,
-      question: raw,
-    });
-  };
-
-  const currentResult = customResult || scenarios[activeScenarioId] || scenarios.vip_churn;
+  const riskFlagsChartData = useMemo(
+    () => igamingData.risk_flags.rows.map((r) => ({ flag: r.flag, sessions: r.sessions })),
+    []
+  );
 
   return (
     <div className="space-y-10 text-[var(--text)]">
@@ -522,347 +206,10 @@ export default function IgamingDatabricks() {
         </div>
       </div>
 
-      {/* SECTION 1: INTERACTIVE TEXT-TO-SQL TESTER + WHY WE BUILT IT */}
-      <div className="rounded-2xl border-2 border-emerald-500/30 bg-[var(--bg-elevated)] p-6 sm:p-8 space-y-6 shadow-xl">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-emerald-400">
-              <Zap className="w-4 h-4" />
-              <span>
-                {isEn
-                  ? "Interactive Sandbox • Type a Question or Click a Scenario Below"
-                  : "Simulateur Interactif • Tapez une Question ou Cliquez sur un Scénario"}
-              </span>
-            </div>
-            <h3 className="text-xl sm:text-2xl font-bold">
-              {isEn
-                ? "1. Why Guarded Text-to-SQL? Instant Answers Without Hallucinations"
-                : "1. Pourquoi le Text-to-SQL Sécurisé ? Décider en 3 Secondes Sans Hallucination"}
-            </h3>
-          </div>
-          <span className="self-start lg:self-auto font-mono text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 rounded-full px-3.5 py-1.5">
-            {isEn ? "4 Safety Shields Active • 14/14 AST Tests" : "4 Boucliers Actifs • 14/14 Tests AST"}
-          </span>
-        </div>
+      {/* SECTION 1: INTERACTIVE TEXT-TO-SQL TESTER */}
+      <TextToSqlSandbox isEn={isEn} />
 
-        {/* Visual Before vs After Comparison */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="rounded-xl border border-rose-500/25 bg-rose-500/5 p-4 flex items-start gap-3.5">
-            <Clock className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
-            <div className="space-y-1 text-xs">
-              <div className="font-mono font-bold uppercase text-rose-400">
-                {isEn ? "Without Text-to-SQL: 48-Hour Delay" : "Sans Text-to-SQL : 48 Heures d'Attente"}
-              </div>
-              <p className="text-[var(--text-muted)]">
-                {isEn
-                  ? "VIP Manager asks a question -> Opens a ticket -> Data Analyst writes SQL -> Sends static Excel 2 days later (too late to save a churning VIP)."
-                  : "Le Directeur Marketing/VIP se pose une question -> Ticket Data Analyst -> Requête SQL manuelle -> Tableau Excel reçu 2 jours plus tard."}
-              </p>
-            </div>
-          </div>
-
-          <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 flex items-start gap-3.5">
-            <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-            <div className="space-y-1 text-xs">
-              <div className="font-mono font-bold uppercase text-emerald-400">
-                {isEn
-                  ? "With Guarded Text-to-SQL: 0.3 Seconds & Zero Hallucination"
-                  : "Avec Text-to-SQL Gouverné : 0,3 Seconde & Zéro Hallucination"}
-              </div>
-              <p className="text-[var(--text-muted)]">
-                {isEn
-                  ? "Manager asks in plain French/English -> LLM writes SQL via Data Dictionary -> sqlglot AST checks safety & auto-repairs errors -> Pre-tested on 5% dev sample -> Live chart."
-                  : "Question en français/anglais -> Traduction SQL via Data Dictionary -> sqlglot vérifie la sécurité et auto-corrige les erreurs -> Pré-test sur dev 5 % -> Graphique en direct."}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* LIVE SEARCH / QUESTION INPUT BAR */}
-        <form onSubmit={handleRunCustomQuery} className="space-y-3">
-          <div className="flex flex-col sm:flex-row gap-2.5">
-            <div className="relative flex-1">
-              <Search className="w-4 h-4 text-[var(--text-muted)] absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={queryInput}
-                onChange={(e) => setQueryInput(e.target.value)}
-                placeholder={
-                  isEn
-                    ? "Type a question (e.g. 'VIP churn risk', 'channel revenue', 'fraud sessions', or try 'DROP TABLE gold_player_stats')..."
-                    : "Tapez votre question (ex: 'risque de churn VIP', 'chiffre d'affaires par canal', 'fraude', ou tentez 'DROP TABLE gold_player_stats')..."
-                }
-                className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg)] pl-10 pr-4 py-3 text-xs sm:text-sm font-mono text-[var(--text)] placeholder:text-[var(--text-muted)]/60 focus:outline-none focus:border-emerald-400"
-              />
-            </div>
-            <button
-              type="submit"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-mono text-xs sm:text-sm font-bold px-5 py-3 transition-colors cursor-pointer shrink-0"
-            >
-              <Play className="w-4 h-4 fill-current" />
-              <span>{isEn ? "Test Query" : "Tester la Question"}</span>
-            </button>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="font-mono text-[11px] text-[var(--text-muted)] mr-1">
-              {isEn ? "Quick test scenarios:" : "Scénarios rapides à tester :"}
-            </span>
-            {[
-              {
-                id: "vip_churn",
-                label: isEn ? "1. VIP Churn Risk (MLflow)" : "1. VIP à Risque de Churn (MLflow)",
-              },
-              {
-                id: "hallucination_repair",
-                label: isEn
-                  ? "2. Hallucinated Column ('revenue' -> Auto-Repair)"
-                  : "2. Colonne Hallucinée ('revenue' -> Auto-Correction)",
-              },
-              {
-                id: "top_vips",
-                label: isEn ? "3. Top 8 VIP Whales" : "3. Top 8 Joueurs VIP",
-              },
-              {
-                id: "fraud_sessions",
-                label: isEn ? "4. Fraud & Collusion Signals" : "4. Signaux de Fraude & Collusion",
-              },
-              {
-                id: "destructive_blocked",
-                label: isEn ? "5. Hack Attempt: DROP TABLE" : "5. Test Attaque : DROP TABLE",
-              },
-            ].map((pill) => {
-              const isSelected = !customResult && activeScenarioId === pill.id;
-              return (
-                <button
-                  key={pill.id}
-                  type="button"
-                  onClick={() => {
-                    setCustomResult(null);
-                    setActiveScenarioId(pill.id);
-                    setQueryInput(scenarios[pill.id].question);
-                  }}
-                  className={`rounded-lg px-3 py-1.5 font-mono text-xs transition-all border cursor-pointer ${
-                    isSelected
-                      ? "border-emerald-400 bg-emerald-500/15 text-emerald-300 font-semibold"
-                      : "border-[var(--border)] bg-[var(--bg)]/50 text-[var(--text-muted)] hover:border-emerald-500/40"
-                  }`}
-                >
-                  {pill.label}
-                </button>
-              );
-            })}
-          </div>
-        </form>
-
-        {/* VISUAL 4 SHIELDS PIPELINE STATUS FOR CURRENT QUERY */}
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-2.5">
-          {[
-            {
-              step: isEn ? "Shield 1 • Dictionary" : "Bouclier 1 • Dictionnaire",
-              status: "PASS",
-              detail: isEn
-                ? "5 Gold tables & formulas injected"
-                : "5 tables Gold & formules injectées",
-            },
-            {
-              step: isEn ? "Shield 2 • Few-Shot" : "Bouclier 2 • Exemples SQL",
-              status: "PASS",
-              detail: currentResult.intentLabel,
-            },
-            {
-              step: isEn ? "Shield 3 • AST & Auto-Fix" : "Bouclier 3 • AST & Auto-Fix",
-              status:
-                currentResult.status === "blocked"
-                  ? "BLOCKED"
-                  : currentResult.status === "repaired"
-                  ? "AUTO-FIXED"
-                  : "PASS",
-              detail:
-                currentResult.status === "blocked"
-                  ? isEn
-                    ? "Blocked in 0 ms by sqlglot"
-                    : "Bloqué en 0 ms par sqlglot"
-                  : currentResult.status === "repaired"
-                  ? isEn
-                    ? "Repaired unknown column -> ggr"
-                    : "Colonne corrigée -> ggr"
-                  : isEn
-                  ? "Read-only SELECT + LIMIT verified"
-                  : "SELECT lecture seule + LIMIT vérifié",
-            },
-            {
-              step: isEn ? "Shield 4 • 5% Dev -> Prod" : "Bouclier 4 • Pré-test Dev 5%",
-              status: currentResult.status === "blocked" ? "SKIPPED" : "EXECUTED",
-              detail:
-                currentResult.status === "blocked"
-                  ? isEn
-                    ? "Warehouse never touched"
-                    : "Databricks protégé (non appelé)"
-                  : `Dev (5%): ${currentResult.devTimeMs}ms -> Prod: ${currentResult.prodTimeMs}ms`,
-            },
-          ].map((s, idx) => (
-            <div
-              key={idx}
-              className={`rounded-xl border p-3 text-xs font-mono ${
-                s.status === "BLOCKED"
-                  ? "border-rose-500/40 bg-rose-500/10 text-rose-300"
-                  : s.status === "AUTO-FIXED"
-                  ? "border-amber-500/40 bg-amber-500/10 text-amber-300"
-                  : "border-emerald-500/30 bg-emerald-500/5 text-emerald-300"
-              }`}
-            >
-              <div className="flex items-center justify-between font-bold">
-                <span>{s.step}</span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-black/30">{s.status}</span>
-              </div>
-              <div className="mt-1 text-[11px] text-[var(--text-muted)] truncate">{s.detail}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* TRACE + VISUAL CHART + RESULT TABLE */}
-        <div className="rounded-xl border border-[var(--border)] bg-[#0b1120] p-5 space-y-4 font-mono text-xs">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
-            <div className="text-slate-200 font-semibold">
-              <span className="text-emerald-400 mr-2">Question:</span>
-              &ldquo;{currentResult.question}&rdquo;
-            </div>
-          </div>
-
-          {currentResult.attempt1Error && (
-            <div
-              className={`rounded-lg border p-3 space-y-1.5 ${
-                currentResult.status === "blocked"
-                  ? "border-rose-500/40 bg-rose-950/30"
-                  : "border-amber-500/40 bg-amber-950/25"
-              }`}
-            >
-              <div className="flex items-center gap-2 font-bold text-rose-400">
-                <XCircle className="w-4 h-4 shrink-0" />
-                <span>
-                  {currentResult.status === "blocked"
-                    ? isEn
-                      ? "Attempt 1 Blocked by AST Guardrail"
-                      : "Tentative 1 Bloquée par le Garde-fou AST"
-                    : isEn
-                    ? "Attempt 1 Intercepted (Hallucinated Column Detected)"
-                    : "Tentative 1 Interceptée (Colonne Hallucinée Détectée)"}
-                </span>
-              </div>
-              <div className="text-slate-300 bg-slate-950/70 p-2 rounded border border-slate-800 overflow-x-auto">
-                {currentResult.attempt1Sql}
-              </div>
-              <div className="text-amber-300 text-[11px]">{currentResult.attempt1Error}</div>
-            </div>
-          )}
-
-          {currentResult.finalSql && (
-            <div className="rounded-lg border border-emerald-500/30 bg-emerald-950/20 p-3 space-y-1.5">
-              <div className="flex items-center justify-between text-emerald-400 font-bold">
-                <span className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 shrink-0" />
-                  <span>
-                    {currentResult.status === "repaired"
-                      ? isEn
-                        ? "Attempt 2 Auto-Corrected & Executed on Databricks:"
-                        : "Tentative 2 Auto-Corrigée & Exécutée sur Databricks :"
-                      : isEn
-                      ? "Validated SQL Executed on Databricks Gold:"
-                      : "Requête SQL Validée & Exécutée sur Databricks Gold :"}
-                  </span>
-                </span>
-                <span className="text-[11px] text-emerald-300">
-                  {currentResult.devTimeMs}ms (dev 5%) ➔ {currentResult.prodTimeMs}ms (prod)
-                </span>
-              </div>
-              <div className="text-emerald-200 bg-slate-950/70 p-2 rounded border border-slate-800 overflow-x-auto">
-                {currentResult.finalSql}
-              </div>
-            </div>
-          )}
-
-          {currentResult.rows.length > 0 && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 pt-2 items-center">
-              {currentResult.chartKeyX && currentResult.chartKeyY && (
-                <div className="lg:col-span-5 h-56 bg-slate-950/50 rounded-xl border border-slate-800 p-3">
-                  <div className="text-[11px] text-slate-400 mb-1 font-sans font-semibold">
-                    {currentResult.chartLabelY}
-                  </div>
-                  <ResponsiveContainer width="100%" height="90%">
-                    <BarChart
-                      data={currentResult.rows}
-                      margin={{ top: 5, right: 10, left: -10, bottom: 5 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.12)" />
-                      <XAxis
-                        dataKey={currentResult.chartKeyX}
-                        tick={{ fill: "#94a3b8", fontSize: 10 }}
-                      />
-                      <YAxis tick={{ fill: "#94a3b8", fontSize: 10 }} />
-                      <Tooltip
-                        contentStyle={{
-                          backgroundColor: "#0f172a",
-                          borderColor: "#334155",
-                          borderRadius: "8px",
-                          color: "#f8fafc",
-                        }}
-                      />
-                      <Bar
-                        dataKey={currentResult.chartKeyY}
-                        name={currentResult.chartLabelY}
-                        radius={[5, 5, 0, 0]}
-                      >
-                        {currentResult.rows.map((_, idx) => (
-                          <Cell key={idx} fill={COLORS[idx % COLORS.length]} />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              )}
-
-              <div
-                className={`${
-                  currentResult.chartKeyX ? "lg:col-span-7" : "lg:col-span-12"
-                } overflow-x-auto`}
-              >
-                <table className="w-full text-left border-collapse text-[11px]">
-                  <thead>
-                    <tr className="border-b border-slate-800 text-slate-400">
-                      {currentResult.columns.map((c) => (
-                        <th key={c} className="py-1.5 px-2">
-                          {c}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {currentResult.rows.map((r, i) => (
-                      <tr key={i} className="border-b border-slate-800/50 text-slate-200">
-                        {currentResult.columns.map((c) => (
-                          <td key={c} className="py-1.5 px-2">
-                            {String(r[c] ?? "")}
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-
-          <div className="rounded-lg border border-blue-500/30 bg-blue-500/10 p-3 text-xs font-sans text-blue-200 flex items-start gap-2.5">
-            <Target className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-            <span>
-              {isEn ? currentResult.businessTakeawayEn : currentResult.businessTakeawayFr}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* SECTION 2: MARKETING CHANNEL ROI (VISUAL FIRST) */}
+      {/* SECTION 2: MARKETING CHANNEL ROI */}
       <SqlShowcaseLayout
         isEn={isEn}
         sqlLabel="Gold Table: gold_channel_performance"
@@ -1031,9 +378,7 @@ export default function IgamingDatabricks() {
                   ? "Pareto Curve: Top 10% Players = 64.2% of All Bets"
                   : "Courbe de Pareto : Top 10 % Joueurs = 64,2 % des Mises"}
               </span>
-              <span className="font-mono text-[11px] text-amber-400 font-bold">
-                Top 20% = 80.1%
-              </span>
+              <span className="font-mono text-[11px] text-amber-400 font-bold">Top 20% = 80.1%</span>
             </div>
             <ResponsiveContainer width="100%" height="90%">
               <ComposedChart data={paretoChartData} margin={{ top: 10, right: 15, left: 0, bottom: 5 }}>
@@ -1218,7 +563,7 @@ export default function IgamingDatabricks() {
         </div>
       </div>
 
-      {/* SECTION 5: FRAUD, COLLUSION & RESPONSIBLE GAMING (RULES VS ISOLATION FOREST) */}
+      {/* SECTION 5: FRAUD, COLLUSION & RESPONSIBLE GAMING */}
       <SqlShowcaseLayout
         isEn={isEn}
         sqlLabel="Gold Table: gold_risk_sessions + Isolation Forest ML"
