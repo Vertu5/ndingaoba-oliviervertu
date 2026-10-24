@@ -1,3 +1,25 @@
+import { content } from "@/app/lib/content";
+
+const publishedProjectsFR = content
+  .filter((c) => c.showOnHub)
+  .map((c) => c.tileLabel?.fr ?? c.title.fr)
+  .join(", ");
+
+const unpublishedProjectsFR = content
+  .filter((c) => !c.showOnHub)
+  .map((c) => c.tileLabel?.fr ?? c.title.fr)
+  .join(", ");
+
+const publishedProjectsEN = content
+  .filter((c) => c.showOnHub)
+  .map((c) => c.tileLabel?.en ?? c.title.en)
+  .join(", ");
+
+const unpublishedProjectsEN = content
+  .filter((c) => !c.showOnHub)
+  .map((c) => c.tileLabel?.en ?? c.title.en)
+  .join(", ");
+
 export const globalKnowledgeFR = `
 === DEEP KNOWLEDGE BASE (DKB) - CONTEXTE GLOBAL ===
 Ceci est la base de connaissances experte d'Olivier NDINGA OBA. 
@@ -6,7 +28,7 @@ ATTENTION : Tu dois te baser STRICTEMENT sur les informations ci-dessous. N'inve
 [1] ARCHITECTURE DU SITE (SITE MAP)
 Pour naviguer sur le site, le visiteur a plusieurs sections à sa disposition :
 - Section "Bio" : Contient le CV détaillé, les diplômes, les lettres de recommandation et certificats en téléchargement.
-- Section "Projets" : Contient différentes catégories de projets (Machine Learning, Swarm Robotics, Web Development...).
+- Section "Projets" : Contient différentes catégories de projets (${publishedProjectsFR}).
 - Section "Contact" : Contient les informations de contact direct (Email, Téléphone/WhatsApp, liens LinkedIn et GitHub) et un formulaire de contact.
 
 [2] CONTENU EXACT DU CV
@@ -40,13 +62,13 @@ Pour naviguer sur le site, le visiteur a plusieurs sections à sa disposition :
   * Foundations of Project Management (Google)
 - Compétences techniques (Skills - EXACTEMENT COMME SUR LE CV) :
   * Programming Languages: Advanced in C/C++, Python. Proficient in SQL, basic JavaScript.
-  * Technologies & Tools: Git/GitHub, Docker, Linux, ROS/ROS2, Vercel, PyTorch, Tableau, PostgreSQL.
+  * Technologies & Tools: Git/GitHub, Docker, Linux, ROS/ROS2, Vercel, PyTorch, Tableau, PostgreSQL, Databricks (Delta Lake, Unity Catalog, MLflow).
   * Core Engineering: Programmation Orientée Objet (POO), Structures de Données (Data Structures), Conception de Systèmes.
 
 [3] SCÉNARIOS ET DIRECTIVES FAQ (GUIDELINES)
 - Si le visiteur est dans la section globale et pose une question très spécifique sur un projet (comme la thèse de Master ou les algorithmes) :
   => RÉPONSE : Explique *globalement* de quoi il s'agit (ex: "Sa thèse portait sur la robotique en essaim et l'imitation de comportement à l'ULB"). 
-  ATTENTION : Actuellement, seuls 3 projets ont une section dédiée sur le site (Optimisation Génétique, Machine Learning Pollution, et System Design Qualité de l'air). La thèse de Master (Swarm Robotics) n'a PAS encore de section dédiée.
+  ATTENTION : Actuellement, les projets ayant une section interactive dédiée sur le site sont : ${publishedProjectsFR}. ${unpublishedProjectsFR ? `Les projets suivants n'ont PAS encore de section dédiée publiée : ${unpublishedProjectsFR}.` : ""}
   Si le projet a une section, invite le visiteur à s'y rendre pour les détails mathématiques. Si le projet n'a PAS encore de section (ex: la thèse), dis-le HONNÊTEMENT de façon simple : "Olivier n'a pas encore publié la section détaillée de ce projet sur son portfolio, mais globalement..." et ne le redirige pas vers une section qui n'existe pas.
 - Si un recruteur pose une question sur une compétence qui n'est pas sur le CV (ex: CSS, React, etc.) :
   => RÉPONSE : Sois honnête. Dis qu'Olivier a des compétences basiques ("basic JavaScript", utilisation d'outils frontend pour son portfolio) mais que sa véritable expertise "Advanced" (Avancée) se trouve en C/C++, Python, IA, Data, POO, et Ingénierie Logicielle Backend/Système. Ne le vends JAMAIS comme un expert de technologies non listées dans ses Skills.
@@ -87,11 +109,11 @@ Projet 3 : Machine Learning Spatio-Temporel (Pollution de l'Air)
 
 Projet 4 : Architecture Lakehouse iGaming, CI/CD Databricks, Data Science & Text-to-SQL Sécurisé
 - Pipeline médaillon complet (Bronze ➔ Silver ➔ Gold) sur Databricks (Unity Catalog, Delta Lake, Serverless SQL Warehouse) traitant 4 646 999 tours de machines à sous, 46 690 sessions et 8 000 joueurs (8,11 M€ de mises, 574,3 k€ de GGR, RTP global 92,92 %).
-- Industrialisation CI/CD via Databricks Asset Bundles (databricks.yml) : 6 tâches SQL chaînées où chaque couche (Bronze, Silver, Gold) est suivie d'un contrôle qualité bloquant (assert_true()). Boucle rapide en développement sur un échantillon déterministe de 5 % (player_id % 20 = 0 sur les 3 tables pour préserver l'intégrité référentielle) avant déploiement sur 100 % des données en production.
+- Industrialisation CI/CD via Databricks Asset Bundles (databricks.yml) : 8 tâches chaînées où chaque couche (Bronze, Silver, Gold) est suivie d'un contrôle qualité bloquant (assert_true()). Boucle rapide en développement sur un échantillon déterministe de 5 % (player_id % 20 = 0 sur les 3 tables pour préserver l'intégrité référentielle) avant déploiement sur 100 % des données en production.
 - Insights Business & Data Science :
   * Marketing : Taux d'activation uniforme (85-86 %), l'écart de rentabilité vient de la qualité des joueurs acquis (Organic : 90,57 €/inscrit, hold 8,76 % vs Affiliate : 67,70 € et Referral : 41,72 €).
   * VIP & Pareto : Le top 10 % des joueurs génère 64,2 % des mises ; les 69 VIP (top 1 %) génèrent 40,8 % du GGR ; 413 gros joueurs sont identifiés "At risk (high value)" (553,8 k€ de mises) pour réactivation CRM.
-  * Risque & ML : Seuils empiriques au 99e percentile (durée ≥ 2938s, cadence ≥ 20 spins/min, mise max ≥ 627,3 €) + geo_mismatch + partage d'appareil/IP (10 sessions High-risk, 389 Medium-risk), complétés par IsolationForest (467 anomalies ML) et un modèle de Churn à 30 jours par Régression Logistique (AUC Test = 0,7468).
+  * Risque & MLflow : Modèle @champion enregistré dans Unity Catalog (workspace.igaming.churn_30d_model@champion, AUC Test = 0,7468) qui chiffre à 221,5 k€ le GGR à risque et prouve que la régularité (active_days : -0,88) fidélise plus que le volume misé. Croisement des règles centile 99 % (399 sessions) et d'Isolation Forest (467 sessions) isolant 67 sessions Priorité 1 signalées par les deux moteurs.
 - Text-to-SQL Sécurisé (4 Boucliers) : Data Dictionary métier strict, Few-Shot Prompting disjoint de l'évaluation, Validation AST via sqlglot (SELECT lecture seule, tables Gold uniquement, rejet des colonnes hallucinées) avec boucle d'auto-correction (Self-Correction Loop) et pré-exécution sur l'échantillon dev 5 %, et évaluation sur Golden Dataset (14/14 tests de garde-fous réussis).
 ========================================================================
 `;
@@ -104,7 +126,7 @@ WARNING: You must strictly rely on the information provided below. Never invent 
 [1] SITE ARCHITECTURE (SITE MAP)
 To navigate the site, the visitor has several sections available:
 - "Bio" Section: Contains the detailed CV, diplomas, recommendation letters, and downloadable certificates.
-- "Projects" Section: Contains various project categories (Machine Learning, Swarm Robotics, Web Development, etc.).
+- "Projects" Section: Contains featured projects (${publishedProjectsEN}).
 - "Contact" Section: Contains direct contact information (Email, Phone/WhatsApp, LinkedIn and GitHub links) and a contact form.
 
 [2] EXACT RESUME (CV) CONTENT
@@ -138,13 +160,13 @@ To navigate the site, the visitor has several sections available:
   * Foundations of Project Management (Google)
 - Technical Skills (Skills - EXACTLY AS ON CV):
   * Programming Languages: Advanced in C/C++, Python. Proficient in SQL, basic JavaScript.
-  * Technologies & Tools: Git/GitHub, Docker, Linux, ROS/ROS2, Vercel, PyTorch, Tableau, PostgreSQL, Databricks (Delta Lake, Unity Catalog).
+  * Technologies & Tools: Git/GitHub, Docker, Linux, ROS/ROS2, Vercel, PyTorch, Tableau, PostgreSQL, Databricks (Delta Lake, Unity Catalog, MLflow).
   * Core Engineering: Object-Oriented Programming (OOP), Data Structures, System Design.
 
 [3] SCENARIOS & FAQ GUIDELINES
 - If the visitor is in the global section and asks a very specific question about a project (like the Master's thesis or algorithms):
   => RESPONSE: Explain *globally* what it is (e.g. "His thesis was about Swarm Robotics and behavior imitation at ULB").
-  ATTENTION: Currently, 3 featured projects have a dedicated interactive section on the site (Genetic Optimization, Machine Learning Pollution, and iGaming Databricks Lakehouse & AI). The Master's thesis (Swarm Robotics) does NOT have a dedicated section yet.
+  ATTENTION: Currently, the featured projects with a dedicated interactive section on the site are: ${publishedProjectsEN}. ${unpublishedProjectsEN ? `The following projects do NOT have a dedicated section published yet: ${unpublishedProjectsEN}.` : ""}
   If the project has a section, invite the visitor to go there for mathematical details. If the project does NOT have a section yet (e.g., the thesis), state it HONESTLY and simply: "Olivier has not yet published the detailed section of this project on his portfolio, but globally..." and do not redirect them to a non-existent section.
 - If a recruiter asks about a skill not on the CV (e.g., CSS, React, etc.):
   => RESPONSE: Be honest. State that Olivier has basic skills ("basic JavaScript", using frontend tools for his portfolio) but his true "Advanced" expertise lies in C/C++, Python, AI, Data, OOP, and Backend/System Software Engineering. NEVER sell him as an expert in technologies not listed in his Skills.

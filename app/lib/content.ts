@@ -8,7 +8,13 @@ export type Block =
 export type ContentItem = {
   id: string;
   type: ContentType;
-  featured?: boolean; // Indique si le projet est affiché dans la grille 2x2 des Projets Phares sur l'accueil
+  featured?: boolean; // Indique si le projet fait partie des projets majeurs
+  showOnHub?: boolean; // Indique si le projet est affiché sous forme de tuile active sur l'accueil (Hub)
+  hasCustomView?: boolean; // Indique si le projet possède son propre composant d'article dédié
+  tileIndex?: string; // Code affiché sur la tuile du Hub (ex: "02.GA")
+  tileLabel?: { fr: string; en: string }; // Titre court pour la tuile du Hub
+  tileDescription?: { fr: string; en: string }; // Description courte pour la tuile du Hub
+  tileTags?: string[]; // Tags courts pour la tuile du Hub
   domains: string[]; // un contenu peut appartenir à plusieurs domaines (swarm, ml, robotics, algo, heuristics, physics)
   title: { fr: string; en: string };
   summary: { fr: string; en: string };
@@ -24,6 +30,15 @@ export const content: ContentItem[] = [
     id: "swarm-tda-iridia",
     type: "projet",
     featured: true,
+    showOnHub: false, // Mettre à true dès que la vue interactive dédiée est publiée
+    hasCustomView: false,
+    tileIndex: "01.TDA",
+    tileLabel: { fr: "Essaim & TDA", en: "Swarm & TDA" },
+    tileDescription: {
+      fr: "Imitation en essaim & Analyse Topologique (IRIDIA/ULB).",
+      en: "Swarm behavior & Topological Analysis (IRIDIA/ULB).",
+    },
+    tileTags: ["TDA", "Python", "C++", "Wasserstein"],
     domains: ["swarm", "robotics"],
     title: {
       fr: "🛸 Imitation Systématique en Essaim par Analyse Topologique des Données (TDA)",
@@ -40,6 +55,15 @@ export const content: ContentItem[] = [
     id: "nsga2-promethee2-agricultural",
     type: "projet",
     featured: true,
+    showOnHub: true,
+    hasCustomView: true,
+    tileIndex: "02.GA",
+    tileLabel: { fr: "Optimisation Génétique", en: "Genetic Optimization" },
+    tileDescription: {
+      fr: "Modélisation POO & Algorithme génétique multi-objectifs (NSGA-II).",
+      en: "OOP Modeling & Multi-objective genetic algorithm (NSGA-II).",
+    },
+    tileTags: ["POO", "Python", "NSGA-II", "Optimisation"],
     domains: ["heuristics", "algo"],
     title: {
       fr: "🌾 Optimisation Évolutive Spatiale Multi-Objectifs (NSGA-II + PROMETHEE II)",
@@ -56,6 +80,15 @@ export const content: ContentItem[] = [
     id: "urban-air-pollution-ml",
     type: "projet",
     featured: true,
+    showOnHub: true,
+    hasCustomView: true,
+    tileIndex: "03.ML",
+    tileLabel: { fr: "Pollution ML", en: "Pollution ML" },
+    tileDescription: {
+      fr: "Pipeline Machine Learning spatiotemporel (ULB).",
+      en: "Spatio-temporal Machine Learning pipeline (ULB).",
+    },
+    tileTags: ["ML", "Python", "PyTorch", "SpatioTemporal"],
     domains: ["ml", "algo"],
     title: {
       fr: "🤖 Prédiction Spatiotemporelle de la Pollution Urbaine (Machine Learning)",
@@ -72,16 +105,37 @@ export const content: ContentItem[] = [
     id: "igaming-databricks-lakehouse",
     type: "projet",
     featured: true,
+    showOnHub: true,
+    hasCustomView: true,
+    tileIndex: "04.DBX",
+    tileLabel: { fr: "Lakehouse iGaming & IA", en: "iGaming Lakehouse & AI" },
+    tileDescription: {
+      fr: "Architecture Médaillon Databricks, CI/CD, ML & Text-to-SQL.",
+      en: "Databricks Medallion Lakehouse, CI/CD, ML & Text-to-SQL.",
+    },
+    tileTags: ["Databricks", "Delta Lake", "SQL", "CI/CD", "ML", "Text-to-SQL"],
     domains: ["algo", "ml"],
     title: {
       fr: "🎰 Architecture Lakehouse iGaming, CI/CD Databricks, Data Science & Text-to-SQL Sécurisé",
       en: "🎰 iGaming Lakehouse Architecture, Databricks CI/CD, Data Science & Guarded Text-to-SQL",
     },
     summary: {
-      fr: "Pipeline médaillon de bout en bout sur Databricks (Unity Catalog, Delta Lake, Serverless SQL) traitant 4,65M de tours de machines à sous. Déploiement déclaratif CI/CD par Databricks Asset Bundles (échantillon 5% dev ➔ 100% prod avec contrôles assert_true bloquants), segmentation RFM & KMeans, détection d'anomalies IsolationForest, modèle de Churn (AUC 0,75) et moteur Text-to-SQL sécurisé par 4 boucliers anti-hallucinations.",
-      en: "End-to-end medallion pipeline on Databricks (Unity Catalog, Delta Lake, Serverless SQL) processing 4.65M slot spins. Declarative CI/CD via Databricks Asset Bundles (5% dev sample ➔ 100% prod with blocking assert_true quality gates), RFM & KMeans segmentation, IsolationForest anomaly detection, Churn prediction (AUC 0.75), and a 4-shield Guarded Text-to-SQL engine.",
+      fr: "Pipeline médaillon de bout en bout sur Databricks (Unity Catalog, Delta Lake, Serverless SQL) traitant 4,65M de tours de machines à sous. Déploiement déclaratif CI/CD par Databricks Asset Bundles (échantillon 5% dev ➔ 100% prod avec contrôles assert_true bloquants), segmentation RFM & KMeans, détection d'anomalies IsolationForest, modèle de Churn MLflow @champion (AUC 0,75) et moteur Text-to-SQL sécurisé par 4 boucliers anti-hallucinations.",
+      en: "End-to-end medallion pipeline on Databricks (Unity Catalog, Delta Lake, Serverless SQL) processing 4.65M slot spins. Declarative CI/CD via Databricks Asset Bundles (5% dev sample ➔ 100% prod with blocking assert_true quality gates), RFM & KMeans segmentation, IsolationForest anomaly detection, MLflow @champion Churn prediction (AUC 0.75), and a 4-shield Guarded Text-to-SQL engine.",
     },
-    tags: ["Databricks", "Delta Lake", "SQL", "Asset Bundles CI/CD", "Machine Learning", "Text-to-SQL"],
+    tags: ["Databricks", "Delta Lake", "SQL", "Asset Bundles CI/CD", "MLflow", "Text-to-SQL"],
     githubUrl: "https://github.com/Vertu5/igaming-databricks-lakehouse",
   },
 ];
+
+export const featuredProjectTiles = content
+  .filter((item) => item.showOnHub)
+  .map((item) => ({
+    id: item.id,
+    index: item.tileIndex ?? "PRJ",
+    label: item.tileLabel ?? item.title,
+    description: item.tileDescription ?? item.summary,
+    tags: item.tileTags ?? item.tags ?? [],
+    hasCustomView: Boolean(item.hasCustomView),
+  }));
+

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { bio, interests, contact, type Category } from "@/app/lib/categories";
 import { superDomains } from "@/app/lib/superdomains";
 import { domains } from "@/app/lib/domains";
-import { content, type ContentType } from "@/app/lib/content";
+import { content, featuredProjectTiles, type ContentType } from "@/app/lib/content";
 import Pattern from "@/app/components/Pattern";
 import SectionChat from "@/app/components/SectionChat";
 import BioView from "@/app/components/BioView";
@@ -17,11 +17,12 @@ import { useLang } from "@/app/lib/i18n";
 import ThemeToggle from "@/app/components/ThemeToggle";
 import { motion, AnimatePresence } from "framer-motion";
 
-const docTypeKey = {
-  diplome: "docDiplome",
-  certification: "docCertification",
-  lettre: "docLettre",
-} as const;
+// Registre déclaratif des vues personnalisées par ID de projet (1 ligne par projet interactif)
+const CUSTOM_PROJECT_VIEWS: Record<string, React.ComponentType> = {
+  "nsga2-promethee2-agricultural": GeneticOptimizer,
+  "urban-air-pollution-ml": UrbanAirPollution,
+  "igaming-databricks-lakehouse": IgamingDatabricks,
+};
 
 const tabs: { type: ContentType; key: "tabProjets" | "tabPapiers" | "tabDemos" }[] = [
   { type: "projet", key: "tabProjets" },
@@ -29,56 +30,10 @@ const tabs: { type: ContentType; key: "tabProjets" | "tabPapiers" | "tabDemos" }
   { type: "demo", key: "tabDemos" },
 ];
 
-// Niveau 1 (grille principale) : compartiments personnels + projets phares + grands domaines.
+// Niveau 1 (grille principale) : compartiments personnels + projets phares pilotés depuis app/lib/content.ts
 const personalTiles: Category[] = [bio, interests, contact];
-
-const projectTiles: (Category & { tags?: string[] })[] = [
-  /* 
-  {
-    id: "swarm-tda-iridia",
-    index: "01.TDA",
-    label: { fr: "Essaim & TDA", en: "Swarm & TDA" },
-    description: {
-      fr: "Imitation en essaim & Analyse Topologique (IRIDIA/ULB).",
-      en: "Swarm behavior & Topological Analysis (IRIDIA/ULB).",
-    },
-    tags: ["TDA", "Python", "C++", "Wasserstein"],
-  },
-  */
-  {
-    id: "nsga2-promethee2-agricultural",
-    index: "02.GA",
-    label: { fr: "Optimisation Génétique", en: "Genetic Optimization" },
-    description: {
-      fr: "Modélisation POO & Algorithme génétique multi-objectifs (NSGA-II).",
-      en: "OOP Modeling & Multi-objective genetic algorithm (NSGA-II).",
-    },
-    tags: ["POO", "Python", "NSGA-II", "Optimisation"],
-  },
-  {
-    id: "urban-air-pollution-ml",
-    index: "03.ML",
-    label: { fr: "Pollution ML", en: "Pollution ML" },
-    description: {
-      fr: "Pipeline Machine Learning spatiotemporel (ULB).",
-      en: "Spatio-temporal Machine Learning pipeline (ULB).",
-    },
-    tags: ["ML", "Python", "PyTorch", "SpatioTemporal"],
-  },
-  {
-    id: "igaming-databricks-lakehouse",
-    index: "04.DBX",
-    label: { fr: "Lakehouse iGaming & IA", en: "iGaming Lakehouse & AI" },
-    description: {
-      fr: "Architecture Médaillon Databricks, CI/CD, ML & Text-to-SQL.",
-      en: "Databricks Medallion Lakehouse, CI/CD, ML & Text-to-SQL.",
-    },
-    tags: ["Databricks", "Delta Lake", "SQL", "CI/CD", "ML", "Text-to-SQL"],
-  },
-];
-
-const superTiles: Category[] = superDomains.map((s) => ({ id: s.id, index: "LAB", label: s.label, description: s.description }));
-const tiles: Category[] = [...personalTiles, ...projectTiles]; // ...superTiles removed for now
+const projectTiles: (Category & { tags?: string[] })[] = featuredProjectTiles;
+const tiles: Category[] = [...personalTiles, ...projectTiles];
 
 function StandardTileButton({
   cat,
@@ -217,7 +172,7 @@ export default function Hub() {
     const applyUrlState = () => {
       if (typeof window === "undefined") return;
       const params = new URLSearchParams(window.location.search);
-      const rawView = params.get("view");
+      const rawView = params.get("view") ?? params.get("section");
       const viewParam = rawView === "air-quality-system-design" ? "igaming-databricks-lakehouse" : rawView;
       const subParam = params.get("sub");
       const tabParam = params.get("tab");
@@ -309,7 +264,7 @@ export default function Hub() {
             </div>
           </section>
 
-          {/* Section 2 : Projets Phares (1 seule ligne de 4 tuiles compactes sur desktop) */}
+          {/* Section 2 : Projets Phares (pilotés dynamiquement depuis app/lib/content.ts) */}
           <section>
             <p className="font-mono mb-3 text-xs tracking-[0.2em] text-[var(--accent)] font-semibold flex items-center gap-1.5">
               <span>⭐</span>
@@ -323,19 +278,6 @@ export default function Hub() {
               ))}
             </div>
           </section>
-
-          {/*
-          <section>
-            <p className="font-mono mb-3 text-xs tracking-[0.2em] text-[var(--text-muted)]">
-              {t.sectionDomains}
-            </p>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {superTiles.map((cat) => (
-                <StandardTileButton key={cat.id} cat={cat} lang={lang} onOpen={openTile} />
-              ))}
-            </div>
-          </section>
-          */}
           </motion.div>
         )}
       </AnimatePresence>
@@ -409,7 +351,7 @@ export default function Hub() {
                   </div>
                 </div>
 
-                {open.id !== "nsga2-promethee2-agricultural" && open.id !== "urban-air-pollution-ml" && open.id !== "igaming-databricks-lakehouse" && (
+                {!CUSTOM_PROJECT_VIEWS[open.id] && (
                   <div className="mb-2 sm:mb-4">
                     <h2 className="font-display text-2xl font-medium sm:text-4xl md:text-5xl">
                       {subOpen ? subOpen.label[lang] : open.label[lang]}
@@ -422,24 +364,11 @@ export default function Hub() {
 
                 {/* Vue détaillée si une tuile de Projet Phare est ouverte */}
                 {projectTiles.some((p) => p.id === open.id) && (() => {
-                  if (open.id === "nsga2-promethee2-agricultural") {
+                  const CustomView = CUSTOM_PROJECT_VIEWS[open.id];
+                  if (CustomView) {
                     return (
                       <div className="mt-4">
-                        <GeneticOptimizer />
-                      </div>
-                    );
-                  }
-                  if (open.id === "urban-air-pollution-ml") {
-                    return (
-                      <div className="mt-4">
-                        <UrbanAirPollution />
-                      </div>
-                    );
-                  }
-                  if (open.id === "igaming-databricks-lakehouse") {
-                    return (
-                      <div className="mt-4">
-                        <IgamingDatabricks />
+                        <CustomView />
                       </div>
                     );
                   }
