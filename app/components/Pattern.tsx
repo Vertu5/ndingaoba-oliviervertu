@@ -257,6 +257,7 @@ const patterns: Record<string, () => React.JSX.Element> = {
   algo: CodeBrackets,
   informatique: Chip,
   sciences: Stars,
+  "igaming-databricks-lakehouse": DataCurve,
 };
 
 export default function Pattern({ id }: { id: string }) {
