@@ -264,8 +264,8 @@ export default function IgamingDatabricks() {
         </div>
         <p className="text-sm text-[var(--text-muted)] leading-relaxed">
           {isEn
-            ? "Instead of running manual notebooks on full production tables, the pipeline is packaged as a Databricks Asset Bundle (databricks.yml) with 6 chained SQL tasks. Each layer is followed by a blocking quality gate using assert_true(). Developers iterate in seconds on the dev target (5% deterministic modulo sample: player_id % 20 = 0 preserving referential integrity across all 3 tables) before deploying to prod."
-            : "Au lieu d'exécuter des notebooks manuels directement en production, le pipeline est industrialisé via Databricks Asset Bundles (databricks.yml) en 6 tâches SQL chaînées. Chaque couche est suivie d'un contrôle qualité bloquant (assert_true()). Les itérations se font en quelques secondes sur l'environnement dev (échantillon déterministe de 5 % : player_id % 20 = 0 préservant l'intégrité référentielle sur les 3 tables) avant le déploiement en prod."}
+            ? "Instead of running manual notebooks on full production tables, the pipeline is packaged as a Databricks Asset Bundle (databricks.yml) with 8 chained tasks (SQL + Serverless MLflow Notebook). Every layer — including MLflow batch scoring — is followed by a blocking quality gate using assert_true(). Developers iterate in seconds on the dev target (5% deterministic modulo sample: player_id % 20 = 0 preserving referential integrity across all tables) before deploying to prod."
+            : "Au lieu d'exécuter des notebooks manuels directement en production, le pipeline est industrialisé via Databricks Asset Bundles (databricks.yml) en 8 tâches chaînées (SQL + Notebook Serverless MLflow). Chaque couche — y compris le scoring MLflow en batch — est suivie d'un contrôle qualité bloquant (assert_true()). Les itérations se font en quelques secondes sur l'environnement dev (échantillon déterministe de 5 % : player_id % 20 = 0 préservant l'intégrité référentielle) avant le déploiement en prod."}
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -295,12 +295,12 @@ export default function IgamingDatabricks() {
               badge: "03_gold.sql ➔ test_gold.sql",
             },
             {
-              step: "LOCAL CI + CD",
-              title: isEn ? "Pre-Push Gate & Bundle Sync" : "Hook Pre-Push & Bundle Sync",
+              step: "MLFLOW + UC + GATE",
+              title: isEn ? "MLflow Registry & Batch Scoring" : "Registre MLflow UC & Scoring",
               desc: isEn
-                ? "Git pre-push hook runs 7 unit tests (including a dry-run bundle sync wiring test that prevents missing SQL files in workspace deployments) + databricks bundle validate on dev & prod."
-                : "Le hook Git pre-push exécute 7 tests unitaires (dont un test de câblage bundle sync dry-run qui empêche l'oubli de fichiers SQL lors du déploiement) + databricks bundle validate.",
-              badge: "make check ➔ make deploy-prod",
+                ? "Tracks Challenger vs Champion churn runs in MLflow, registers workspace.igaming.igaming_churn_model@champion in Unity Catalog, writes gold_player_ml_scores, and validates probabilities via test_ml.sql."
+                : "Suit les modèles Challenger vs Champion dans MLflow, enregistre workspace.igaming.igaming_churn_model@champion dans Unity Catalog, écrit gold_player_ml_scores et vérifie les scores via test_ml.sql.",
+              badge: "04_mlflow_production.py ➔ test_ml.sql",
             },
           ].map((card, i) => (
             <div
@@ -583,6 +583,49 @@ export default function IgamingDatabricks() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+
+        {/* MLflow Experiment Tracking & Unity Catalog Model Registry (@champion) */}
+        <div className="mt-5 rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div className="font-mono text-xs font-bold uppercase tracking-wider text-emerald-400">
+              {isEn
+                ? "MLflow Production Pipeline • Unity Catalog Model Registry (@champion)"
+                : "Pipeline MLflow en Production • Registre de Modèles Unity Catalog (@champion)"}
+            </div>
+            <span className="font-mono text-[11px] text-[var(--text-muted)]">
+              workspace.igaming.igaming_churn_model@champion (v1) ➔ gold_player_ml_scores
+            </span>
+          </div>
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            {isEn
+              ? "Executed automatically by the 04_mlflow_production.py notebook task inside the Databricks workflow (Run ID 884183058684485): compares Logistic Regression (Test ROC-AUC 0.7437, Brier 0.1875) vs. Gradient Boosting (Test ROC-AUC 0.7395, Brier 0.1878), promotes the best calibrated model to @champion in Unity Catalog, and scores all 6,857 active players into workspace.igaming.gold_player_ml_scores (verified by test_ml.sql)."
+              : "Exécuté automatiquement par la tâche notebook 04_mlflow_production.py du workflow Databricks (Run ID 884183058684485) : compare Logistic Regression (ROC-AUC Test 0,7437, Brier 0,1875) face à Gradient Boosting (ROC-AUC Test 0,7395, Brier 0,1878), promeut le modèle le mieux calibré sous l'alias @champion dans Unity Catalog, et score les 6 857 joueurs actifs dans workspace.igaming.gold_player_ml_scores (validé par test_ml.sql)."}
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 font-mono text-xs">
+            {igamingData.mlflow.risk_tiers.map((t, idx) => (
+              <div
+                key={idx}
+                className="rounded-lg border border-[var(--border)] bg-[var(--bg)]/60 p-3 flex flex-col justify-between"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-[var(--text)]">{t.churn_risk_tier}</span>
+                  <span className="text-[var(--accent)]">
+                    {t.players.toLocaleString("en-US")} {isEn ? "players" : "joueurs"}
+                  </span>
+                </div>
+                <div className="mt-2 flex items-center justify-between text-[11px] text-[var(--text-muted)]">
+                  <span>
+                    {isEn ? "Avg Churn Prob:" : "Prob. Churn Moy.:"}{" "}
+                    {(t.avg_churn_prob * 100).toFixed(1)}%
+                  </span>
+                  <span className="text-emerald-400 font-semibold">
+                    €{t.total_ggr_at_risk.toLocaleString("en-US")} {isEn ? "at risk" : "à risque"}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </SqlShowcaseLayout>
