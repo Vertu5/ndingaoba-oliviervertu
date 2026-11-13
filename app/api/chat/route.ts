@@ -10,17 +10,18 @@ export const maxDuration = 30;
 type IncomingMsg = { role: "user" | "assistant"; content: string };
 type GeminiContent = { role: "user" | "model"; parts: { text: string }[] };
 
-// Ordered from most capable Flash to ultra-fast high-throughput Flash-Lite fallbacks
+// Ordered from lowest-latency stable Flash-Lite (observed <3s) to higher-tier Flash fallbacks
 const GEMINI_MODELS = [
-  "gemini-3.8-flash",
   "gemini-3.5-flash-lite",
+  "gemini-3.1-flash-lite",
   "gemini-3.6-flash",
   "gemini-4-hydrogen",
+  "gemini-3.8-flash",
 ] as const;
 
 const RETRYABLE_STATUSES = new Set([404, 408, 429, 500, 502, 503, 504]);
-const PER_ATTEMPT_TIMEOUT_MS = 7000;
-const TOTAL_DEADLINE_MS = 21000;
+const PER_ATTEMPT_TIMEOUT_MS = 8000;
+const TOTAL_DEADLINE_MS = 24000;
 
 async function callGeminiWithFallback(
   apiKey: string,
