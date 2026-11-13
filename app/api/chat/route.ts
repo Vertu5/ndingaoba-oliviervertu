@@ -21,8 +21,8 @@ const sectionContext: Record<string, { fr: string; en: string }> = Object.fromEn
   allSections.map((c) => [
     c.id,
     {
-      fr: `${c.label.fr} — ${c.description.fr}`,
-      en: `${c.label.en} — ${c.description.en}`,
+      fr: `${c.label.fr} - ${c.description.fr}`,
+      en: `${c.label.en} - ${c.description.en}`,
     },
   ])
 );

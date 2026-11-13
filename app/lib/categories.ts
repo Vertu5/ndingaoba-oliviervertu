@@ -58,7 +58,7 @@ export const bio: Category = {
         fr: "Bachelier en Sciences de l'Ingénieur",
         en: "Bachelor of Science in Engineering Sciences",
       },
-      issuer: "École Royale Militaire de Belgique (ERM) — Faculté Polytechnique",
+      issuer: "École Royale Militaire de Belgique (ERM) - Faculté Polytechnique",
       date: "ERM",
       detail: {
         fr: "Faculté Polytechnique. Rigueur académique et formation intensive au leadership et au management d'équipe.",
