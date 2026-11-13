@@ -170,7 +170,7 @@ export async function POST(req: NextRequest) {
   const globalProfile = lang === "fr" ? `
 --- PROFIL GLOBAL D'OLIVIER ---
 Identité : Ir. Olivier NDINGA OBA (Olivier Vertu)
-Formation principale : Ingénieur civil en informatique (ULB, Distinction) & Bachelier ERM (leadership).
+Formation principale : Master de spécialisation en gestion industrielle et technologique (Solvay Brussels School - ULB, 2026 - en cours), Ingénieur civil en informatique (ULB, Distinction) & Bachelier ERM (leadership).
 Certifications : Google AI Professional, IBM Data Engineering, DeepLearning.AI LLMs (en cours), Reinforcement Learning, SQL Server, Docker/Kubernetes.
 Domaines d'expertise : Data & AI End-to-End, Databricks (Medallion, Unity Catalog, MLflow), GenAI (LLMs, RAG, Text-to-SQL), Python, R, C/C++, SQL, Machine Learning & Deep Learning, Robotique en Essaim (TDA).
 Contact : Pour contacter Olivier, il faut se rendre dans la section "Contact" du site.
@@ -179,7 +179,7 @@ Contact : Pour contacter Olivier, il faut se rendre dans la section "Contact" du
 ${globalKnowledgeFR}` : `
 --- OLIVIER'S GLOBAL PROFILE ---
 Identity: Ir. Olivier NDINGA OBA (Olivier Vertu)
-Education: Civil Engineer, MSc Computer Science & Engineering (ULB, Distinction) & BSc RMA (leadership).
+Education: Specialized Master in Industrial and Technological Management (Solvay Brussels School - ULB, 2026 - present), Civil Engineer, MSc Computer Science & Engineering (ULB, Distinction) & BSc RMA (leadership).
 Certifications: Google AI Professional, IBM Data Engineering, DeepLearning.AI LLMs (in progress), Reinforcement Learning, SQL Server, Docker/Kubernetes.
 Expertise: End-to-End Data & AI, Databricks (Medallion, Unity Catalog, MLflow), GenAI (LLMs, RAG, Text-to-SQL), Python, R, C/C++, SQL, Machine Learning & Deep Learning, Swarm Robotics (TDA).
 Contact: To contact Olivier, you must go to the "Contact" section of the site.

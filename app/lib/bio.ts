@@ -22,6 +22,8 @@ export const institutionalLinks = {
   erm: "https://www.rma.ac.be/fr/Formations/3/Ing%C3%A9nieur%20civil%20-%20Polytechnique",
   ulb: "https://polytech.ulb.be/en/studies/masters/computer-science",
   iridia: "https://iridia.ulb.ac.be/",
+  solvayFr: "https://www.ulb.be/fr/programme/ms-gest",
+  solvayEn: "https://www.ulb.be/en/programme/ms-gest",
 };
 
 export const bioNarrative = {
@@ -30,14 +32,14 @@ export const bioNarrative = {
     en: "Data & AI · End-to-End Delivery · Leadership",
   },
   intro: {
-    fr: "Ingénieur Civil en Informatique (ULB, Master avec Distinction) au double profil Data et IA. Côté IA, je mène des solutions LLM (RAG, Text-to-SQL gouverné) et de Machine Learning du prototype à la mise en production. Côté Data, j'intègre des plateformes modernes telles que Databricks (Unity Catalog, Delta Lake, MLflow) pour bâtir les fondations fiables dont l'IA a besoin. Depuis 2022, j'ai livré des projets concrets pour de vrais clients, en prenant l'initiative et le lead d'une équipe de 3 à la SNCB, et transformé des résultats techniques en décisions claires pour les décideurs. Formé au commandement d'équipe à l'École Royale Militaire, je m'investis pour piloter des projets Data et IA de bout en bout.",
-    en: "Civil Engineer in Computer Science (ULB, Master with Distinction) with a dual profile in Data and AI. On the AI side, I take LLM solutions (RAG, guarded Text-to-SQL) and Machine Learning models from prototype to production. On the data side, I integrate modern platforms such as Databricks (Unity Catalog, Delta Lake, MLflow) to build the reliable foundations that AI needs. Since 2022, I have delivered projects for real clients, taking the lead informally in a team of 3 at SNCB, and turned complex technical results into clear insights for decision-makers. Trained to lead teams at the Royal Military Academy, I strive to drive Data and AI projects end to end.",
+    fr: "Ingénieur Civil en Informatique (ULB, Master avec Distinction) et actuellement en Master de spécialisation en gestion industrielle et technologique à la Solvay Brussels School (ULB, 2026 - en cours), j'allie expertise technique et vision management. Côté IA, je mène des solutions LLM (RAG, Text-to-SQL gouverné) et de Machine Learning du prototype à la mise en production. Côté Data, j'intègre des plateformes modernes telles que Databricks (Unity Catalog, Delta Lake, MLflow) pour bâtir les fondations fiables dont l'IA a besoin. Depuis 2022, j'ai livré des projets concrets pour de vrais clients, en prenant l'initiative et le lead d'une équipe de 3 à la SNCB, et transformé des résultats techniques en décisions claires pour les décideurs. Formé au commandement d'équipe à l'École Royale Militaire, je m'investis pour piloter des projets Data et IA de bout en bout.",
+    en: "Civil Engineer in Computer Science (ULB, Master with Distinction) and currently pursuing a Specialized Master in Industrial and Technological Management at Solvay Brussels School (ULB, 2026 - present), I bridge engineering depth with business management. On the AI side, I take LLM solutions (RAG, guarded Text-to-SQL) and Machine Learning models from prototype to production. On the data side, I integrate modern platforms such as Databricks (Unity Catalog, Delta Lake, MLflow) to build the reliable foundations that AI needs. Since 2022, I have delivered projects for real clients, taking the lead informally in a team of 3 at SNCB, and turned complex technical results into clear insights for decision-makers. Trained to lead teams at the Royal Military Academy, I strive to drive Data and AI projects end to end.",
   },
   executiveSummary: [
     {
       icon: "🎓",
       title: { fr: "Excellence Académique", en: "Academic Excellence" },
-      desc: { fr: "Ingénieur civil en informatique ULB (Distinction) + Bachelier ERM", en: "MSc Computer Science Engineering ULB (Distinction) + BSc RMA" },
+      desc: { fr: "Ingénieur civil informatique (ULB) · Solvay Gestion Tech (en cours) · Bachelier ERM", en: "MSc Computer Science Eng. (ULB) · Solvay Tech Mgmt (ongoing) · BSc RMA" },
     },
     {
       icon: "🚀",
@@ -90,6 +92,18 @@ export const bioNarrative = {
       content: {
         fr: "J'ai poursuivi avec le diplôme d'Ingénieur civil en informatique à l'Université Libre de Bruxelles (ULB) avec Distinction. Durant ce cursus, j'ai livré des projets concrets pour l'industrie : prise de lead informelle d'une équipe de 3 pour la maintenance prédictive des trains à la SNCB (pipeline ETL, modèles ML/DL en Python et R, dashboard métier) et implémentation d'un réseau LSTM from scratch en C++ pour Voisin d'Énergie. En parallèle, au laboratoire IRIDIA, j'ai mené ma thèse sur l'analyse topologique des données (TDA) et la métrique de Wasserstein pour transférer des comportements collectifs d'essaims robotiques.",
         en: "I earned my MSc in Computer Science and Engineering at Université Libre de Bruxelles (ULB) with Distinction. Throughout this journey, I delivered real-world client projects: informally leading a team of 3 on predictive train maintenance for SNCB (ETL pipeline, ML/DL models in Python and R, maintenance dashboard) and building an LSTM network from scratch in C++ for Voisin d'Énergie. In parallel, at the IRIDIA lab, I conducted my Master's thesis using Topological Data Analysis (TDA) and Wasserstein metrics to transfer collective behaviors across robotic swarms.",
+      },
+    },
+    {
+      id: "solvay-management",
+      title: {
+        fr: "Double compétence Technologie & Management à la Solvay Brussels School (ULB)",
+        en: "Bridging Technology & Management at Solvay Brussels School (ULB)",
+      },
+      badge: { fr: "Solvay ULB (2026 - en cours)", en: "Solvay ULB (2026 - present)" },
+      content: {
+        fr: "En parallèle de mes réalisations Data & IA, je poursuis le Master de spécialisation en gestion industrielle et technologique à la Solvay Brussels School of Economics and Management (ULB). Ce programme renforce ma maîtrise de la stratégie, de la finance, du contrôle de gestion et du management opérationnel afin de relier encore plus efficacement l'ingénierie technique aux enjeux business.",
+        en: "Alongside my Data & AI projects, I am pursuing the Specialized Master in Industrial and Technological Management at the Solvay Brussels School of Economics and Management (ULB). This program strengthens my command of strategy, finance, management control, and operational leadership to connect technical engineering directly with business strategy.",
       },
     },
   ],
@@ -237,8 +251,8 @@ export const bioNarrative = {
       en: "What connects every stage of my journey is this core standard: build rock-solid data foundations, take AI/LLM models all the way to production, and translate technical complexity into clear decisions.",
     },
     roadmap: {
-      fr: "Aujourd'hui, je conçois et déploie des solutions Data, IA et logicielles de bout en bout (architecture Lakehouse Databricks, pipelines ETL, modèles ML/Deep Learning et agents LLM/RAG/Text-to-SQL en production). Fort de mes expériences de livraison pour des clients réels (SNCB, Voisin d'Énergie) et de ma formation au leadership à l'École Royale Militaire, mon objectif est de continuer à apprendre et d'évoluer vers le pilotage complet de projets Data & IA à fort impact.",
-      en: "Today, I design and deploy Data, AI, and software solutions end to end (Databricks Lakehouse architectures, ETL pipelines, ML/Deep Learning models, and production LLM/RAG/Text-to-SQL agents). Backed by real client delivery (SNCB, Voisin d'Énergie) and leadership training at the Royal Military Academy, my goal is to keep learning and grow toward leading high-impact Data & AI projects end to end.",
+      fr: "Aujourd'hui, je conçois et déploie des solutions Data, IA et logicielles de bout en bout (architecture Lakehouse Databricks, pipelines ETL, modèles ML/Deep Learning et agents LLM/RAG/Text-to-SQL en production). En complétant mon profil d'ingénieur et mon leadership ERM par le Master de spécialisation en gestion industrielle et technologique à Solvay (ULB), mon objectif est d'évoluer vers le pilotage complet de projets Data & IA à fort impact.",
+      en: "Today, I design and deploy Data, AI, and software solutions end to end (Databricks Lakehouse architectures, ETL pipelines, ML/Deep Learning models, and production LLM/RAG/Text-to-SQL agents). Complementing my engineering background and RMA leadership with the Specialized Master in Industrial and Technological Management at Solvay (ULB), my goal is to grow toward leading high-impact Data & AI projects end to end.",
     },
   },
 };

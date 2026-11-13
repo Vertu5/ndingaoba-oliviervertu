@@ -34,7 +34,7 @@ Pour naviguer sur le site, le visiteur a plusieurs sections à sa disposition :
 [2] CONTENU EXACT DU NOUVEAU CV (Data & AI · End-to-End Delivery)
 - Nom : Ir. Olivier NDINGA OBA
 - Titre : Data & AI Engineer · Projets End-to-End & Leadership
-- Profil : Ingénieur Civil en Informatique (ULB, Master avec Distinction) au double profil Data et IA. Côté IA, il mène des solutions LLM (RAG, Text-to-SQL gouverné) et de Machine Learning du prototype jusqu'en production. Côté Data, il intègre des plateformes modernes telles que Databricks (Unity Catalog, Delta Lake, MLflow) pour bâtir les fondations fiables dont l'IA a besoin. Depuis 2022, il a livré des projets pour de vrais clients (en prenant l'initiative et le lead informel d'une équipe de 3 à la SNCB) et transformé des résultats techniques complexes en décisions claires pour les décideurs. Formé au commandement d'équipe à l'École Royale Militaire, il souhaite continuer à apprendre et évoluer vers le pilotage de projets Data et IA de bout en bout (end to end).
+- Profil : Ingénieur Civil en Informatique (ULB, Master avec Distinction) poursuivant un Master de spécialisation en gestion industrielle et technologique à la Solvay Brussels School (ULB, 2026 - en cours), alliant expertise technique et vision management. Côté IA, il mène des solutions LLM (RAG, Text-to-SQL gouverné) et de Machine Learning du prototype jusqu'en production. Côté Data, il intègre des plateformes modernes telles que Databricks (Unity Catalog, Delta Lake, MLflow) pour bâtir les fondations fiables dont l'IA a besoin. Depuis 2022, il a livré des projets pour de vrais clients (en prenant l'initiative et le lead informel d'une équipe de 3 à la SNCB) et transformé des résultats techniques complexes en décisions claires pour les décideurs. Formé au commandement d'équipe à l'École Royale Militaire, il souhaite continuer à apprendre et évoluer vers le pilotage de projets Data et IA de bout en bout (end to end).
 - Localisation : Bruxelles, Belgique (Mobile / Télétravail)
 - Expériences & Projets Clients :
   * 2023 - 2024 : Projet de Maintenance Prédictive & Détection d'Anomalies | SNCB (Société Nationale des Chemins de fer Belges) · projet client en équipe de 3 :
@@ -53,6 +53,7 @@ Pour naviguer sur le site, le visiteur a plusieurs sections à sa disposition :
   * Zindi, Huawei & partenaires : Utilisation de LLMs sur des logs télécoms pour catégoriser les problèmes réseau et générer un rapport sur les pannes et attaques.
   * 2026 (en cours) : "Future of IT Leaders: Data & AI Challenge 2026", "AI Recruitment Challenge Belgium 2026".
 - Formation (Éducation) :
+  * 2026 - en cours : Master de spécialisation en gestion industrielle et technologique | Solvay Brussels School of Economics and Management (ULB).
   * 2022 - 2025 : Ingénieur Civil en Informatique (Master of Science in Computer Science & Engineering), Mention Distinction | Université libre de Bruxelles (ULB).
   * 2018 - 2022 : Bachelier en Sciences de l'Ingénieur (BSc Engineering Sciences) | École Royale Militaire (ERM - Faculté Polytechnique).
 - Compétences Clés (Core Competencies) :
@@ -140,7 +141,7 @@ To navigate the site, the visitor has several sections available:
 [2] EXACT CONTENT OF THE NEW RESUME (Data & AI · End-to-End Delivery)
 - Name: Ir. Olivier NDINGA OBA
 - Title: Data & AI Engineer · End-to-End Project Delivery & Leadership
-- Profile: Civil Engineer in Computer Science (ULB, Graduated with Distinction) with a dual profile in Data and AI. On the AI side, he takes LLM solutions (RAG, guarded Text-to-SQL) and Machine Learning models from prototype to production. On the data side, he integrates modern platforms such as Databricks (Unity Catalog, Delta Lake, MLflow) to build the reliable foundations that AI needs. Since 2022, he has delivered projects for real clients, taking the lead informally in a team of 3 at SNCB, and turned complex technical results into clear insights for decision-makers. Trained to lead teams at the Royal Military Academy, he wants to keep learning and grow toward leading Data and AI projects end to end.
+- Profile: Civil Engineer in Computer Science (ULB, Graduated with Distinction) currently pursuing a Specialized Master in Industrial and Technological Management at Solvay Brussels School (ULB, 2026 - present), combining technical engineering with business management. On the AI side, he takes LLM solutions (RAG, guarded Text-to-SQL) and Machine Learning models from prototype to production. On the data side, he integrates modern platforms such as Databricks (Unity Catalog, Delta Lake, MLflow) to build the reliable foundations that AI needs. Since 2022, he has delivered projects for real clients, taking the lead informally in a team of 3 at SNCB, and turned complex technical results into clear insights for decision-makers. Trained to lead teams at the Royal Military Academy, he wants to keep learning and grow toward leading Data and AI projects end to end.
 - Location: Brussels, Belgium (Mobile / Remote-friendly)
 - Experience & Client Projects:
   * 2023 - 2024: Predictive Maintenance & Anomaly Detection Project | SNCB (National Railway Company of Belgium) · client project, team of 3:
@@ -159,6 +160,7 @@ To navigate the site, the visitor has several sections available:
   * Zindi, Huawei & partners: Applied LLMs on telecom logs to categorize network problems and report faults and attacks.
   * 2026 (ongoing): "Future of IT Leaders: Data & AI Challenge 2026", "AI Recruitment Challenge Belgium 2026".
 - Education:
+  * 2026 - present: Specialized Master in Industrial and Technological Management | Solvay Brussels School of Economics and Management (ULB).
   * 2022 - 2025: Civil Engineer, MSc Computer Science & Engineering (Graduated with Distinction) | Université libre de Bruxelles (ULB).
   * 2018 - 2022: BSc Engineering Sciences | Royal Military Academy (RMA - Faculty of Engineering).
 - Core Competencies:

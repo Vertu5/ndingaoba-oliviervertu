@@ -46,6 +46,7 @@ export default function BioView({
   const diplomas = documents.filter((d) => d.type === "diplome");
   const ermLink = institutionalLinks.erm;
   const ulbLink = institutionalLinks.ulb;
+  const solvayLink = lang === "fr" ? institutionalLinks.solvayFr : institutionalLinks.solvayEn;
 
   return (
     <div className="mt-2 sm:mt-6 space-y-4 sm:space-y-8">
@@ -271,6 +272,21 @@ export default function BioView({
                   </a>
                 </div>
               )}
+
+              {sec.id === "solvay-management" && (
+                <div className="mt-3 font-mono text-xs text-[var(--accent)]">
+                  <a
+                    href={solvayLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 underline underline-offset-2 hover:no-underline"
+                  >
+                    🏛️ {lang === "fr"
+                      ? "Solvay Brussels School (ULB) - Master de spécialisation en gestion industrielle et technologique ↗"
+                      : "Solvay Brussels School (ULB) - Specialized Master in Industrial and Technological Management ↗"}
+                  </a>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -366,11 +382,12 @@ export default function BioView({
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {diplomas.map((doc) => {
+              const isSolvay = doc.id.includes("solvay");
               const isUlb = doc.id.includes("ulb");
               const isErm = doc.id.includes("erm");
-              const link = isUlb ? ulbLink : isErm ? ermLink : null;
+              const link = isSolvay ? solvayLink : isUlb ? ulbLink : isErm ? ermLink : null;
               return (
                 <div key={doc.id} className="rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)]/40 p-4 flex flex-col justify-between">
                   <div>
@@ -399,7 +416,7 @@ export default function BioView({
                         className="inline-flex items-center gap-2 rounded border border-[var(--border)] px-3 py-1.5 font-mono text-[11px] text-[var(--text)] transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent)]/10 hover:text-[var(--accent)] mt-2"
                       >
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-                        Voir le programme académique officiel
+                        {lang === "fr" ? "Voir le programme académique officiel" : "View official academic program"}
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
                       </a>
                     </div>

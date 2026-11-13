@@ -57,10 +57,10 @@ h2 { display: flex; align-items: center; gap: 4mm; font-size: 10.5pt; font-weigh
 h2::after { content: ""; flex: 1; border-top: 1px solid #A5ACB5; }
 .profile p { text-align: justify; color: #5A6069; margin: 0; font-size: 8.7pt; }
 
-.cols { display: flex; gap: 7mm; position: absolute; top: 94mm; bottom: 0; left: 11mm; right: 0; }
+.cols { display: flex; gap: 7mm; position: absolute; top: 95mm; bottom: 0; left: 11mm; right: 0; }
 .left { flex: 1 1 0; }
-.side { width: 68mm; background: #DCE9F7; padding: 1mm 8mm 8mm 6mm; }
-.side h2 { font-size: 10pt; margin: 3.8mm 0 1.8mm; }
+.side { width: 69mm; background: #DCE9F7; padding: 0.5mm 6.5mm 4mm 5.5mm; }
+.side h2 { font-size: 9.6pt; margin: 2.6mm 0 1.2mm; }
 .side h2::after { border-color: #8FA6BF; }
 
 .exp { margin-bottom: 3.4mm; }
@@ -82,12 +82,12 @@ h2::after { content: ""; flex: 1; border-top: 1px solid #A5ACB5; }
 .comp li { margin-bottom: 1.2mm; }
 .comp b { color: #111; }
 
-.side .edu-date { color: #5A6B7E; font-size: 8pt; margin-top: 2mm; }
-.side .edu-title { font-weight: 700; color: #111; font-size: 8.6pt; margin-top: .4mm; }
-.side .edu-sub { font-size: 8pt; color: #3A4552; }
-.side .cat { font-weight: 800; color: #1E5C9B; font-size: 7.4pt; text-transform: uppercase; letter-spacing: .4px; margin-top: 1.4mm; }
-.side .val { font-size: 8pt; color: #2C3540; line-height: 1.38; }
-.side .plain { font-size: 8pt; color: #2C3540; line-height: 1.55; }
+.side .edu-date { color: #5A6B7E; font-size: 7.5pt; margin-top: 1.3mm; }
+.side .edu-title { font-weight: 700; color: #111; font-size: 8.3pt; line-height: 1.28; margin-top: .3mm; }
+.side .edu-sub { font-size: 7.6pt; color: #3A4552; line-height: 1.25; }
+.side .cat { font-weight: 800; color: #1E5C9B; font-size: 7.1pt; text-transform: uppercase; letter-spacing: .4px; margin-top: .9mm; }
+.side .val { font-size: 7.7pt; color: #2C3540; line-height: 1.28; }
+.side .plain { font-size: 7.7pt; color: #2C3540; line-height: 1.38; }
 .side .plain div { display: flex; justify-content: space-between; }
 .side .plain em { font-style: normal; color: #5A6B7E; }
 
@@ -270,12 +270,12 @@ def build_en_html() -> str:
 
   <div class="profile">
     <h2>Profile</h2>
-    <p>Civil Engineer in Computer Science (ULB) with a dual profile in Data and AI. On the AI side, I take LLM solutions
-    (RAG, guarded Text-to-SQL) and ML models from prototype to production. On the data side, I integrate modern platforms
-    such as Databricks to build the reliable foundations that AI needs. Since 2022, I have delivered projects end to end
-    for real clients, taking the lead informally in a team of 3 at SNCB, and turned complex technical results into clear
-    insights for decision-makers. Trained to lead teams at the Royal Military Academy, I want to keep learning and grow
-    toward leading Data and AI projects end to end.</p>
+    <p>Civil Engineer in Computer Science (ULB) currently pursuing a Specialized Master in Industrial and Technological
+    Management at Solvay Brussels School (ULB), combining engineering depth with business strategy. On the AI side, I take
+    LLM solutions (RAG, guarded Text-to-SQL) and ML models from prototype to production; on the data side, I integrate
+    Databricks to build reliable foundations. Since 2022, I have delivered client projects end to end (informal team lead
+    of 3 at SNCB) and turned technical results into clear decisions. Trained in leadership at RMA, I aim to drive Data
+    and AI projects end to end.</p>
   </div>
 
   <div class="cols">
@@ -324,6 +324,9 @@ def build_en_html() -> str:
 
     <div class="side">
       <h2>Education</h2>
+      <div class="edu-date">2026 - present | ULB</div>
+      <div class="edu-title">Specialized Master in Industrial and Technological Management</div>
+      <div class="edu-sub">Solvay Brussels School</div>
       <div class="edu-date">2022 - 2025 | Universit&eacute; libre de Bruxelles</div>
       <div class="edu-title">Civil Engineer, MSc Computer Science &amp; Engineering</div>
       <div class="edu-sub">Graduated with Distinction</div>
@@ -498,11 +501,11 @@ def build_fr_html() -> str:
 
   <div class="profile">
     <h2>Profil</h2>
-    <p>Ing&eacute;nieur Civil en Informatique (ULB) au double profil Data et IA. C&ocirc;t&eacute; IA, je m&egrave;ne des solutions LLM
-    (RAG, Text-to-SQL gouvern&eacute;) et ML du prototype &agrave; la production. C&ocirc;t&eacute; Data, j'int&egrave;gre des plateformes modernes
-    telles que Databricks pour b&acirc;tir les fondations fiables dont l'IA a besoin. Depuis 2022, j'ai livr&eacute; des projets
-    pour de vrais clients, en prenant le lead informel d'une &eacute;quipe de 3 &agrave; la SNCB, et traduit des r&eacute;sultats
-    complexes en d&eacute;cisions claires. Form&eacute; au leadership &agrave; l'ERM, je vise &agrave; piloter des projets Data et IA de bout en bout.</p>
+    <p>Ing&eacute;nieur Civil en Informatique (ULB) poursuivant un Master de sp&eacute;cialisation en gestion industrielle et
+    technologique &agrave; la Solvay Brussels School (ULB), j'allie expertise technique et vision management. C&ocirc;t&eacute; IA, je m&egrave;ne des
+    solutions LLM (RAG, Text-to-SQL gouvern&eacute;) et ML du prototype &agrave; la production. C&ocirc;t&eacute; Data, j'int&egrave;gre Databricks pour b&acirc;tir
+    des fondations fiables. Depuis 2022, j'ai livr&eacute; des projets clients (lead informel d'une &eacute;quipe de 3 &agrave; la SNCB) et traduit des
+    r&eacute;sultats complexes en d&eacute;cisions claires. Form&eacute; au leadership &agrave; l'ERM, j'ambitionne de piloter des projets Data et IA de bout en bout.</p>
   </div>
 
   <div class="cols">
@@ -551,6 +554,9 @@ def build_fr_html() -> str:
 
     <div class="side">
       <h2>Formation</h2>
+      <div class="edu-date">2026 - en cours | ULB</div>
+      <div class="edu-title">Master de sp&eacute;cialisation en gestion industrielle et technologique</div>
+      <div class="edu-sub">Solvay Brussels School</div>
       <div class="edu-date">2022 - 2025 | Universit&eacute; libre de Bruxelles</div>
       <div class="edu-title">Ing&eacute;nieur Civil en Informatique (MSc)</div>
       <div class="edu-sub">Dipl&ocirc;m&eacute; avec Distinction</div>

@@ -38,6 +38,20 @@ export const bio: Category = {
   },
   documents: [
     {
+      id: "master-solvay",
+      type: "diplome",
+      title: {
+        fr: "Master de spécialisation en gestion industrielle et technologique (En cours)",
+        en: "Specialized Master in Industrial and Technological Management (Ongoing)",
+      },
+      issuer: "Solvay Brussels School of Economics and Management (ULB)",
+      date: "2026 - ...",
+      detail: {
+        fr: "Stratégie d'entreprise, finance, gestion opérationnelle, contrôle de gestion et management de l'innovation technologique.",
+        en: "Corporate strategy, finance, operations management, management control, and technology & innovation management.",
+      },
+    },
+    {
       id: "master-ulb",
       type: "diplome",
       title: {
