@@ -32,6 +32,9 @@ const dict = {
     chatThinking: "…",
     chatEmpty: "Demande une explication détaillée sur ce compartiment.",
     chatDisabled: "Assistant bientôt disponible dans cette section.",
+    chatErrorBusy: "L'assistant est momentanément très sollicité. Réessaie dans quelques secondes.",
+    chatErrorGeneric: "Impossible de joindre l'assistant pour le moment.",
+    chatRetry: "Réessayer",
     langToggle: "EN",
   },
   en: {
@@ -62,6 +65,9 @@ const dict = {
     chatThinking: "…",
     chatEmpty: "Ask for a detailed explanation about this section.",
     chatDisabled: "Assistant coming soon in this section.",
+    chatErrorBusy: "The assistant is temporarily experiencing high demand. Please retry in a few seconds.",
+    chatErrorGeneric: "Unable to reach the assistant right now.",
+    chatRetry: "Retry",
     langToggle: "FR",
   },
 } satisfies Record<Lang, Record<string, string>>;

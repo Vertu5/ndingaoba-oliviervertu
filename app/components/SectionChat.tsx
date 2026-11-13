@@ -9,76 +9,30 @@ import { AnimatePresence, motion } from "framer-motion";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
-export default function SectionChat({ sectionId }: { sectionId: string }) {
-  const { lang, t } = useLang();
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Msg[]>([]);
-  const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  
-  const endOfMessagesRef = useRef<HTMLDivElement>(null);
-
-  // Load history on mount
-  useEffect(() => {
-    const saved = sessionStorage.getItem(`chat_history_${sectionId}`);
-    if (saved) {
-      try {
-        setMessages(JSON.parse(saved));
-      } catch (e) {
-        // ignore
-      }
-    }
-  }, [sectionId]);
-
-  // Save history on change
-  useEffect(() => {
-    if (messages.length > 0) {
-      sessionStorage.setItem(`chat_history_${sectionId}`, JSON.stringify(messages));
-    }
-  }, [messages, sectionId]);
-
-  // Auto-scroll to bottom when new messages arrive
-  useEffect(() => {
-    endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, loading]);
-
-  async function send() {
-    const text = input.trim();
-    if (!text || loading) return;
-    const next = [...messages, { role: "user" as const, content: text }];
-    setMessages(next);
-    setInput("");
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sectionId, lang, messages: next }),
-      });
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        throw new Error(body.error || `HTTP ${res.status}`);
-      }
-      const data = await res.json();
-      setMessages((m) => [...m, { role: "assistant", content: data.reply }]);
-    } catch {
-      setError(t.chatDisabled);
-    } finally {
-      setLoading(false);
-    }
+function loadSavedMessages(sectionId: string): Msg[] {
+  if (typeof window === "undefined") return [];
+  const saved = sessionStorage.getItem(`chat_history_${sectionId}`);
+  if (!saved) return [];
+  try {
+    const parsed = JSON.parse(saved);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
   }
+}
+
+export default function SectionChat({ sectionId }: { sectionId: string }) {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       {/* Floating Toggle Button */}
       <div className="fixed bottom-6 right-6 z-[100]">
         <button
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen((prev) => !prev)}
           className={`flex items-center justify-center w-14 h-14 rounded-full shadow-xl transition-all duration-300 ${
-            isOpen 
-              ? "bg-[var(--bg)] border border-[var(--border)] text-[var(--text)] rotate-90 hover:bg-[var(--border)]" 
+            isOpen
+              ? "bg-[var(--bg)] border border-[var(--border)] text-[var(--text)] rotate-90 hover:bg-[var(--border)]"
               : "bg-[var(--accent)] text-[var(--accent-text)] hover:scale-110 shadow-[0_0_15px_rgba(var(--accent-rgb),0.5)]"
           }`}
         >
@@ -96,6 +50,89 @@ export default function SectionChat({ sectionId }: { sectionId: string }) {
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
             className="fixed bottom-24 right-6 z-[90] w-[calc(100vw-3rem)] sm:w-[400px] h-[550px] max-h-[75vh] flex flex-col rounded-2xl border border-[var(--border)] bg-[var(--bg)] shadow-2xl overflow-hidden backdrop-blur-3xl bg-opacity-95"
           >
+            <SectionChatWindow
+              key={sectionId}
+              sectionId={sectionId}
+              onClose={() => setIsOpen(false)}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
+function SectionChatWindow({
+  sectionId,
+  onClose,
+}: {
+  sectionId: string;
+  onClose: () => void;
+}) {
+  const { lang, t } = useLang();
+  const [messages, setMessages] = useState<Msg[]>(() => loadSavedMessages(sectionId));
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const endOfMessagesRef = useRef<HTMLDivElement>(null);
+
+  // Save history on change
+  useEffect(() => {
+    if (messages.length > 0) {
+      sessionStorage.setItem(`chat_history_${sectionId}`, JSON.stringify(messages));
+    }
+  }, [messages, sectionId]);
+
+  // Auto-scroll to bottom when new messages arrive
+  useEffect(() => {
+    endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
+
+  async function requestReply(conversation: Msg[]) {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sectionId, lang, messages: conversation }),
+      });
+      if (!res.ok) {
+        const isTransient = res.status === 429 || res.status >= 502;
+        setError(isTransient ? t.chatErrorBusy : t.chatErrorGeneric);
+        return;
+      }
+      const data = (await res.json()) as { reply?: string };
+      const replyText = data.reply?.trim();
+      if (!replyText) {
+        setError(t.chatErrorBusy);
+        return;
+      }
+      setMessages((m) => [...m, { role: "assistant", content: replyText }]);
+    } catch {
+      setError(t.chatErrorGeneric);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function send() {
+    const text = input.trim();
+    if (!text || loading) return;
+    const next = [...messages, { role: "user" as const, content: text }];
+    setMessages(next);
+    setInput("");
+    await requestReply(next);
+  }
+
+  async function retry() {
+    if (loading || messages.length === 0) return;
+    await requestReply(messages);
+  }
+
+  return (
+    <>
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--border)] bg-[var(--bg)]/80">
               <div className="flex items-center gap-3">
@@ -105,7 +142,7 @@ export default function SectionChat({ sectionId }: { sectionId: string }) {
                 </h3>
               </div>
               <button 
-                onClick={() => setIsOpen(false)}
+                onClick={onClose}
                 className="text-[var(--text-muted)] hover:text-[var(--text)] transition-colors p-1"
               >
                 <X size={18} />
@@ -160,10 +197,18 @@ export default function SectionChat({ sectionId }: { sectionId: string }) {
               )}
 
               {error && (
-                <div className="flex justify-center my-4">
-                  <span className="px-3 py-1.5 bg-red-500/10 text-red-500 text-xs rounded-full border border-red-500/20 shadow-sm font-medium">
+                <div className="flex flex-col items-center gap-2 my-4">
+                  <span className="px-3 py-1.5 bg-red-500/10 text-red-500 text-xs rounded-xl border border-red-500/20 shadow-sm font-medium text-center">
                     {error}
                   </span>
+                  {messages.length > 0 && messages[messages.length - 1].role === "user" && !loading && (
+                    <button
+                      onClick={retry}
+                      className="px-3 py-1 rounded-full border border-[var(--accent)]/40 text-[var(--accent)] font-mono text-[11px] hover:bg-[var(--accent)] hover:text-[var(--accent-text)] transition-colors cursor-pointer"
+                    >
+                      ↻ {t.chatRetry}
+                    </button>
+                  )}
                 </div>
               )}
               <div ref={endOfMessagesRef} />
@@ -189,9 +234,6 @@ export default function SectionChat({ sectionId }: { sectionId: string }) {
                 </button>
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   );
 }

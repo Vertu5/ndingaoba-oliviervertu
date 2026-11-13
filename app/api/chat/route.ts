@@ -5,9 +5,81 @@ import { domains } from "@/app/lib/domains";
 import { content } from "@/app/lib/content";
 import { globalKnowledgeFR, globalKnowledgeEN, projectDetailsFR, projectDetailsEN } from "@/app/lib/deepKnowledge";
 
-export const runtime = "edge";
+export const maxDuration = 30;
 
 type IncomingMsg = { role: "user" | "assistant"; content: string };
+type GeminiContent = { role: "user" | "model"; parts: { text: string }[] };
+
+// Ordered from most capable Flash to ultra-fast high-throughput Flash-Lite fallbacks
+const GEMINI_MODELS = [
+  "gemini-3.8-flash",
+  "gemini-3.5-flash-lite",
+  "gemini-3.6-flash",
+  "gemini-4-hydrogen",
+] as const;
+
+const RETRYABLE_STATUSES = new Set([404, 408, 429, 500, 502, 503, 504]);
+const PER_ATTEMPT_TIMEOUT_MS = 7000;
+const TOTAL_DEADLINE_MS = 21000;
+
+async function callGeminiWithFallback(
+  apiKey: string,
+  systemPrompt: string,
+  contents: GeminiContent[]
+): Promise<{ reply: string; model: string } | { error: string; status: number }> {
+  const deadline = Date.now() + TOTAL_DEADLINE_MS;
+  let lastError = "Gemini service unavailable";
+  let lastStatus = 502;
+
+  for (const model of GEMINI_MODELS) {
+    const remainingMs = deadline - Date.now();
+    if (remainingMs <= 1000) break;
+
+    const timeoutMs = Math.min(PER_ATTEMPT_TIMEOUT_MS, remainingMs);
+    try {
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          signal: AbortSignal.timeout(timeoutMs),
+          body: JSON.stringify({
+            systemInstruction: { parts: [{ text: systemPrompt }] },
+            contents,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        const errBody = await res.text();
+        lastError = `Erreur API Gemini (${model}, ${res.status}): ${errBody}`;
+        lastStatus = res.status === 429 ? 429 : 502;
+        if (RETRYABLE_STATUSES.has(res.status)) continue;
+        return { error: lastError, status: lastStatus };
+      }
+
+      const data = (await res.json()) as {
+        candidates?: { content?: { parts?: { text?: string }[] } }[];
+      };
+      const reply =
+        data.candidates?.[0]?.content?.parts
+          ?.map((p) => p.text ?? "")
+          .join("\n")
+          .trim() ?? "";
+
+      if (reply) {
+        return { reply, model };
+      }
+      lastError = `Réponse vide du modèle ${model}`;
+      lastStatus = 502;
+    } catch (err) {
+      lastError = err instanceof Error ? err.message : "Erreur réseau Gemini";
+      lastStatus = 504;
+    }
+  }
+
+  return { error: lastError, status: lastStatus };
+}
 
 const allSections = [
   bio,
@@ -41,6 +113,10 @@ export async function POST(req: NextRequest) {
     lang: "fr" | "en";
     messages: IncomingMsg[];
   };
+
+  if (!Array.isArray(messages) || messages.length === 0) {
+    return NextResponse.json({ error: "Messages manquants." }, { status: 400 });
+  }
 
   let ctx = sectionContext[sectionId]?.[lang] ?? "";
   let projectsCtx = "";
@@ -92,19 +168,19 @@ export async function POST(req: NextRequest) {
 
   const globalProfile = lang === "fr" ? `
 --- PROFIL GLOBAL D'OLIVIER ---
-Identité : NDINGA OBA Olivier Vertu
-Formation principale : Ingénieur civil en informatique (ULB & ERM), avec un fort bagage en leadership.
-Certifications : Google AI, IBM Data Engineering, Reinforcement Learning, Git/GitHub, etc.
-Domaines d'expertise : C/C++, Python, PostgreSQL, Programmation Orientée Objet (POO), Structures de Données, Intelligence Artificielle, Machine Learning, Robotique en Essaim, Data Engineering, Conception de Systèmes.
+Identité : Ir. Olivier NDINGA OBA (Olivier Vertu)
+Formation principale : Ingénieur civil en informatique (ULB, Distinction) & Bachelier ERM (leadership).
+Certifications : Google AI Professional, IBM Data Engineering, DeepLearning.AI LLMs (en cours), Reinforcement Learning, SQL Server, Docker/Kubernetes.
+Domaines d'expertise : Data & AI End-to-End, Databricks (Medallion, Unity Catalog, MLflow), GenAI (LLMs, RAG, Text-to-SQL), Python, R, C/C++, SQL, Machine Learning & Deep Learning, Robotique en Essaim (TDA).
 Contact : Pour contacter Olivier, il faut se rendre dans la section "Contact" du site.
 -------------------------------
 
 ${globalKnowledgeFR}` : `
 --- OLIVIER'S GLOBAL PROFILE ---
-Identity: NDINGA OBA Olivier Vertu
-Education: Computer Science Engineer (ULB & ERM), with strong leadership background.
-Certifications: Google AI, IBM Data Engineering, Reinforcement Learning, Git/GitHub, etc.
-Expertise: C/C++, Python, PostgreSQL, Object-Oriented Programming (OOP), Data Structures, Artificial Intelligence, Machine Learning, Swarm Robotics, Data Engineering, System Design.
+Identity: Ir. Olivier NDINGA OBA (Olivier Vertu)
+Education: Civil Engineer, MSc Computer Science & Engineering (ULB, Distinction) & BSc RMA (leadership).
+Certifications: Google AI Professional, IBM Data Engineering, DeepLearning.AI LLMs (in progress), Reinforcement Learning, SQL Server, Docker/Kubernetes.
+Expertise: End-to-End Data & AI, Databricks (Medallion, Unity Catalog, MLflow), GenAI (LLMs, RAG, Text-to-SQL), Python, R, C/C++, SQL, Machine Learning & Deep Learning, Swarm Robotics (TDA).
 Contact: To contact Olivier, you must go to the "Contact" section of the site.
 --------------------------------
 
@@ -112,47 +188,32 @@ ${globalKnowledgeEN}`;
 
   const systemPrompt =
     lang === "fr"
-      ? `${globalProfile}\n\nTu es l'assistant IA ultra-expert et chaleureux du site personnel de NDINGA OBA Olivier Vertu. Le visiteur se trouve actuellement dans la section ou le projet : "${ctx}".\nRéponds de façon experte, précise et fluide. Tu as accès à la DEEP KNOWLEDGE BASE ci-dessus (contenant le CV détaillé, les formules mathématiques de ses projets, ses compétences techniques). Sers-toi de cette base pour répondre aux questions techniques pointues ou aux questions sur son parcours, sans jamais rien inventer.${projectsCtx}`
-      : `${globalProfile}\n\nYou are the ultra-expert and warm AI assistant for NDINGA OBA Olivier Vertu's personal site. The visitor is currently in the section or project: "${ctx}".\nAnswer expertly, precisely, and fluidly. You have access to the DEEP KNOWLEDGE BASE above (containing the detailed CV, mathematical formulas for his projects, technical skills). Use this base to answer complex technical questions or questions about his background, without ever inventing anything.${projectsCtx}`;
+      ? `${globalProfile}\n\nTu es l'assistant IA ultra-expert et chaleureux du site personnel d'Olivier NDINGA OBA. Le visiteur se trouve actuellement dans la section ou le projet : "${ctx || "Accueil"}".\nRéponds de façon experte, précise et fluide. Tu as accès à la DEEP KNOWLEDGE BASE ci-dessus (contenant le CV détaillé, les détails techniques de ses projets, ses compétences). Sers-toi de cette base pour répondre aux questions techniques pointues ou aux questions sur son parcours, sans jamais rien inventer.${projectsCtx}`
+      : `${globalProfile}\n\nYou are the ultra-expert and warm AI assistant for Olivier NDINGA OBA's personal site. The visitor is currently in the section or project: "${ctx || "Home"}".\nAnswer expertly, precisely, and fluidly. You have access to the DEEP KNOWLEDGE BASE above (containing the detailed CV, project technical details, skills). Use this base to answer complex technical questions or questions about his background, without ever inventing anything.${projectsCtx}`;
 
   try {
-    const normalizedContents: any[] = [];
-    for (const m of messages) {
+    const normalizedContents: GeminiContent[] = [];
+    for (const m of messages.slice(-20)) {
+      const contentText = typeof m?.content === "string" ? m.content.trim() : "";
+      if (!contentText) continue;
       const role = m.role === "assistant" ? "model" : "user";
       if (normalizedContents.length > 0 && normalizedContents[normalizedContents.length - 1].role === role) {
-        normalizedContents[normalizedContents.length - 1].parts[0].text += "\n\n" + m.content;
+        normalizedContents[normalizedContents.length - 1].parts[0].text += "\n\n" + contentText;
       } else {
-        normalizedContents.push({ role, parts: [{ text: m.content }] });
+        normalizedContents.push({ role, parts: [{ text: contentText }] });
       }
     }
 
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent?key=${apiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          systemInstruction: { parts: [{ text: systemPrompt }] },
-          contents: normalizedContents,
-        }),
-      }
-    );
-
-    if (!res.ok) {
-      const errBody = await res.text();
-      return NextResponse.json(
-        { error: `Erreur API Gemini (${res.status}): ${errBody}` },
-        { status: 502 }
-      );
+    if (normalizedContents.length === 0) {
+      return NextResponse.json({ error: "Message vide." }, { status: 400 });
     }
 
-    const data = await res.json();
-    const reply: string =
-      data.candidates?.[0]?.content?.parts
-        ?.map((p: { text?: string }) => p.text ?? "")
-        .join("\n") ?? "";
+    const result = await callGeminiWithFallback(apiKey, systemPrompt, normalizedContents);
+    if ("error" in result) {
+      return NextResponse.json({ error: result.error }, { status: result.status });
+    }
 
-    return NextResponse.json({ reply });
+    return NextResponse.json({ reply: result.reply, model: result.model });
   } catch (e) {
     return NextResponse.json(
       { error: e instanceof Error ? e.message : "Erreur inconnue" },
